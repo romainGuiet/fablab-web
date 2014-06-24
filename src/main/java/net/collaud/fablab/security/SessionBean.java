@@ -33,9 +33,6 @@ public class SessionBean implements Serializable {
 	public static final String GROUP_ANIMATOR = "animator";
 	public static final String GROUP_MEMBER = "member";
 	
-	public static final String HASH_SALT = "f54g498sdg65";
-	public static final String HASH_ALGO = "SHA-256";
-	
 	private String username;
 	private String password;
 	private UserEO currentUser;

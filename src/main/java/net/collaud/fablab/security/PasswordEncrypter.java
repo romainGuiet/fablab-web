@@ -2,6 +2,8 @@ package net.collaud.fablab.security;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import net.collaud.fablab.config.ConfigFileHelper;
+import net.collaud.fablab.config.FileHelperFactory;
 import org.apache.log4j.Logger;
 
 /**
@@ -12,12 +14,12 @@ abstract public class PasswordEncrypter {
 
 	private static final Logger LOG = Logger.getLogger(PasswordEncrypter.class);
 
-	public static final String HASH_SALT = "f54g498sdg65";
+	public static final String DEFAULT_HASH_SALT = "fasdfadsfadsf322fr24t2";
 	public static final String HASH_ALGO = "SHA-256";
 	
 	
 	public static String addPasswordSalt(String password){
-		return password+HASH_SALT;
+		return password+FileHelperFactory.getConfig().get(ConfigFileHelper.PASSWORD_SALT, DEFAULT_HASH_SALT);
 	}
 
 	/**
