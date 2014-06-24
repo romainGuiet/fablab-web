@@ -1,0 +1,16 @@
+
+.fc-event.reservation_3dprinter{
+	background: red;
+	color:white;
+}
+.fc-event.reservation_lasercutter{
+	background: blue;
+	color:white;
+}
+.fc-event.reservation_cnc{
+	background: yellow;
+	color:black;
+}
+.fc-event.editable{
+	border: 2px dashed black;
+}

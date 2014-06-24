@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:composition>
+		<h:form id="formHistory" >
+			<p:panel rendered="#{paymentCtrl.oneUserSelected}"
+					 header="#{lang['payment.title.history']}">
+
+				<div class="alert alert-#{paymentCtrl.balance>=0 ? 'success' : 'danger'}">
+					<h:outputFormat value="#{lang['payment.balanceText']}" escape="false">
+						<f:param value="#{paymentCtrl.userSelected.firstLastName}" />
+						<f:param value="#{paymentCtrl.balance}" />
+						<f:param value="#{lang.currency}" />
+					</h:outputFormat>
+				</div>
+
+				<p:dataTable id="history" value="#{paymentCtrl.listHistory}" var="item"
+							 rowStyleClass="tablerow #{item.type.css}"
+							 resizableColumns="true"
+							 >
+					
+					<p:column headerText="#{lang['payment.date']}">
+						<h:outputText value="#{item.date}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					<p:column headerText="#{lang['payment.amount']}">
+						<h:outputText value="#{item.amount}"/>
+					</p:column>
+					<p:column headerText="#{lang['payment.detail']}">
+						<h:outputText value="#{item.detail}"/>
+					</p:column>
+					<p:column headerText="#{lang['payment.comment']}">
+						<h:outputText value="#{item.comment}"/>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form> 
+	</ui:composition>
+</html>

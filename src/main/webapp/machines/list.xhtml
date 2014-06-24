@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListMachineEOTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+			<h:form id="MachineEOListForm">
+				<p:panel>
+					<p:dataTable id="datalist" value="#{machineController.items}" var="item"
+								 selectionMode="single" selection="#{machineController.selected}"
+								 paginator="true"
+								 rowKey="#{item.machineId}"
+								 rows="#{machineController.itemsPerPage}">
+
+						<p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+						<p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListMachineEOTitle_machineId}"/>
+							</f:facet>
+							<h:outputText value="#{item.machineId}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListMachineEOTitle_name}"/>
+							</f:facet>
+							<h:outputText value="#{item.name}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{bundle.ListMachineEOTitle_machineType}"/>
+							</f:facet>
+							<h:outputText value="#{item.machineType}"/>
+						</p:column>
+						<f:facet name="footer">
+							<p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{machineController.prepareCreate}" update=":MachineEOCreateForm" oncomplete="PF('MachineEOCreateDialog').show()"/>
+							<p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":MachineEOViewForm" oncomplete="PF('MachineEOViewDialog').show()" disabled="#{empty machineController.selected}"/>
+							<p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":MachineEOEditForm" oncomplete="PF('MachineEOEditDialog').show()" disabled="#{empty machineController.selected}"/>
+							<p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{machineController.destroy}" update=":growl,datalist" disabled="#{empty machineController.selected}"/>
+						</f:facet>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
+
+            <ui:include src="create.xhtml"/>
+            <ui:include src="edit.xhtml"/>
+            <ui:include src="view.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

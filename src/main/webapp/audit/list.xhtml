@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui">
+	<h:head>
+        <f:metadata>
+            <f:event listener="#{sessionBean.verifHasRoleUseAudit}" type="preRenderView" />
+        </f:metadata>
+	</h:head>
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{lang['audit.title']}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+			<h:form id="auditFilterForm">
+
+				<p:panel header="#{lang['general.filters']}">
+					<table>
+						<tr>
+							<td>
+								<h:outputLabel for="selectObject" value="#{lang['audit.object']}"  />
+							</td>
+							<td>
+								<p:selectManyButton id="selectObject" value="#{auditCtrl.filterObject}"
+													converter="auditObjectConverter">
+									<f:selectItems value="#{auditCtrl.listObjects}"
+												   var="o" itemLabel="#{o.name}" itemValue="#{o}" />
+								</p:selectManyButton>					
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<h:outputLabel value="#{lang['audit.author']}" for="userSelect" />  
+							</td>
+							<td>
+								<p:autoComplete id="userSelect" forceSelection="true"
+												value="#{auditCtrl.filterUser}"
+												var="u" itemLabel="#{u.firstLastName}" itemValue="#{u}"
+												converter="userConverter"
+												completeMethod="#{auditCtrl.searchInUsers}">
+								</p:autoComplete>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<h:outputLabel value="#{lang['audit.after']}" for="after" />  
+							</td>
+							<td>
+								<p:calendar id="after" value="#{auditCtrl.filterAfter}" /> 
+							</td>
+						</tr>
+						<tr>
+							<td><h:outputLabel value="#{lang['audit.before']}" for="before" />  
+							</td>
+							<td>
+								<p:calendar id="before" value="#{auditCtrl.filterBefore}" /> 
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" style="text-align: center;">
+								<p:commandButton value="#{lang['general.refresh']}" update=":auditDataForm"/>
+							</td>
+						</tr>
+					</table>
+				</p:panel>
+			</h:form>
+			<h:form id="auditDataForm">
+				<p:dataTable id="listEntries" var="entry" value="#{auditCtrl.listEntries}"
+							 resizableColumns="true" liveResize="true" rowStyleClass="#{entry.success ? 'granted' : 'notgranted'}">
+					<p:column  headerText="TODO dateinscr" style="width: 140px">
+						<h:outputFormat value="#{entry.when}" >
+							<f:convertDateTime dateStyle="medium" timeStyle="medium" type="both"  />
+						</h:outputFormat>
+					</p:column>
+					<p:column headerText="TODO Who" style="width: 130px" >
+						<h:outputFormat value="#{entry.who.firstLastName}" />
+					</p:column>
+					<p:column headerText="TODO Content">
+						<h:outputFormat value="#{entry.content}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

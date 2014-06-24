@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">	
+
+	<h:head>
+        <f:metadata>
+            <f:event listener="#{sessionBean.verifHasRoleManageUsers}" type="preRenderView" />
+        </f:metadata>
+	</h:head>
+
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="title">
+            <h:outputText value="#{lang['payment.title']}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+			
+			<script type="text/javascript">
+				function clearUserBox() {
+					$("#UserForm\\:userSelect_input").val('');
+				}
+				$(document).ready(function() {
+					$("#UserForm\\:userSelect_input").val('#{paymentCtrl.userSelected.firstLastName}');
+				});
+			</script>
+
+			<h:form id="UserForm">
+				<p:panel header="#{lang['payment.title.user']}">
+					<h:panelGrid columns="3" cellpadding="5" >
+						<h:outputLabel value="#{lang['payment.user']}" for="userSelect" />  
+						<p:autoComplete id="userSelect" forceSelection="true"
+										var="u" itemLabel="#{u.firstLastName}" itemValue="#{u}"
+										converter="userConverter"
+										completeMethod="#{paymentCtrl.searchInUsers}">
+							<p:ajax event="itemSelect" listener="#{paymentCtrl.handleUserSelected}"
+									update=":panelInfo,:paymentAdd,:formHistory" />
+						</p:autoComplete>
+						<p:commandButton value="#{lang['general.clear']}"
+										 actionListener="#{paymentCtrl.clearSelectedUser}"
+										 update=":panelInfo,:paymentAdd,:formHistory"
+										 onclick="clearUserBox()"/>
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+
+			<ui:include src="information.xhtml"/>
+
+			<h:panelGrid id="paymentAdd" columns="2" cellpadding="0"
+						 style="width:100%;" columnClasses="alignTop,alignTop">
+				<ui:include src="usage.xhtml"/>
+				<ui:include src="payment.xhtml"/>
+			</h:panelGrid>
+
+            <ui:include src="history.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

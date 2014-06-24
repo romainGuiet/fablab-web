@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MachineEOCreateDlg" widgetVar="MachineEOCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateMachineEOTitle}">
+            <h:form id="MachineEOCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{machineEOController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateMachineEOLabel_machineId}" for="machineId" />
+                        <p:inputText id="machineId" value="#{machineEOController.selected.machineId}" title="#{bundle.CreateMachineEOTitle_machineId}" required="true" requiredMessage="#{bundle.CreateMachineEORequiredMessage_machineId}"/>
+                        <p:outputLabel value="#{bundle.CreateMachineEOLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{machineEOController.selected.name}" title="#{bundle.CreateMachineEOTitle_name}" />
+                        <p:outputLabel value="#{bundle.CreateMachineEOLabel_machineType}" for="machineType" />
+                        <p:selectOneMenu id="machineType" value="#{machineEOController.selected.machineType}" required="true" requiredMessage="#{bundle.EditMachineEORequiredMessage_machineType}">
+                            <f:selectItems value="#{machineTypeEOController.itemsAvailableSelectOne}"
+                                           var="machineTypeItem"
+                                           itemValue="#{machineTypeItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{machineEOController.create}" value="#{bundle.Save}" update="display,:MachineEOListForm:datalist,:growl" oncomplete="handleSubmit(args,'MachineEOCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="MachineEOCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

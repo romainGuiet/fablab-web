@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:composition>
+		<h:form id="formPayment"  rendered="#{paymentCtrl.oneUserSelected}">
+			<p:panel id="usage" header="#{lang['payment.title.payment']} #{paymentCtrl.userSelected.firstLastName}">
+				<h:panelGrid columns="2" cellpadding="5">
+
+					<h:outputLabel for="amount" value="#{lang['payment.amount']}" class="right" />
+					<p:spinner id="amount" min="1" suffix=" CHF" value="#{paymentCtrl.valuePaymentAmount}" stepFactor="10"  />
+
+					<h:outputLabel for="datePayment" value="#{lang['payment.date']}" class="right" />
+					<p:calendar id="datePayment" value="#{paymentCtrl.valuePaymentDate}" />
+
+					<h:outputLabel for="commentPayment" value="#{lang['payment.comment']}" class="right" />
+					<p:inputTextarea id="commentPayment" value="#{paymentCtrl.valuePaymentComment}" />
+				</h:panelGrid>
+				<p:commandButton value="#{lang['payment.addPayment']}"
+								 actionListener="#{paymentCtrl.handleAddPayment}" 
+								 update=":formHistory,:formPayment"/>
+			</p:panel>
+		</h:form>
+	</ui:composition>
+</html>

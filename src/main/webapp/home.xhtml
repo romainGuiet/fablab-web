@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<h:head>
+        <f:metadata>
+            <f:event listener="#{sessionBean.verifyIsAuthentified}" type="preRenderView" />
+        </f:metadata>
+	</h:head>
+
+	<ui:composition template="/template.xhtml">
+        <ui:define name="title">#{lang['home.title']}</ui:define>
+
+        <ui:define name="body">
+			<!--
+				<div class="alert alert-danger"><b>Warning</b> This is a development preview only !</div>
+			-->
+
+			<h:form id="subscriptionForm">
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" closable="false"  >
+					<p:commandButton value="oui" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+					<p:commandButton value="non" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>     
+				</p:confirmDialog>
+
+				<c:if test="#{!homeCtrl.hasConfirmedSubscription()}">
+					<div class="alert alert-danger">
+						<h:outputFormat value="#{lang['home.subscription.notConfirmed.text']}" />
+						<h:outputText value=" " />
+						<c:if test="#{homeCtrl.subscriptionDaysLeft!=0}">
+							<h:outputFormat value="#{lang['home.subscription.notConfirmed.textDetail']}">
+								<f:param value="#{-homeCtrl.subscriptionDaysLeft}" />
+							</h:outputFormat>
+						</c:if>
+						<p:commandButton value="#{lang['home.subscription.notConfirmed.button']}"
+										 style="float:right;"
+										 actionListener="#{homeCtrl.handleCotisationPayment}"
+										 update=":subscriptionForm">
+							<p:confirm header="#{lang['home.subscription.confirmeDialog.title']}"
+									   message="#{lang['home.subscription.confirmeDialog.text']}"
+									   icon="ui-icon-alert">
+							</p:confirm>
+						</p:commandButton>
+					</div>
+				</c:if>
+				<c:if test="#{homeCtrl.hasConfirmedSubscription()}">
+					<div class="alert alert-info">
+						<h:outputFormat value="#{lang['home.subscription.detail']}">
+							<f:param value="#{homeCtrl.subscriptionDaysLeft}" />
+						</h:outputFormat>
+					</div>
+				</c:if>
+			</h:form>
+
+
+
+
+
+		</ui:define>
+	</ui:composition>
+</html>
+

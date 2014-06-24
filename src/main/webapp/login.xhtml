@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <title>Login</title>
+        <f:metadata>
+            <f:event listener="#{sessionBean.verifyAlreadyConnected}" type="preRenderView" />
+        </f:metadata>
+    </h:head>
+	<ui:composition template="/template.xhtml">
+        <ui:define name="title" />
+		<ui:define name="naviguation" />
+
+        <ui:define name="body">
+			<h:form id="formLogin" class="form-signin"  >
+				<h2 class="form-signin-heading">#{lang['pageLogin.msgPleaseLogin']}</h2>
+
+				<h:panelGrid columns="2">
+					<p:outputLabel value="#{lang['pageLogin.username']}" for="inputLogin" />
+					<h:inputText id="inputLogin"  value="#{sessionBean.username}" />
+
+					<p:outputLabel value="#{lang['pageLogin.password']}" for="inputPassword" />
+					<h:inputSecret id="inputPassword"  value="#{sessionBean.password}" />
+
+					<h:outputText value="" />
+					<p:commandButton action="#{sessionBean.actionLogin}" value="#{lang['pageLogin.login']}" />
+				</h:panelGrid>
+			</h:form>
+
+		</ui:define>
+	</ui:composition>
+</html>
+

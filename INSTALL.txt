@@ -1,0 +1,45 @@
+JVM options
+-Dlog4j.configuration=file:///${com.sun.aas.instanceRoot}/config/log4j.xml
+
+JDBC
+	Connection Pool
+		name						fablabConnectionPool
+		type						javax.sql.DataSource
+		driver						Mysql
+		
+		http://dev.mysql.com/downloads/file.php?id=13598
+			=> domains/domain1/lib
+	
+	Resource
+		jndi name					jdbc/fablab
+		pool name					fablabConnectionPool
+		
+
+
+RealM
+	Name							fablab-security-sql
+	Class name						jdbcrealm
+	
+	JASS context					jdbcRealm
+	JNDI							jdbc/fablab
+	User Table						t_user
+	User Name Column				login
+	Password Column					password
+	Group Table						v_group_user
+	Group Table User Name Column	login
+	Group Name Column				technicalname
+	Password Encryption				SHA-256
+	Assign Groups					default
+	
+	
+EJB Container
+	EJB Timer Service
+		Time Datasource				jdbc/fablab
+		
+Security
+	Realms
+		File
+			Add user
+				name				system
+				group				system
+				password			{random password, will not be needed}

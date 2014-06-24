@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MachineEOEditDlg" widgetVar="MachineEOEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditMachineEOTitle}">
+            <h:form id="MachineEOEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{machineEOController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditMachineEOLabel_machineId}" for="machineId" />
+                        <p:inputText id="machineId" value="#{machineEOController.selected.machineId}" title="#{bundle.EditMachineEOTitle_machineId}" required="true" requiredMessage="#{bundle.EditMachineEORequiredMessage_machineId}"/>
+                        <p:outputLabel value="#{bundle.EditMachineEOLabel_name}" for="name" />
+                        <p:inputText id="name" value="#{machineEOController.selected.name}" title="#{bundle.EditMachineEOTitle_name}" />
+                        <p:outputLabel value="#{bundle.EditMachineEOLabel_machineType}" for="machineType" />
+                        <p:selectOneMenu id="machineType" value="#{machineEOController.selected.machineType}" required="true" requiredMessage="#{bundle.EditMachineEORequiredMessage_machineType}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{machineTypeEOController.itemsAvailableSelectOne}"
+                                           var="machineTypeItem"
+                                           itemValue="#{machineTypeItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{machineEOController.update}" value="#{bundle.Save}" update="display,:MachineEOListForm:datalist,:growl" oncomplete="handleSubmit(args, 'MachineEOEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="MachineEOEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

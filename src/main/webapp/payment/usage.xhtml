@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:composition>
+		<h:form id="formUsage" rendered="#{paymentCtrl.oneUserSelected}" >
+			<p:panel  header="#{lang['payment.title.usage']} #{paymentCtrl.userSelected.firstLastName}">
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputLabel for="machine" value="#{lang['payment.machine']}" class="right" />
+					<p:selectOneMenu id="machine" value="#{paymentCtrl.valueUsageMachine}">
+						<f:selectItems value="#{paymentCtrl.listMachines}" var="m"
+									   itemLabel="#{m.name}" itemValue="#{m}" />
+					</p:selectOneMenu>
+					
+					<h:outputLabel for="dateUsage" value="#{lang['payment.date']}" class="right" />
+					<p:calendar id="dateUsage" value="#{paymentCtrl.valueUsageDate}" />
+					
+					<h:outputLabel for="time" value="#{lang['payment.time']}" class="right" />
+					<p:panelGrid id="time" columns="4">
+						<p:spinner min="0" max="24" size="2" value="#{paymentCtrl.valueUsageHours}" />
+						<h:outputText value="#{lang['payment.time.hours']}" />
+						<p:spinner min="0" max="45" stepFactor="15" size="2"  value="#{paymentCtrl.valueUsageMinutes}"/>
+						<h:outputText value="#{lang['payment.time.minutes']}" />
+					</p:panelGrid>
+
+					<h:outputLabel for="additional" value="#{lang['payment.additional']}" class="right" />
+					<p:spinner id="additional" min="0" suffix=" CHF" value="#{paymentCtrl.valueUsageAdditional}"  />
+
+					<h:outputLabel for="commentUsage" value="#{lang['payment.comment']}" class="right" />
+					<p:inputTextarea id="commentUsage"  value="#{paymentCtrl.valueUsageComment}"/>
+
+				</h:panelGrid>
+				<p:commandButton value="#{lang['payment.addUsage']}" 
+								 actionListener="#{paymentCtrl.handleAddUsage}" 
+								 update=":formHistory,:formUsage"/>
+			</p:panel>
+		</h:form>
+	</ui:composition>
+</html>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="MachineEOViewDlg" widgetVar="MachineEOViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewMachineEOTitle}">
+            <h:form id="MachineEOViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{machineEOController.selected != null}">
+                        <h:outputText value="#{bundle.ViewMachineEOLabel_machineId}"/>
+                        <h:outputText value="#{machineEOController.selected.machineId}" title="#{bundle.ViewMachineEOTitle_machineId}"/>
+                        <h:outputText value="#{bundle.ViewMachineEOLabel_name}"/>
+                        <h:outputText value="#{machineEOController.selected.name}" title="#{bundle.ViewMachineEOTitle_name}"/>
+                        <h:outputText value="#{bundle.ViewMachineEOLabel_machineType}"/>
+                        <h:outputText value="#{machineEOController.selected.machineType}" title="#{bundle.ViewMachineEOTitle_machineType}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="MachineEOViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

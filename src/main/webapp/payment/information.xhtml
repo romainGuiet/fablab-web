@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <ui:composition>
+
+		<h:form id="panelInfo">
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+				<p:commandButton value="yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+				<p:commandButton value="no" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>     
+			</p:confirmDialog>
+
+			<p:panel header="#{lang['payment.title.userInfo']}" rendered="#{paymentCtrl.oneUserSelected}">
+				<c:if test="#{!paymentCtrl.hasConfirmedSubscription()}">
+					<div class="alert alert-danger">
+						<b><h:outputText value="#{lang['payment.subscription.notConfirmed.title']}" /></b> 
+						<h:outputFormat value="#{lang['payment.subscription.notConfirmed.text']}" />
+						<c:if test="#{paymentCtrl.subscriptionDaysLeft!=0}">
+							<h:outputFormat value="#{lang['payment.subscription.notConfirmed.textDetail']}">
+								<f:param value="#{-paymentCtrl.subscriptionDaysLeft}" />
+							</h:outputFormat>
+						</c:if>
+						<p:commandButton value="#{lang['payment.subscription.notConfirmed.button']}" style="float:right;"
+										 actionListener="#{paymentCtrl.handleCotisationPayment}"
+										 update=":panelInfo,:formHistory">
+							<p:confirm header="#{lang['payment.subscription.confirmeDialog.title']}"
+									   message="#{lang['payment.subscription.confirmeDialog.text']}" icon="ui-icon-alert" />
+						</p:commandButton>
+					</div>
+				</c:if>
+				<h:panelGrid columns="2" cellpadding="5" >
+					<h:outputLabel value="#{lang['payment.user']}" /> 
+					<h:outputText value="#{paymentCtrl.userSelected.firstLastName}" />
+
+					<h:outputLabel value="#{lang['payment.membershipType']}" /> 
+					<h:outputText value="#{paymentCtrl.userSelected.membershipType.name}" />
+
+					<h:outputLabel value="#{lang['payment.machineAuthorized']}" for="authorizedMachine" />
+					<p:selectManyCheckbox id="authorizedMachine" value="#{paymentCtrl.authorizedMachine}"
+										  >
+						<f:selectItems value="#{paymentCtrl.restrictedMachineType}" var="t"
+									   itemLabel="#{t.name}"
+									   itemValue="#{t.machineTypeId}" />
+						<p:ajax update=":panelInfo,:formUsage"/>
+					</p:selectManyCheckbox>
+
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+
+	</ui:composition>
+</html>

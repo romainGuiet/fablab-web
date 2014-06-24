@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:pe="http://primefaces.org/ui/extensions">
+	<f:view contentType="text/html">
+		<h:head>
+			<f:metadata>
+				<f:event listener="#{sessionBean.verifHasRoleUseMachines}" type="preRenderView" />
+			</f:metadata>
+		</h:head>
+
+		<ui:composition template="/template.xhtml">
+			<ui:define name="title">
+				<h:outputText value="#{lang['reservations.title']}"></h:outputText>
+				<h:outputStylesheet library="fullcalendar" name="fullcalendar.css" />
+				<h:outputStylesheet library="css" name="reservations.css" />
+			</ui:define>
+
+			<ui:define name="body">
+
+				<script type="text/javascript">
+					var CALENDAR = new Object();
+					CALENDAR.lang = '#{lang.name}';
+					CALENDAR.ajaxReservation = '/api/reservations'
+				</script>
+
+				<h:form id="variables">
+					<script type="text/javascript">
+						CALENDAR.machinesSelected = '#{reservationCtrl.selectedMachinesAsString}'
+					</script>
+				</h:form>
+
+				<script type="text/javascript" src="../resources/fullcalendar/lib/moment.min.js" />
+				<script type="text/javascript" src="../resources/fullcalendar/fullcalendar.js" />
+				<script type="text/javascript" src="../resources/fullcalendar/gcal.js" />
+				<script type="text/javascript" src="js/fablabcalendar.js" />
+				<script type="text/javascript" src="../resources/fullcalendar/lang/#{lang.name}.js" />
+
+				<div class="alert alert-warning">This page is under development</div>
+
+				<p:panel header="#{lang['reservations.filters']}">
+					<h:form id="find">
+
+						<h:outputLabel value="#{lang['reservations.machines']}" for="selectMachines" />  
+						<p:selectManyButton id="selectMachines" value="#{reservationCtrl.selectedMachines}">
+							<f:selectItems value="#{reservationCtrl.listMachines}"
+										   var="m"
+										   itemLabel="#{m.name}" itemValue="#{m.id}"
+										   />
+							<p:ajax update=":variables" oncomplete="updateCalendar()" />
+						</p:selectManyButton>
+
+					</h:form>
+				</p:panel>
+				<p:panel header="#{lang['reservations.calendar']}">
+					<div class="ajaxStatus" id="calendarLoading">
+						<p:graphicImage width="150px" value="/resources/img/loading.gif" /> 
+					</div>
+					<div id="calendar"></div>
+				</p:panel>
+			</ui:define>
+
+		</ui:composition>
+
+	</f:view>
+
+</html>
