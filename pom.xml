@@ -7,7 +7,7 @@
 	<version>1.0</version>
 	<packaging>war</packaging>
 
-	<name>fablabWeb</name>
+	<name>fablab-web</name>
 	<ciManagement>
 		<system>hudson</system>
 		<url>http://collaud2.collaud.me:8080/job/fablab-web/</url>
@@ -80,7 +80,7 @@
 		</dependency>
 		
 		<!-- Java EE -->
-		<dependency>
+	 <dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-web-api</artifactId>
 			<version>6.0</version>

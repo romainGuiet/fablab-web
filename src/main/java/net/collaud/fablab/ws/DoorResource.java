@@ -77,9 +77,9 @@ public class DoorResource extends AbstractWebService {
 			@QueryParam(WebServicePath.PARAM_ALARM_ON) boolean alarmOn,
 			@QueryParam(WebServicePath.PARAM_RFID) String lastRfid) throws FablabException{
 		StringBuilder sb = new StringBuilder();
-		sb.append("Door is now ");
+		sb.append("Door status changed, gate is ");
 		sb.append(doorOpen ? "open" : "closed");
-		sb.append(" and alarm is now ");
+		sb.append(" and alarm is ");
 		sb.append(alarmOn ? "on" : "off");
 		sb.append(".");
 		if(lastRfid!=null){
