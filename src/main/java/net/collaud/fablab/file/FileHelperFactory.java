@@ -1,4 +1,4 @@
-package net.collaud.fablab.config;
+package net.collaud.fablab.file;
 
 import java.io.File;
 import net.collaud.fablab.common.file.AbstractFileHelperFactory;

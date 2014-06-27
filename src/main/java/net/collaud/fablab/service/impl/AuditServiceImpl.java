@@ -45,7 +45,7 @@ public class AuditServiceImpl extends AbstractServiceImpl implements AuditServic
 
 	@Override
 	@RolesAllowed({RolesHelper.ROLE_USE_AUDIT})
-	public List<AuditEO> search(UserEO user, List<AuditObject> type, Date after, Date before, int limit) throws FablabException {
-		return auditDAO.search(user, type, after, before, limit);
+	public List<AuditEO> search(UserEO user, List<AuditObject> type, Date after, Date before, String content, int limit) throws FablabException {
+		return auditDAO.search(user, type, after, before, content, limit);
 	}
 }

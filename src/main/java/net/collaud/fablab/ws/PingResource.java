@@ -9,9 +9,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import net.collaud.fablab.common.ws.AbstractWebService;
+import static net.collaud.fablab.common.ws.AbstractWebService.DEFAULT_TOKEN;
 import net.collaud.fablab.common.ws.WebServicePath;
 import net.collaud.fablab.common.ws.exception.WebServiceException;
 import net.collaud.fablab.common.ws.response.PingResponse;
+import net.collaud.fablab.file.ConfigFileHelper;
+import net.collaud.fablab.file.FileHelperFactory;
 import org.apache.log4j.Logger;
 
 /**
@@ -25,6 +28,11 @@ public class PingResource extends AbstractWebService {
 	
 	@Context
 	private UriInfo context;
+
+	@Override
+	protected String getToken() {
+		return FileHelperFactory.getConfig().get(ConfigFileHelper.WEBSERVICE_TOKEN, DEFAULT_TOKEN);
+	}
 	
 	@GET
 	@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})

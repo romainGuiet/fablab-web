@@ -11,6 +11,7 @@ public class TODO {
  *  put constant in config
  *		salt of password
  *		system status
+ * audit subscription confirmation
  * 
  * Must do (sometimes)
  *	machines editions

@@ -38,6 +38,7 @@ public class AuditController extends AbstractController implements Serializable,
 	private List<AuditObject> filterObject;
 	private Date filterAfter;
 	private Date filterBefore;
+	private String filterContent;
 
 	public AuditController() {
 	}
@@ -48,13 +49,13 @@ public class AuditController extends AbstractController implements Serializable,
 
 	public List<AuditEO> getListEntries() {
 		try {
-			if(filterBefore!=null){
+			if (filterBefore != null) {
 				Calendar c = Calendar.getInstance();
 				c.setTime(filterBefore);
 				c.add(Calendar.DATE, 1);
 				filterBefore = c.getTime();
 			}
-			List<AuditEO> list = auditService.search(filterUser, filterObject, filterAfter, filterBefore, AUDIT_SELECT_LIMIT);
+			List<AuditEO> list = auditService.search(filterUser, filterObject, filterAfter, filterBefore, filterContent, AUDIT_SELECT_LIMIT);
 			if (list.size() >= AUDIT_SELECT_LIMIT) {
 				addInfo("TODO you reach the max limit of " + AUDIT_SELECT_LIMIT + " entries, please affine your research");
 			}
@@ -128,6 +129,14 @@ public class AuditController extends AbstractController implements Serializable,
 
 	public void setFilterBefore(Date filterBefore) {
 		this.filterBefore = filterBefore;
+	}
+
+	public String getFilterContent() {
+		return filterContent;
+	}
+
+	public void setFilterContent(String filterContent) {
+		this.filterContent = filterContent;
 	}
 
 }

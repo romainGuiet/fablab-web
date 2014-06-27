@@ -21,6 +21,8 @@ import net.collaud.fablab.data.type.AuditAction;
 import net.collaud.fablab.data.type.AuditObject;
 import net.collaud.fablab.data.virtual.AccessDoorResponse;
 import net.collaud.fablab.exceptions.FablabException;
+import net.collaud.fablab.file.ConfigFileHelper;
+import net.collaud.fablab.file.FileHelperFactory;
 import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.AuditService;
 import net.collaud.fablab.service.itf.SecurityService;
@@ -50,6 +52,11 @@ public class DoorResource extends AbstractWebService {
 
 	@EJB
 	private UserService userService;
+
+	@Override
+	protected String getToken() {
+		return FileHelperFactory.getConfig().get(ConfigFileHelper.WEBSERVICE_TOKEN, DEFAULT_TOKEN);
+	}
 
 	@GET
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})

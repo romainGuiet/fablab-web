@@ -2,8 +2,8 @@ package net.collaud.fablab.security;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import net.collaud.fablab.config.ConfigFileHelper;
-import net.collaud.fablab.config.FileHelperFactory;
+import net.collaud.fablab.file.ConfigFileHelper;
+import net.collaud.fablab.file.FileHelperFactory;
 import org.apache.log4j.Logger;
 
 /**

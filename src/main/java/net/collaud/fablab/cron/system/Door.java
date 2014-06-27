@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import net.collaud.fablab.common.ws.client.PingClient;
 import net.collaud.fablab.common.ws.exception.WebServiceException;
+import net.collaud.fablab.data.SystemStatusEO;
 import net.collaud.fablab.exceptions.FablabException;
 import org.apache.log4j.Logger;
 
@@ -72,18 +73,28 @@ public class Door extends AbstractSystem implements Serializable {
 
 	protected boolean executeCHeck() {
 		boolean motherResult = super.executeCheck();
-		boolean result = false;
+		boolean resPingAppOk = false;
 		String content = "coucou";
 		String url = "http://" + getHost() + ":" + appPingPort;
 		PingClient client = new PingClient(url);
 		try {
-			result = client.ping(content).getContent().equals(content);
+			resPingAppOk = client.ping(content).getContent().equals(content);
 			if (LOG.isDebugEnabled()) {
-				LOG.debug("Client pint result for host " + getHost() + " : " + result);
+				LOG.debug("Client pint result for host " + getHost() + " : " + resPingAppOk);
 			}
 		} catch (WebServiceException ex) {
 			LOG.warn("URL " + url + " is not responding to ping app because of " + ex.getMessage());
 		}
-		return motherResult && result;
+		boolean changed = false;
+		if(resPingAppOk != pingAppOk){
+			pingAppOk = resPingAppOk;
+			changed = true;
+		}
+		return motherResult || resPingAppOk;
+	}
+
+	@Override
+	public String getReadableStatus(SystemStatusEO status) {
+		return super.getReadableStatus(status)+", pingApp = "+pingAppOk;
 	}
 }

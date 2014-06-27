@@ -17,6 +17,6 @@ public interface AuditService {
 
 	AuditEO addEntry(AuditEO entry) throws FablabException;
 
-	List<AuditEO> search(UserEO user, List<AuditObject> type, Date after, Date before, int limit) throws FablabException;
+	List<AuditEO> search(UserEO user, List<AuditObject> type, Date after, Date before, String content, int limit) throws FablabException;
 	
 }

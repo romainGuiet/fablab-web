@@ -11,6 +11,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAttribute;
+import net.collaud.fablab.data.SystemStatusEO;
 import net.collaud.fablab.exceptions.FablabException;
 import org.apache.log4j.Logger;
 
@@ -56,6 +57,9 @@ abstract public class AbstractSystem implements Serializable {
 		this.pingIcmpOk = pingIcmpOk;
 	}
 
+	/**
+	 * @return true if something has changed
+	 */
 	synchronized public boolean executeCheck() {
 		boolean result = false;
 		try {
@@ -67,8 +71,12 @@ abstract public class AbstractSystem implements Serializable {
 		} catch (IOException ex) {
 			LOG.error("Exception with host " + host, ex);
 		}
-		pingIcmpOk = result;
-		return result;
+		boolean changed = false;
+		if (pingIcmpOk != result) {
+			pingIcmpOk = result;
+			changed = true;
+		}
+		return changed;
 	}
 
 	public String marshal() throws FablabException {
@@ -96,5 +104,9 @@ abstract public class AbstractSystem implements Serializable {
 		} catch (JAXBException ex) {
 			throw new FablabException("Unable to unmarshal " + clazz, ex);
 		}
+	}
+
+	public String getReadableStatus(SystemStatusEO status) {
+		return "name=" + status.getName() + " pingIcmp=" + pingIcmpOk;
 	}
 }

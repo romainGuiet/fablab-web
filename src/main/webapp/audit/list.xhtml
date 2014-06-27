@@ -17,70 +17,54 @@
         </ui:define>
 
         <ui:define name="body">
-			<h:form id="auditFilterForm">
 
-				<p:panel header="#{lang['general.filters']}">
-					<table>
-						<tr>
-							<td>
-								<h:outputLabel for="selectObject" value="#{lang['audit.object']}"  />
-							</td>
-							<td>
-								<p:selectManyButton id="selectObject" value="#{auditCtrl.filterObject}"
-													converter="auditObjectConverter">
-									<f:selectItems value="#{auditCtrl.listObjects}"
-												   var="o" itemLabel="#{o.name}" itemValue="#{o}" />
-								</p:selectManyButton>					
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<h:outputLabel value="#{lang['audit.author']}" for="userSelect" />  
-							</td>
-							<td>
-								<p:autoComplete id="userSelect" forceSelection="true"
-												value="#{auditCtrl.filterUser}"
-												var="u" itemLabel="#{u.firstLastName}" itemValue="#{u}"
-												converter="userConverter"
-												completeMethod="#{auditCtrl.searchInUsers}">
-								</p:autoComplete>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<h:outputLabel value="#{lang['audit.after']}" for="after" />  
-							</td>
-							<td>
-								<p:calendar id="after" value="#{auditCtrl.filterAfter}" /> 
-							</td>
-						</tr>
-						<tr>
-							<td><h:outputLabel value="#{lang['audit.before']}" for="before" />  
-							</td>
-							<td>
-								<p:calendar id="before" value="#{auditCtrl.filterBefore}" /> 
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2" style="text-align: center;">
-								<p:commandButton value="#{lang['general.refresh']}" update=":auditDataForm"/>
-							</td>
-						</tr>
-					</table>
-				</p:panel>
-			</h:form>
+			<p:panel header="#{lang['general.filters']}">
+				<h:form id="auditFilterForm">
+
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel for="selectObject" value="#{lang['audit.object']}"  />
+						<p:selectManyButton id="selectObject" value="#{auditCtrl.filterObject}"
+											converter="auditObjectConverter"
+											styleClass="">
+							<f:selectItems value="#{auditCtrl.listObjects}"
+										   var="o" itemLabel="#{o.name}" itemValue="#{o}"
+										   id="btn_#{o}"
+										   />
+						</p:selectManyButton>
+						
+						<h:outputLabel value="#{lang['audit.author']}" for="userSelect" />  
+						<p:autoComplete id="userSelect" forceSelection="true"
+										value="#{auditCtrl.filterUser}"
+										var="u" itemLabel="#{u.firstLastName}" itemValue="#{u}"
+										converter="userConverter"
+										completeMethod="#{auditCtrl.searchInUsers}">
+						</p:autoComplete>
+						
+						<h:outputLabel value="#{lang['audit.after']}" for="after" />  
+						<p:calendar id="after" value="#{auditCtrl.filterAfter}" /> 
+						
+						<h:outputLabel value="#{lang['audit.before']}" for="before" />  
+						<p:calendar id="before" value="#{auditCtrl.filterBefore}" />
+						
+						<h:outputLabel value="#{lang['audit.content']}" for="content" />  
+						<p:inputText id="content" value="#{auditCtrl.filterContent}" />
+						
+						<p:commandButton style="text-align: right;" value="#{lang['general.refresh']}" update=":auditDataForm"/>
+					</h:panelGrid>
+				</h:form>
+			</p:panel>
 			<h:form id="auditDataForm">
 				<p:dataTable id="listEntries" var="entry" value="#{auditCtrl.listEntries}"
-							 resizableColumns="true" liveResize="true" rowStyleClass="#{entry.success ? 'granted' : 'notgranted'}">
-					<p:column  headerText="TODO dateinscr" style="width: 140px">
+							 resizableColumns="true" liveResize="true" rowStyleClass="#{entry.object}">
+					<p:column  headerText="#{lang['audit.date']}" style="width: 150px">
 						<h:outputFormat value="#{entry.when}" >
-							<f:convertDateTime dateStyle="medium" timeStyle="medium" type="both"  />
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"  />
 						</h:outputFormat>
 					</p:column>
-					<p:column headerText="TODO Who" style="width: 130px" >
+					<p:column headerText="#{lang['audit.who']}" style="width: 130px" >
 						<h:outputFormat value="#{entry.who.firstLastName}" />
 					</p:column>
-					<p:column headerText="TODO Content">
+					<p:column headerText="#{lang['audit.content']}">
 						<h:outputFormat value="#{entry.content}" />
 					</p:column>
 				</p:dataTable>

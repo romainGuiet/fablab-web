@@ -111,3 +111,24 @@ label.right{
 width:150px;height:150px;position:fixed;right:20px;bottom:20px
 }
 
+/**************************
+* Audit
+***************************/
+tr.ACCESS_DOOR{
+	background-color: #e5e5e5;
+}
+tr.MACHINE{
+	background-color: #f5f5f5
+}
+tr.SUBSCRIPTION{
+	background-color: #99ccff;
+}
+tr.PAYMENT{
+	background-color: #ccffcc;
+}
+tr.USAGE{
+	background-color: #ffcc99;
+}
+tr.USER{
+	background-color: #ff9999;
+}

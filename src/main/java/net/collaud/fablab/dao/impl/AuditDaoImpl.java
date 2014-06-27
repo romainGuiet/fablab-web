@@ -34,7 +34,7 @@ public class AuditDaoImpl extends AbstractDAO<AuditEO> implements AuditDAO {
 	}
 	
 	@Override
-	public List<AuditEO> search(UserEO user, List<AuditObject> type, Date after, Date before, int limit) {
+	public List<AuditEO> search(UserEO user, List<AuditObject> type, Date after, Date before, String content, int limit) {
 		if (after != null && before != null && after.after(before)) {
 			return new ArrayList<>();
 		}
@@ -56,6 +56,9 @@ public class AuditDaoImpl extends AbstractDAO<AuditEO> implements AuditDAO {
 		}
 		if (before != null) {
 			listPredicate.add(cb.lessThanOrEqualTo(audit.get(AuditEO_.when), before));
+		}
+		if(content!=null && !content.trim().isEmpty()){
+			listPredicate.add(cb.like(audit.get(AuditEO_.content), "%"+content+"%"));
 		}
 		
 		cq.where(cb.and(listPredicate.toArray(new Predicate[]{})));
