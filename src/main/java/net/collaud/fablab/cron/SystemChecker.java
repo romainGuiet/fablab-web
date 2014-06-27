@@ -47,7 +47,8 @@ public class SystemChecker {
 
 	public SystemChecker() {
 		defaultSystems = new ArrayList<>();
-		addDefaultSystem("door", new Door("172.17.10.50", 8083), true);
+		addDefaultSystem("door", new Door("raspdoor.fablab.local", 8083), true);
+		addDefaultSystem("ipx800", new SimpleHost("ipx800door.fablab.local"), true);
 		addDefaultSystem("server1", new SimpleHost("localhost"), true);
 		//addDefaultSystem("CNC1", new SimpleHost("cnc1.fablab.local"), true);
 	}

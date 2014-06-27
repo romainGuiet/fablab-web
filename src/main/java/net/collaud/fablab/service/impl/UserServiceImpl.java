@@ -89,7 +89,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 	}
 
 	@Override
-	@RolesAllowed({RolesHelper.ROLE_USE_AUTH})
+	@RolesAllowed({RolesHelper.ROLE_USE_AUTH, RolesHelper.ROLE_SYSTEM})
 	public UserEO findByRFID(String rfid) throws FablabException {
 		return userDao.getByRFID(rfid);
 	}
