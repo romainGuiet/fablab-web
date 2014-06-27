@@ -1,5 +1,6 @@
 package net.collaud.fablab.ws;
 
+import javax.annotation.security.RunAs;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
@@ -20,6 +21,7 @@ import net.collaud.fablab.data.type.AuditAction;
 import net.collaud.fablab.data.type.AuditObject;
 import net.collaud.fablab.data.virtual.AccessDoorResponse;
 import net.collaud.fablab.exceptions.FablabException;
+import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.AuditService;
 import net.collaud.fablab.service.itf.SecurityService;
 import net.collaud.fablab.service.itf.UserService;
@@ -32,6 +34,7 @@ import org.apache.log4j.Logger;
  */
 @Stateless
 @Path(WebServicePath.DOOR_URL)
+@RunAs(RolesHelper.ROLE_SYSTEM)
 public class DoorResource extends AbstractWebService {
 
 	private static final Logger LOG = Logger.getLogger(DoorResource.class);
@@ -41,10 +44,10 @@ public class DoorResource extends AbstractWebService {
 
 	@EJB
 	private SecurityService securityService;
-	
+
 	@EJB
 	private AuditService auditService;
-	
+
 	@EJB
 	private UserService userService;
 
@@ -64,10 +67,10 @@ public class DoorResource extends AbstractWebService {
 			response = new OpenDoorResponse(false);
 			response.addError(ex.toString());
 		}
-		
+
 		return Response.ok(response).build();
 	}
-	
+
 	@GET
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -75,19 +78,19 @@ public class DoorResource extends AbstractWebService {
 	public void doorStatus(
 			@QueryParam(WebServicePath.PARAM_DOOR_OPEN) boolean doorOpen,
 			@QueryParam(WebServicePath.PARAM_ALARM_ON) boolean alarmOn,
-			@QueryParam(WebServicePath.PARAM_RFID) String lastRfid) throws FablabException{
+			@QueryParam(WebServicePath.PARAM_RFID) String lastRfid) throws FablabException {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Door status changed, gate is ");
 		sb.append(doorOpen ? "open" : "closed");
 		sb.append(" and alarm is ");
 		sb.append(alarmOn ? "on" : "off");
 		sb.append(".");
-		if(lastRfid!=null){
+		if (lastRfid != null) {
 			UserEO user = userService.findByRFID(lastRfid);
 			sb.append(" This action was done by ");
-			if(user!=null){
+			if (user != null) {
 				sb.append(user.getFirstLastName());
-			}else{
+			} else {
 				sb.append("rfid ").append(lastRfid);
 			}
 		}
