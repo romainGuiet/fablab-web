@@ -13,7 +13,8 @@ public enum ConfigFileHelper implements KeyEnum {
 	LDAP_URL,
 	DEFAULT_MEMBERSHIP_TYPE,
 	PASSWORD_SALT,
-	WEBSERVICE_TOKEN;
+	WEBSERVICE_TOKEN,
+	SHOW_RESERVATION;
 
 	@Override
 	public String getKey() {

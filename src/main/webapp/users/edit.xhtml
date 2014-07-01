@@ -29,16 +29,21 @@
 
                         <p:outputLabel value="#{lang['users.lastname']}" for="lastname" />
                         <p:inputText id="lastname" value="#{userCtrl.selected.lastname}" required="true" />
-						
+
                         <p:outputLabel value="#{lang['users.email']}" for="email" />
                         <p:inputText id="email" value="#{userCtrl.selected.email}" />
+
+						<c:if test="#{userCtrl.action=='CREATE'}">
+							<p:outputLabel value="#{lang['users.password']}" for="password" />
+							<p:inputText id="password" value="#{userCtrl.selected.password}" />
+						</c:if>
 
                         <p:outputLabel value="#{lang['users.balance']}" for="balance" />
 						<h:outputText id="balance" value="#{userCtrl.selected.balance}" />
 
                         <p:outputLabel value="#{lang['users.rfid']}" for="rfid" />
                         <p:inputText id="rfid" value="#{userCtrl.selected.rfid}" />
-						
+
                         <p:outputLabel value="#{lang['users.membershipType']}" for="membershipType" />
 						<p:selectOneMenu id="membershipType" value="#{userCtrl.selected.membershipType}" required="true">
                             <f:selectItems value="#{userCtrl.listMembershipTypes}"
@@ -46,7 +51,7 @@
 										   itemLabel="#{type.name}"
                                            itemValue="#{type}"/>
                         </p:selectOneMenu>
-						
+
 						<p:outputLabel value="#{lang['users.groups']}" for="groups" />
 						<p:selectManyCheckbox id="groups" value="#{userCtrl.selected.groupsList}" converter="groupConverter">
 							<f:selectItems value="#{userCtrl.listGroups}"

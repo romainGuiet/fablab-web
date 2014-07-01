@@ -56,6 +56,31 @@
 				</c:if>
 			</h:form>
 
+			<p:panel header="#{lang['home.prices.title']}" styleClass="prices" >
+				<table class="table">
+					<tr>
+						<td></td>
+						<c:forEach items="#{homeCtrl.machineTypes}" var="t">
+							<th>#{t.name}</th>
+						</c:forEach>
+					</tr>
+					<c:forEach items="#{homeCtrl.prices}" var="e">
+						<tr class="#{e.key.equals(homeCtrl.currentUserMemberShipType)? 'current' : ''}">
+							<th>#{e.key}</th>
+							<c:forEach items="#{e.value}" var="p">
+								<td>
+									#{p.price}
+								</td>
+							</c:forEach>
+						</tr>
+					</c:forEach>
+
+				</table>
+				<div class="comment">
+					#{lang['home.prices.comment']}
+				</div>
+			</p:panel>
+
 
 
 

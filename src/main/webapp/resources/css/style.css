@@ -61,6 +61,22 @@ body {
 }
 
 
+/**************************
+* Home
+***************************/
+.prices table tr.current td, .prices table tr.current th{
+	background-color: #99ccff;
+}
+.prices .comment{
+	text-align: right;
+	font-size: 0.8em;
+	color: #99ccff;
+}
+
+/**************************
+* Unclassified
+***************************/
+
 .notgranted{
 	background-color: #ff9999;
 }

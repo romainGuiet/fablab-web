@@ -37,4 +37,9 @@ public class MachineTypeDAOImpl extends AbstractDAO<MachineTypeEO> implements Ma
 		return query.getResultList();
 	}
 
+	@Override
+	public List<MachineTypeEO> getAllMachineTypes() throws FablabException {
+		return findAll();
+	}
+
 }

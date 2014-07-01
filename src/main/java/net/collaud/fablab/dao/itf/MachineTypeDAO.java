@@ -13,4 +13,6 @@ import net.collaud.fablab.exceptions.FablabException;
 public interface MachineTypeDAO {
 
 	List<MachineTypeEO> getRestrictedMachineTypes() throws FablabException;
+
+	public List<MachineTypeEO> getAllMachineTypes() throws FablabException;
 }

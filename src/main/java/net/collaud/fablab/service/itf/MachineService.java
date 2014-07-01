@@ -26,5 +26,7 @@ public interface MachineService {
 	
 	List<MachineTypeEO> getRestrictedMachineTypes() throws FablabException;
 
+	public List<MachineTypeEO> getAllMachineTypes() throws FablabException;
+
 	
 }

@@ -27,6 +27,7 @@ import javax.persistence.TemporalType;
 	@NamedQuery(name = PriceRevisionEO.SELECT_REVISIONS_ORDERED_BY_DATE_DESC,
 			query = "SELECT t FROM PriceRevisionEO t ORDER BY t.dateRevision DESC"),})
 public class PriceRevisionEO implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	public static final String SELECT_REVISIONS_ORDERED_BY_DATE_DESC = "PriceRevisionEO.selectLast";
@@ -42,6 +43,9 @@ public class PriceRevisionEO implements Serializable {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "priceRevision", fetch = FetchType.LAZY)
 	private List<PriceCotisationEO> priceCotisationList;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "priceRevision", fetch = FetchType.LAZY)
+	private List<PriceMachineEO> priceMachineList;
 
 	@Column(name = "membership_duration", nullable = false)
 	private int membershipDuration;
@@ -112,6 +116,14 @@ public class PriceRevisionEO implements Serializable {
 
 	public void setPriceCotisationList(List<PriceCotisationEO> priceCotisationList) {
 		this.priceCotisationList = priceCotisationList;
+	}
+
+	public List<PriceMachineEO> getPriceMachineList() {
+		return priceMachineList;
+	}
+
+	public void setPriceMachineList(List<PriceMachineEO> priceMachineList) {
+		this.priceMachineList = priceMachineList;
 	}
 
 }

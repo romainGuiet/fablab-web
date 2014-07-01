@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "t_machine_type")
 @NamedQueries({})
-public class MachineTypeEO extends AbstractDataEO implements Serializable {
+public class MachineTypeEO extends AbstractDataEO implements Serializable, Comparable<MachineTypeEO> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -148,6 +148,11 @@ public class MachineTypeEO extends AbstractDataEO implements Serializable {
 
 	public void setUsersAuthorizedList(List<UserAuthorizedMachineTypeEO> usersAuthorizedList) {
 		this.usersAuthorizedList = usersAuthorizedList;
+	}
+
+	@Override
+	public int compareTo(MachineTypeEO o) {
+		return getId().compareTo(o.getId());
 	}
 
 }

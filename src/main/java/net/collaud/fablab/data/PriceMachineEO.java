@@ -17,24 +17,27 @@ import net.collaud.fablab.exceptions.NotImplementedException;
  */
 @Entity
 @Table(name = "r_price_machine")
-@NamedQueries({
-})
+@NamedQueries({})
 public class PriceMachineEO extends AbstractDataEO implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 	@EmbeddedId
 	protected PriceMachineEOPK pricePK;
-	
-    @Column(name = "price", nullable = false)
+
+	@Column(name = "price", nullable = false)
 	private float price;
-	
+
 	@JoinColumn(name = "machine_type_id", referencedColumnName = "machine_type_id", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private MachineTypeEO machineTypeEO;
-	
+
 	@JoinColumn(name = "membership_type_id", referencedColumnName = "membership_type_id", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	private MembershipTypeEO membershipType;
+
+	@JoinColumn(name = "price_revision_id", referencedColumnName = "price_revision_id", insertable = false, updatable = false)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	private PriceRevisionEO priceRevision;
 
 	public PriceMachineEO() {
 	}
@@ -89,6 +92,14 @@ public class PriceMachineEO extends AbstractDataEO implements Serializable {
 		this.membershipType = membershipType;
 	}
 
+	public PriceRevisionEO getPriceRevision() {
+		return priceRevision;
+	}
+
+	public void setPriceRevision(PriceRevisionEO priceRevision) {
+		this.priceRevision = priceRevision;
+	}
+
 	@Override
 	public int hashCode() {
 		int hash = 0;
@@ -112,5 +123,5 @@ public class PriceMachineEO extends AbstractDataEO implements Serializable {
 	public String toString() {
 		return "net.collaud.fablab.data.Price[ pricePK=" + pricePK + " ]";
 	}
-	
+
 }

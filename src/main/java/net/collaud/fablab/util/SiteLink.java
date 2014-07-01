@@ -5,6 +5,8 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import net.collaud.fablab.file.ConfigFileHelper;
+import net.collaud.fablab.file.FileHelperFactory;
 import org.apache.log4j.Logger;
 
 /**
@@ -40,5 +42,9 @@ public class SiteLink {
 	
 	public boolean isActive(String path){
 		return FacesContext.getCurrentInstance().getViewRoot().getViewId().contains(path);
+	}
+	
+	public boolean getShowReservation(){
+		return FileHelperFactory.getConfig().getAsInt(ConfigFileHelper.SHOW_RESERVATION, 1)==1;
 	}
 }

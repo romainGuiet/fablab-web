@@ -9,13 +9,13 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import net.collaud.fablab.file.ConfigFileHelper;
-import net.collaud.fablab.file.FileHelperFactory;
 import net.collaud.fablab.data.GroupEO;
 import net.collaud.fablab.data.MembershipTypeEO;
 import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.data.virtual.LDAPSyncResult;
 import net.collaud.fablab.exceptions.FablabException;
+import net.collaud.fablab.file.ConfigFileHelper;
+import net.collaud.fablab.file.FileHelperFactory;
 import net.collaud.fablab.security.PasswordEncrypter;
 import net.collaud.fablab.service.itf.UserService;
 import net.collaud.fablab.util.JsfUtil;
@@ -146,6 +146,7 @@ public class UsersController extends AbstractController implements Serializable 
 				switch (persistAction) {
 					case CREATE:
 						selected.setUserId(0);
+						selected.setPassword(PasswordEncrypter.encryptMdp(selected.getPassword()));
 					case UPDATE:
 						usersService.save(selected);
 						break;

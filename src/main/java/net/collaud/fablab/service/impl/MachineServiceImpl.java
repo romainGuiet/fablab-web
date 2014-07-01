@@ -68,5 +68,11 @@ public class MachineServiceImpl extends AbstractServiceImpl implements MachineSe
 		return machineTypeDao.getRestrictedMachineTypes();
 	}
 
+	@Override
+	@RolesAllowed({RolesHelper.ROLE_MANAGE_MACHINES, RolesHelper.ROLE_USE_MACHINES})
+	public List<MachineTypeEO> getAllMachineTypes() throws FablabException {
+		return machineTypeDao.getAllMachineTypes();
+	}
+
 
 }

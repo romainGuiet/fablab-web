@@ -35,12 +35,24 @@
 				<h:form>
 					<p:menubar styleClass="menuBarCenter">
 						<p:menuitem value="#{lang['menu.home']}" icon="ui-icon-home" outcome="/home" />
-						<p:menuitem value="#{lang['menu.reservations']}" icon="ui-icon-calendar" outcome="/reservations/list" rendered="#{sessionBean.hasRole(RolesHelper.ROLE_USE_MACHINES)}" />
-						<p:menuitem value="#{lang['menu.workshops']}" icon="ui-icon-scissors" rendered="#{sessionBean.hasRole(RolesHelper.ROLE_USE_WORKSHOPS)}" />
-						<!--<p:menuitem value="#{lang['menu.mahchines']}" icon="ui-icon-wrench" outcome="/machines/list" rendered="#{sessionBean.hasRole(RolesHelper.ROLE_MANAGE_MACHINES)}" />-->
-						<p:menuitem value="#{lang['menu.users']}" icon="ui-icon-person" outcome="/users/list" rendered="#{sessionBean.hasRole(RolesHelper.ROLE_MANAGE_USERS)}" />
-						<p:menuitem value="#{lang['menu.payment']}" icon="ui-icon-cart" outcome="/payment/list" rendered="#{sessionBean.hasRole(RolesHelper.ROLE_MANAGE_PAYMENT)}" />
-						<p:menuitem value="#{lang['menu.audit']}" icon="ui-icon-locked" outcome="/audit/list" rendered="#{sessionBean.hasRole(RolesHelper.ROLE_USE_AUDIT)}" />
+						<p:menuitem value="#{lang['menu.reservations']}" icon="ui-icon-calendar"
+									outcome="/reservations/list"
+									rendered="#{sessionBean.hasRole(RolesHelper.ROLE_USE_MACHINES) and link.showReservation}" />
+						<!--<p:menuitem value="#{lang['menu.workshops']}" icon="ui-icon-scissors"
+									outcome="workshops/list"
+									rendered="#{sessionBean.hasRole(RolesHelper.ROLE_USE_WORKSHOPS)}" />
+						<p:menuitem value="#{lang['menu.mahchines']}" icon="ui-icon-wrench"
+									outcome="/machines/list"
+									rendered="#{sessionBean.hasRole(RolesHelper.ROLE_MANAGE_MACHINES)}" />-->
+						<p:menuitem value="#{lang['menu.users']}" icon="ui-icon-person"
+									outcome="/users/list"
+									rendered="#{sessionBean.hasRole(RolesHelper.ROLE_MANAGE_USERS)}" />
+						<p:menuitem value="#{lang['menu.payment']}" icon="ui-icon-cart"
+									outcome="/payment/list"
+									rendered="#{sessionBean.hasRole(RolesHelper.ROLE_MANAGE_PAYMENT)}" />
+						<p:menuitem value="#{lang['menu.audit']}" icon="ui-icon-locked"
+									outcome="/audit/list"
+									rendered="#{sessionBean.hasRole(RolesHelper.ROLE_USE_AUDIT)}" />
 
 						<c:if test="#{sessionBean.authentified}">
 							<f:facet name="options" rendered="#{sessionBean.authentified}">
@@ -68,11 +80,13 @@
 					<h:outputText value="" />  
 				</f:facet>  
 			</p:ajaxStatus>  
-			
-		<div id="footer">
-			Created by <a href="http://gaetan.collaud.net">Gaétan Collaud</a>
-			for <a href="http://www.fablab-fribourg.ch">Fablab-Fribourg</a>
-		</div>
+
+			<div id="footer">
+				
+				By <a href="http://gaetan.collaud.net">Gaétan Collaud</a>
+				for <a href="http://www.fablab-fribourg.ch">Fablab-Fribourg</a>
+				<a class="github" href="https://github.com/syncany/syncany"><i class="fa fa-github"></i></a>
+			</div>
 		</div>
 
 

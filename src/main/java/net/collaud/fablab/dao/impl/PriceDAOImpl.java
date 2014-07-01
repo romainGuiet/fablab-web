@@ -1,5 +1,6 @@
 package net.collaud.fablab.dao.impl;
 
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
@@ -37,5 +38,9 @@ public class PriceDAOImpl extends AbstractDAO<PriceMachineEO> implements PriceDA
 		return query.getSingleResult();
 	}
 
+	@Override
+	public List<PriceMachineEO> getAllCurrentMachinePrices() throws FablabException {
+		return getLastPriceRevision().getPriceMachineList();
+	}
 
 }
