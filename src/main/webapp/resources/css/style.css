@@ -23,6 +23,12 @@ body {
 
 #footer{
 	text-align: right;
+	font-size: 0.85em;
+}
+
+#footer .github{
+	width:24px;
+	heigh:24px;
 }
 
 #authStatus{

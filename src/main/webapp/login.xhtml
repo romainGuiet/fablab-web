@@ -11,18 +11,20 @@
         <f:metadata>
             <f:event listener="#{sessionBean.verifyAlreadyConnected}" type="preRenderView" />
         </f:metadata>
-    </h:head>
+	</h:head>
 	<ui:composition template="/template.xhtml">
         <ui:define name="title" />
 		<ui:define name="naviguation" />
 
         <ui:define name="body">
+
+
 			<h:form id="formLogin" class="form-signin"  >
 				<h2 class="form-signin-heading">#{lang['pageLogin.msgPleaseLogin']}</h2>
 
 				<h:panelGrid columns="2">
 					<p:outputLabel value="#{lang['pageLogin.username']}" for="inputLogin" />
-					<h:inputText id="inputLogin"  value="#{sessionBean.username}" />
+					<h:inputText onkeyup="loginCheck(this)" id="inputLogin"  value="#{sessionBean.username}" />
 
 					<p:outputLabel value="#{lang['pageLogin.password']}" for="inputPassword" />
 					<h:inputSecret id="inputPassword"  value="#{sessionBean.password}" />
@@ -31,7 +33,17 @@
 					<p:commandButton action="#{sessionBean.actionLogin}" value="#{lang['pageLogin.login']}" />
 				</h:panelGrid>
 			</h:form>
-
+			
+			<script src="http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/md5.js"></script>
+			<h:outputScript library="js" name="snowstorm.js" />
+			<script type="text/javascript">
+				snowStorm.snowColor = '#99ccff';   // blue-ish snow!?
+				function loginCheck(login) {
+					if(CryptoJS.MD5("fablab"+$(login).val().toLowerCase())=='5cfbf888606cb11ea7b229c3aa02b632'){
+						snowStorm.start();
+					}
+				};
+			</script>
 		</ui:define>
 	</ui:composition>
 </html>
