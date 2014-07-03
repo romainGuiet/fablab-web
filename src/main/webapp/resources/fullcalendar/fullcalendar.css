@@ -123,7 +123,7 @@ html .fc,
 	border: 1px solid #ddd;
 	}
 	
-.fc-state-highlight { /* <td> today cell */ /* TODO: add .fc-today to <th> */
+.fc-state-highlight { /* <td> today cell */ /*  add .fc-today to <th> */
 	background: #fcf8e3;
 	}
 	
@@ -488,7 +488,7 @@ table.fc-border-separate {
 	}
 	
 .fc-agenda-allday .fc-day-content {
-	min-height: 34px; /* TODO: doesnt work well in quirksmode */
+	min-height: 34px; /* : doesnt work well in quirksmode */
 	_height: 34px;
 	}
 	
@@ -575,7 +575,7 @@ table.fc-border-separate {
 	filter: alpha(opacity=25);
 	}
 	
-.fc .ui-draggable-dragging .fc-event-bg, /* TODO: something nicer like .fc-opacity */
+.fc .ui-draggable-dragging .fc-event-bg, /* : something nicer like .fc-opacity */
 .fc-select-helper .fc-event-bg {
 	display: none\9; /* for IE6/7/8. nested opacity filters while dragging don't work */
 	}
@@ -594,7 +594,7 @@ table.fc-border-separate {
 	cursor: s-resize;
 	}
 	
-.fc-agenda .ui-resizable-resizing { /* TODO: better selector */
+.fc-agenda .ui-resizable-resizing { /* : better selector */
 	_overflow: hidden;
 	}
 	

@@ -7,11 +7,11 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import net.collaud.fablab.ctrl.util.JsfUtil;
-import net.collaud.fablab.ctrl.util.JsfUtil.PersistAction;
 import net.collaud.fablab.data.MachineEO;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.service.itf.MachineService;
+import net.collaud.fablab.util.JsfUtil;
+import net.collaud.fablab.util.JsfUtil.PersistAction;
 import org.apache.log4j.Logger;
 
 @ManagedBean(name = "machineController")

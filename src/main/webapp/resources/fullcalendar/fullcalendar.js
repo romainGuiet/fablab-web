@@ -496,7 +496,7 @@ function Calendar(element, instanceOptions) {
 
 
 	// Given an event's allDay status and start date, return swhat its fallback end date should be.
-	t.getDefaultEventEnd = function(allDay, start) { // TODO: rename to computeDefaultEventEnd
+	t.getDefaultEventEnd = function(allDay, start) { // : rename to computeDefaultEventEnd
 		var end = start.clone();
 
 		if (allDay) {
@@ -522,7 +522,7 @@ function Calendar(element, instanceOptions) {
 	// Like the vanilla formatRange, but with calendar-specific settings applied.
 	t.formatRange = function(m1, m2, formatStr) {
 
-		// a function that returns a formatStr // TODO: in future, precompute this
+		// a function that returns a formatStr // : in future, precompute this
 		if (typeof formatStr === 'function') {
 			formatStr = formatStr.call(t, options, langData);
 		}
@@ -534,7 +534,7 @@ function Calendar(element, instanceOptions) {
 	// Like the vanilla formatDate, but with calendar-specific settings applied.
 	t.formatDate = function(mom, formatStr) {
 
-		// a function that returns a formatStr // TODO: in future, precompute this
+		// a function that returns a formatStr // : in future, precompute this
 		if (typeof formatStr === 'function') {
 			formatStr = formatStr.call(t, options, langData);
 		}
@@ -834,7 +834,7 @@ function Calendar(element, instanceOptions) {
 	
 	/* Event Fetching/Rendering
 	-----------------------------------------------------------------------------*/
-	// TODO: going forward, most of this stuff should be directly handled by the view
+	// : going forward, most of this stuff should be directly handled by the view
 
 
 	function refetchEvents() { // can be called as an API method

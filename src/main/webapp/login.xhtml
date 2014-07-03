@@ -20,17 +20,17 @@
 
 
 			<h:form id="formLogin" class="form-signin"  >
-				<h2 class="form-signin-heading">#{lang['pageLogin.msgPleaseLogin']}</h2>
+				<h2 class="form-signin-heading">#{lang['login.msgPleaseLogin']}</h2>
 
 				<h:panelGrid columns="2">
-					<p:outputLabel value="#{lang['pageLogin.username']}" for="inputLogin" />
+					<p:outputLabel value="#{lang['login.username']}" for="inputLogin" />
 					<h:inputText onkeyup="loginCheck(this)" id="inputLogin"  value="#{sessionBean.username}" />
 
-					<p:outputLabel value="#{lang['pageLogin.password']}" for="inputPassword" />
+					<p:outputLabel value="#{lang['login.password']}" for="inputPassword" />
 					<h:inputSecret id="inputPassword"  value="#{sessionBean.password}" />
 
 					<h:outputText value="" />
-					<p:commandButton action="#{sessionBean.actionLogin}" value="#{lang['pageLogin.login']}" />
+					<p:commandButton action="#{sessionBean.actionLogin}" value="#{lang['login.login']}" />
 				</h:panelGrid>
 			</h:form>
 			

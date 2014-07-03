@@ -84,7 +84,6 @@ public class UsersController extends AbstractController implements Serializable 
 
 	public void updatePassword() {
 		if (checkPasswords()) {
-			//TODO crypt
 			selected.setPassword(PasswordEncrypter.encryptMdp(changePassPassword));
 			persist(PersistAction.UPDATE, getString("users.result.passwordUpdated"));
 		}

@@ -4,27 +4,27 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import net.collaud.fablab.Constants;
-import net.collaud.fablab.file.ConfigFileHelper;
-import net.collaud.fablab.file.FileHelperFactory;
-import net.collaud.fablab.ctrl.util.JsfUtil;
 import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.exceptions.FablabException;
+import net.collaud.fablab.file.ConfigFileHelper;
+import net.collaud.fablab.file.FileHelperFactory;
 import net.collaud.fablab.service.itf.SecurityService;
+import net.collaud.fablab.util.AbstractLocalizable;
+import net.collaud.fablab.util.JsfUtil;
 import org.apache.log4j.Logger;
 
 /**
  *
  * @author gaetan
  */
-public class AbstractController implements Constants {
+public class AbstractController extends AbstractLocalizable implements Constants {
 	
 	public enum ControllerAction {
-
+		
 		UNDEFINED,
 		LIST,
 		CREATE,
@@ -39,7 +39,6 @@ public class AbstractController implements Constants {
 	@EJB
 	protected SecurityService securityService;
 	
-	protected ResourceBundle bundle;
 	private UserEO savedUser;
 	
 	protected ControllerAction action = ControllerAction.UNDEFINED;
@@ -55,28 +54,23 @@ public class AbstractController implements Constants {
 		return savedUser;
 	}
 	
-	public AbstractController() {
-		bundle = ResourceBundle.getBundle(BUNDLE_NAME);
-	}
-	
 	public int getItemsPerPage() {
 		return FileHelperFactory.getConfig().getAsInt(ConfigFileHelper.ITEM_PER_PAGE);
 	}
 	
-	public String getString(String key) {
-		return bundle.getString(key);
-	}
-	
-	protected String getString(String key, Object... args) {
-		String format = getString(key);
-		return String.format(format, args);
-	}
-	
-	protected void addSuccessMessage(String key) {
+	protected void addLocalizedSuccessMessage(String key) {
 		JsfUtil.addSuccessMessage(getString(key));
 	}
 	
-	protected void addErrorMessage(String key, Exception e) {
+	protected void addLocalizedErrorMessage(String key) {
+		JsfUtil.addErrorMessage(getString(key));
+	}
+	
+	protected void addLocalizedErrorMessage(String key, String detail){
+		JsfUtil.addErrorMessage(getString(key), getString(detail));
+	}
+	
+	protected void addLocalizedErrorMessage(String key, Exception e) {
 		JsfUtil.addErrorMessage(e, getString(key));
 	}
 	
@@ -84,11 +78,11 @@ public class AbstractController implements Constants {
 		Calendar objDate = new GregorianCalendar();
 		objDate.setTime(date);
 		Calendar now = new GregorianCalendar();
-		String formatter = "dd/MM/yyy hh:mm:ss";
+		String formatter = getStringDefault("date.full", "dd/MM/yyy hh:mm:ss");
 		String prefix = "";
 		if (objDate.get(Calendar.DAY_OF_YEAR) == now.get(Calendar.DAY_OF_YEAR) && objDate.get(Calendar.YEAR) == now.get(Calendar.YEAR)) {
-			formatter = "HH:mm:ss";
-			prefix = "Toaday at ";
+			formatter = getStringDefault("date.hour", "HH:mm:ss");
+			prefix = getStringDefault("date.todayat", "Toaday at")+" ";
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat(formatter);
 		return prefix + sdf.format(date);
@@ -102,33 +96,32 @@ public class AbstractController implements Constants {
 		addMsg(FacesMessage.SEVERITY_ERROR, msg, detail);
 	}
 	
-	protected void addError(String msg){
+	protected void addError(String msg) {
 		addError(msg, "");
 	}
 	
-	protected void addInternalError(Exception ex){
+	protected void addInternalError(Exception ex) {
 		addError("Internal error", ex);
 	}
 	
-	protected void addInternalErrorAndLog(String msg, Exception ex){
+	protected void addInternalErrorAndLog(String msg, Exception ex) {
 		LOG.error(msg, ex);
 		addInternalError(ex);
 	}
 	
-	protected void addError(String msg, Exception ex){
+	protected void addError(String msg, Exception ex) {
 		addError(msg, ex.toString());
 	}
 	
-	protected void addErrorAndLog(String msg, Exception ex){
+	protected void addErrorAndLog(String msg, Exception ex) {
 		LOG.error(msg, ex);
 		addError(msg, ex.toString());
 	}
 	
-	
 	protected void addInfo(String msg, String detail) {
 		addMsg(FacesMessage.SEVERITY_INFO, msg, detail);
 	}
-
+	
 	protected void addInfo(String msg) {
 		addInfo(msg, "");
 	}

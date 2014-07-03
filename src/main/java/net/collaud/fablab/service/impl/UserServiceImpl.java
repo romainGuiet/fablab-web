@@ -11,8 +11,6 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import net.collaud.fablab.audit.Audit;
 import net.collaud.fablab.audit.AuditDetail;
-import net.collaud.fablab.file.ConfigFileHelper;
-import net.collaud.fablab.file.FileHelperFactory;
 import net.collaud.fablab.dao.itf.GroupDAO;
 import net.collaud.fablab.dao.itf.MembershipTypeDAO;
 import net.collaud.fablab.dao.itf.PriceDAO;
@@ -27,6 +25,8 @@ import net.collaud.fablab.data.type.AuditAction;
 import net.collaud.fablab.data.type.AuditObject;
 import net.collaud.fablab.data.virtual.LDAPSyncResult;
 import net.collaud.fablab.exceptions.FablabException;
+import net.collaud.fablab.file.ConfigFileHelper;
+import net.collaud.fablab.file.FileHelperFactory;
 import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.UserService;
 import net.collaud.fablab.service.systems.ldap.LDAPService;
@@ -150,7 +150,6 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 		for (UserEO u : users) {
 			//user to disable
 			res.userDisabled(u.getLogin());
-			//FIXME disable user
 		}
 
 		return res;

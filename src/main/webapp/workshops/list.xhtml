@@ -6,13 +6,13 @@
 	  xmlns:p="http://primefaces.org/ui"
 	  xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
-        <title>TODO workshop</title>
+        <title>#{lang['workshop.title']}</title>
         <f:metadata>
             <f:event listener="#{sessionBean.verifyIsAnimator}" type="preRenderView" />
         </f:metadata>
     </h:head>
 	<ui:composition template="/template.xhtml">
-        <ui:define name="title">todo workwhops</ui:define>
+        <ui:define name="title">#{lang['workshop.title']}</ui:define>
 
         <ui:define name="body">
 			coucou
