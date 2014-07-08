@@ -86,7 +86,7 @@ public class AuditController extends AbstractController implements Serializable,
 	private List<UserEO> getListUsers() {
 		if (listUsers == null) {
 			try {
-				listUsers = userService.findAll();
+				listUsers = userService.getAllUsers();
 			} catch (FablabException ex) {
 				LOG.error("Cannot get all users", ex);
 				addError("Cannot get all users", ex);

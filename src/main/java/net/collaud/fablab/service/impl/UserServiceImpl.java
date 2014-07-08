@@ -60,7 +60,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 
 	@Override
 	@RolesAllowed({RolesHelper.ROLE_MANAGE_USERS})
-	public List<UserEO> findAll() throws FablabException {
+	public List<UserEO> getAllUsers() throws FablabException {
 		return userDao.findAll();
 	}
 

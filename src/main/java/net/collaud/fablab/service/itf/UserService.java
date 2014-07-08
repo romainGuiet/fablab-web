@@ -20,8 +20,13 @@ public interface UserService {
 
 	UserEO saveMachineAuthorized(UserEO user, List<MachineTypeEO> listTypes) throws FablabException;
 
-	List<UserEO> findAll() throws FablabException;
+	List<UserEO> getAllUsers() throws FablabException;
 
+	/**
+	 * @param rfid
+	 * @return null if no one found, user otherwise
+	 * @throws FablabException 
+	 */
 	UserEO findByRFID(String rfid) throws FablabException;
 
 	UserEO findByLogin(String username) throws FablabException;

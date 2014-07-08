@@ -9,9 +9,11 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 import net.collaud.fablab.dao.itf.UserDao;
 import net.collaud.fablab.data.GroupEO;
+import net.collaud.fablab.data.GroupEO_;
 import net.collaud.fablab.data.MachineTypeEO;
 import net.collaud.fablab.data.UserAuthorizedMachineTypeEO;
 import net.collaud.fablab.data.UserEO;
@@ -135,6 +137,17 @@ public class UserDAOImpl extends AbstractDAO<UserEO> implements UserDao {
 			getEntityManager().persist(auth);
 		}
 		return merged;
+	}
+
+	@Override
+	public List<UserEO> getUsersFromGroups(List<String> groupTechnicalNames) {
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery cq = cb.createQuery();
+		Root<UserEO> user = cq.from(UserEO.class);
+		Join<UserEO, GroupEO> group = user.join(UserEO_.groupsList);
+		cq.where(group.get(GroupEO_.technicalname).in(groupTechnicalNames));
+
+		return getEntityManager().createQuery(cq).getResultList();
 	}
 
 }

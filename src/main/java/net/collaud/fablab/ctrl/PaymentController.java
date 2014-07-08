@@ -66,7 +66,7 @@ public class PaymentController extends AbstractController implements Serializabl
 	@PostConstruct
 	private void init() {
 		try {
-			listUsers = usersService.findAll();
+			listUsers = usersService.getAllUsers();
 		} catch (FablabException ex) {
 			LOG.error("Cannot retrieve user and machine list", ex);
 			addError("TODO cannot retrieve users list", ex);

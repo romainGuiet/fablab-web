@@ -13,7 +13,6 @@ import net.collaud.fablab.data.UserAuthorizedMachineTypeEO;
 import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.data.type.AuditAction;
 import net.collaud.fablab.data.type.AuditObject;
-import net.collaud.fablab.data.virtual.AccessDoorResponse;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.service.itf.AuditService;
 import net.collaud.fablab.service.itf.SecurityService;
@@ -62,8 +61,7 @@ public class AuditInterceptor {
 
 	private Object getObjectOutOfResultAndParameters(AuditDetail ann, Object o, Object[] parameters) {
 		if (ann.action().equals(AuditAction.INSERT)
-				|| ann.action().equals(AuditAction.UPDATE)
-				|| ann.action().equals(AuditAction.REQUEST_ACCESS)) {
+				|| ann.action().equals(AuditAction.UPDATE)) {
 			if (o instanceof AbstractDataEO) {
 				return (AbstractDataEO) o;
 			}
@@ -94,8 +92,8 @@ public class AuditInterceptor {
 				return getReadableMessage(action, (PaymentEO) res);
 			case USER:
 				return getReadableMessage(action, (UserEO) res);
-			case ACCESS_DOOR:
-				return getReadableMessage(action, (AccessDoorResponse) res);
+//			case ACCESS_DOOR:
+//				return getReadableMessage(action, (AccessDoorResponse) res);
 			case SUBSCRIPTION:
 				return getReadableMessageSubscription(action, (UserEO) res);
 			default:
@@ -169,22 +167,22 @@ public class AuditInterceptor {
 		return sb.toString();
 	}
 
-	private String getReadableMessage(AuditAction action, AccessDoorResponse res) {
-		StringBuilder sb = new StringBuilder();
-		if (res.getUser() != null) {
-			sb.append("User ");
-			sb.append(res.getUser().getFirstLastName());
-		} else {
-			sb.append("Unknown ");
-			sb.append(res.getRfid());
-		}
-		if (res.isGranted()) {
-			sb.append(" oppened the door");
-		} else {
-			sb.append(" could not open the door");
-		}
-		return sb.toString();
-	}
+//	private String getReadableMessage(AuditAction action, AccessDoorResponse res) {
+//		StringBuilder sb = new StringBuilder();
+//		if (res.getUser() != null) {
+//			sb.append("User ");
+//			sb.append(res.getUser().getFirstLastName());
+//		} else {
+//			sb.append("Unknown ");
+//			sb.append(res.getRfid());
+//		}
+//		if (res.isGranted()) {
+//			sb.append(" oppened the door");
+//		} else {
+//			sb.append(" could not open the door");
+//		}
+//		return sb.toString();
+//	}
 
 	private String getReadableMessageSubscription(AuditAction action, UserEO userEO) {
 		StringBuilder sb = new StringBuilder();

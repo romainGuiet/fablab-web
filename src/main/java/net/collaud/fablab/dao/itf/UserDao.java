@@ -27,6 +27,8 @@ public interface UserDao {
 
 	List<UserEO> getByIds(List<Integer> value) throws FablabException;
 	
-	UserEO saveMachineAuthorized(UserEO user, List<MachineTypeEO> listTypes) throws FablabException ;
+	UserEO saveMachineAuthorized(UserEO user, List<MachineTypeEO> listTypes) throws FablabException;
+	
+	List<UserEO> getUsersFromGroups(List<String> groupTechnicalNames);
 	
 }

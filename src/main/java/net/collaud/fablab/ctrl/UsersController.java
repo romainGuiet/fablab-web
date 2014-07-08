@@ -127,7 +127,7 @@ public class UsersController extends AbstractController implements Serializable 
 
 	private List<UserEO> findAll() {
 		try {
-			return usersService.findAll();
+			return usersService.getAllUsers();
 		} catch (FablabException ex) {
 			LOG.error("Cannot load users list", ex);
 			addError("Cannot load users list", ex);
