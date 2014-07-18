@@ -8,10 +8,6 @@
 	<packaging>war</packaging>
 
 	<name>fablab-web</name>
-	<ciManagement>
-		<system>hudson</system>
-		<url>http://collaud2.collaud.me:8080/job/fablab-web/</url>
-	</ciManagement>
 	<properties>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -44,6 +44,12 @@
                         <p:outputLabel value="#{lang['users.rfid']}" for="rfid" />
                         <p:inputText id="rfid" value="#{userCtrl.selected.rfid}" />
 
+                        <p:outputLabel value="#{lang['users.phone']}" for="phone" />
+                        <p:inputText id="phone" value="#{userCtrl.selected.phone}" />
+
+                        <p:outputLabel value="#{lang['users.address']}" for="address" />
+                        <p:inputTextarea id="address" value="#{userCtrl.selected.address}" />
+
                         <p:outputLabel value="#{lang['users.membershipType']}" for="membershipType" />
 						<p:selectOneMenu id="membershipType" value="#{userCtrl.selected.membershipType}" required="true">
                             <f:selectItems value="#{userCtrl.listMembershipTypes}"

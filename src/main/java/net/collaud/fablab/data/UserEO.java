@@ -94,6 +94,12 @@ public class UserEO extends AbstractDataEO implements Serializable {
 	@Column(name = "auth_by_sql", nullable = false)
 	private boolean authBySql;
 
+	@Column(name = "phone", nullable = true)
+	private String phone;
+
+	@Column(name = "address", nullable = true)
+	private String address;
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private List<UserAuthorizedMachineTypeEO> machineTypeAuthorizedList;
 
@@ -321,6 +327,22 @@ public class UserEO extends AbstractDataEO implements Serializable {
 
 	public void setMachineTypeAuthorizedList(List<UserAuthorizedMachineTypeEO> machineTypeAuthorizedList) {
 		this.machineTypeAuthorizedList = machineTypeAuthorizedList;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }
