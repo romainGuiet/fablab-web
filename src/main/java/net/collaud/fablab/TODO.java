@@ -7,11 +7,13 @@ package net.collaud.fablab;
 public class TODO {
 /**
  * 
- * Must do (before release)
- *  put constant in config
- *		salt of password
- *		system status
- * audit subscription confirmation
+ * Must do (right now)
+ *		audit subscription confirmation
+ *		password bug
+ *		password edition not easy
+ *		field to filter users
+ *		redirection quand pas connecté
+ * 
  * 
  * Must do (sometimes)
  *	machines editions
