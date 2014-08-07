@@ -70,7 +70,11 @@ public class UsersController extends AbstractController implements Serializable 
 
 	public void create() {
 		selected.setLogin(selected.getFirstname().trim().toLowerCase() + "." + selected.getLastname().trim().toLowerCase());
-		selected.setPassword("USR_CTRL_CREATE");
+		if (selected.getPassword().isEmpty()) {
+			selected.setPassword("USR_CTRL_CREATE");
+		} else {
+			selected.setPassword(PasswordEncrypter.encryptMdp(selected.getPassword()));
+		}
 		persist(PersistAction.CREATE, getString("users.result.created"));
 	}
 

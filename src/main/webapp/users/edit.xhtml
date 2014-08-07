@@ -78,7 +78,7 @@
 										 oncomplete="handleSubmit(args, 'UserEODialog');"/>
 						<!--<p:commandButton actionListener="#{userCtrl.destroy}" value="#{lang['general.delete']}" update="display,:formListUser:datalist,:growl" disabled="#{empty userCtrl.selected}" icon="ui-icon-trash"/>-->
 					</c:if>
-                    <p:commandButton value="#{lang['general.cancel']}" onclick="UserEODialog.hide()"/>
+                    <p:commandButton value="#{lang['general.cancel']}" onclick="UserEODialog.hide();return false"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

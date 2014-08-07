@@ -58,7 +58,7 @@ public class UserEO extends AbstractDataEO implements Serializable {
 	@Column(name = "login", nullable = false)
 	private String login;
 
-	@Size(min = 1, max = 64)
+	@Size(min = 0, max = 64)
 	@Column(name = "password", nullable = false)
 	private String password;
 
