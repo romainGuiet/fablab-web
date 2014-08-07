@@ -13,6 +13,10 @@ public class TODO {
  *		password edition not easy
  *		field to filter users
  *		redirection quand pas connecté
+ *		coché membre par défaut quand nouveau membre
+ *		mettre normal par défault
+ *		check session quand edition membmre (ou nouveau)
+ *		redirection from access denied wrong
  * 
  * 
  * Must do (sometimes)

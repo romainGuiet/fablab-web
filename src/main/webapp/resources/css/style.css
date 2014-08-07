@@ -130,7 +130,9 @@ label.right{
     top: 50%;
 }
 .ajaxStatus{
-width:150px;height:150px;position:fixed;right:20px;bottom:20px
+	position:fixed;
+	right:20px;
+	bottom:20px
 }
 
 /**************************
