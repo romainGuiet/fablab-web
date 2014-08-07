@@ -75,8 +75,15 @@
 			<version>1.2.1</version>
 		</dependency>
 		
+		<!-- Export excel -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.10-FINAL</version>
+		</dependency>
+		
 		<!-- Java EE -->
-	 <dependency>
+		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-web-api</artifactId>
 			<version>6.0</version>

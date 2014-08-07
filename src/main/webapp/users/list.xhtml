@@ -28,6 +28,12 @@
 									 update=":UserEOForm"
 									 oncomplete="PF('UserEODialog').show()"/>
 
+					<div style="float:right">
+						<p:commandButton value="#{lang['users.export']}" ajax="false" icon="ui-icon-arrowthick-1-s"
+										 action="#{userCtrl.exportExcel()}">
+						</p:commandButton>
+					</div>
+
 					<!--<div style="float:right;">
 						<p:commandButton id="ldapSync" icon="ui-icon-transferthick-e-w"
 										 value="#{lang['users.ldapSync']}"

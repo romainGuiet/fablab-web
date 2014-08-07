@@ -1,12 +1,17 @@
 package net.collaud.fablab.ctrl;
 
+import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import net.collaud.fablab.data.GroupEO;
@@ -21,6 +26,12 @@ import net.collaud.fablab.service.itf.UserService;
 import net.collaud.fablab.util.JsfUtil;
 import net.collaud.fablab.util.JsfUtil.PersistAction;
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 @ManagedBean(name = "userCtrl")
 @ViewScoped
@@ -218,6 +229,43 @@ public class UsersController extends AbstractController implements Serializable 
 		}
 		FacesContext.getCurrentInstance().validationFailed();
 		return false;
+	}
+
+	public void exportExcel() {
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("Members");
+
+		int nbRow = 0;
+		Row headerRow = sheet.createRow(nbRow++);
+		String[] headers = new String[]{"lastname", "firstname", "email", "phone", "address", "balance"};
+		for (int i = 0; i < headers.length; i++) {
+			Cell cell = headerRow.createCell(i);
+			cell.setCellValue(headers[i]);
+		}
+		
+		for(UserEO user : items){
+			Row row = sheet.createRow(nbRow++);
+			int nbCell = 0;
+			
+			row.createCell(nbCell++).setCellValue(user.getLastname());
+			row.createCell(nbCell++).setCellValue(user.getFirstname());
+			row.createCell(nbCell++).setCellValue(user.getEmail());
+			row.createCell(nbCell++).setCellValue(user.getPhone());
+			row.createCell(nbCell++).setCellValue(user.getAddress());
+			row.createCell(nbCell++).setCellValue(user.getBalance());
+		}
+		
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = facesContext.getExternalContext();
+		externalContext.setResponseContentType("application/vnd.ms-excel");
+		externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"fablab_users.xls\"");
+
+		try {
+			wb.write(externalContext.getResponseOutputStream());
+		} catch (IOException ex) {
+			addErrorAndLog("Cannot write excel file", ex);
+		}
+		facesContext.responseComplete();
 	}
 
 	public String getChangePassPassword() {
