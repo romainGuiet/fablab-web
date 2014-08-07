@@ -9,7 +9,6 @@ public class TODO {
  * 
  * Must do (right now)
  *		audit subscription confirmation
- *		password bug
  *		password edition not easy
  *		field to filter users
  *		redirection quand pas connecté

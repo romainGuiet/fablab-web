@@ -38,12 +38,6 @@
 							<p:inputText id="password" value="#{userCtrl.selected.password}" />
 						</c:if>
 
-                        <p:outputLabel value="#{lang['users.balance']}" for="balance" />
-						<h:outputText id="balance" value="#{userCtrl.selected.balance}" />
-
-                        <p:outputLabel value="#{lang['users.rfid']}" for="rfid" />
-                        <p:inputText id="rfid" value="#{userCtrl.selected.rfid}" />
-
                         <p:outputLabel value="#{lang['users.phone']}" for="phone" />
                         <p:inputText id="phone" value="#{userCtrl.selected.phone}" />
 
@@ -66,19 +60,29 @@
 										   itemValue="#{group}" />
 						</p:selectManyCheckbox>
 
+						<!-- display this only when edit -->
+						<c:if test="#{userCtrl.action=='EDIT'}">
+							<p:outputLabel value="#{lang['users.balance']}" for="balance" />
+							<h:outputText id="balance" value="#{userCtrl.selected.balance}" />
+
+							<p:outputLabel value="#{lang['users.rfid']}" for="rfid" />
+							<p:inputText id="rfid" value="#{userCtrl.selected.rfid}" />
+						</c:if>
+
                     </p:panelGrid>
 					<c:if test="#{userCtrl.action=='CREATE'}">
 						<p:commandButton actionListener="#{userCtrl.create}" value="#{lang['general.save']}"
-										 update=":formListUser,:growl"
+										 update=":UserEOForm,:formListUser,:growl"
 										 oncomplete="handleSubmit(args,'UserEODialog');"/>
 					</c:if>
 					<c:if test="#{userCtrl.action=='EDIT'}">
 						<p:commandButton actionListener="#{userCtrl.update}" value="#{lang['general.save']}"
-										 update=":formListUser,:growl"
+										 update=":UserEOForm,:formListUser,:growl"
 										 oncomplete="handleSubmit(args, 'UserEODialog');"/>
 						<!--<p:commandButton actionListener="#{userCtrl.destroy}" value="#{lang['general.delete']}" update="display,:formListUser:datalist,:growl" disabled="#{empty userCtrl.selected}" icon="ui-icon-trash"/>-->
 					</c:if>
-                    <p:commandButton value="#{lang['general.cancel']}" onclick="UserEODialog.hide();return false"/>
+                    <p:commandButton value="#{lang['general.cancel']}" onclick="UserEODialog.hide();
+							return false"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

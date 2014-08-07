@@ -74,4 +74,8 @@
         <description/>
         <role-name>system</role-name>
     </security-role>
+	<error-page>
+		<exception-type>javax.ejb.EJBAccessException</exception-type>
+		<location>/login.xhtml</location>
+	</error-page>
 </web-app>
