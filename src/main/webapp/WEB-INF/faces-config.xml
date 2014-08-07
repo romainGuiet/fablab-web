@@ -8,26 +8,10 @@
 			<base-name>/lang</base-name>
 			<var>lang</var>
 		</resource-bundle>
-		<resource-bundle>
-			<base-name>/Bundle</base-name>
-			<var>bundle</var>
-		</resource-bundle>
-		<resource-bundle>
-			<base-name>/Bundle</base-name>
-			<var>bundle</var>
-		</resource-bundle>
-		<resource-bundle>
-			<base-name>/Bundle</base-name>
-			<var>bundle</var>
-		</resource-bundle>
-		<resource-bundle>
-			<base-name>/Bundle</base-name>
-			<var>bundle</var>
-		</resource-bundle>
-		<resource-bundle>
-			<base-name>/Bundle</base-name>
-			<var>bundle</var>
-		</resource-bundle>
+		<locale-config>
+			<default-locale>en</default-locale>
+			<supported-locale>fr</supported-locale>
+		</locale-config>
 	</application>
 	<navigation-rule>
 		<from-view-id>/login.xhtml</from-view-id>
