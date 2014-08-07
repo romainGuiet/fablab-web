@@ -28,7 +28,7 @@
 						</c:if>
 						<p:commandButton value="#{lang['payment.subscription.notConfirmed.button']}" style="float:right;"
 										 actionListener="#{paymentCtrl.handleCotisationPayment}"
-										 update=":panelInfo,:formHistory">
+										 update=":formHistory,:panelInfo">
 							<p:confirm header="#{lang['payment.subscription.confirmeDialog.title']}"
 									   message="#{lang['payment.subscription.confirmeDialog.text']}" icon="ui-icon-alert" />
 						</p:commandButton>

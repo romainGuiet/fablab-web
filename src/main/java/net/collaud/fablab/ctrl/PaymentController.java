@@ -148,6 +148,7 @@ public class PaymentController extends AbstractController implements Serializabl
 		LOG.info("Payment cotisation");
 		try {
 			userSelected = paymentService.addSubscriptionConfirmation(userSelected);
+			reloadHistory();
 		} catch (FablabException ex) {
 			addErrorAndLog("TODO cannot add cotisation", ex);
 		}
