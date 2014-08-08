@@ -113,7 +113,7 @@ public class PaymentController extends AbstractController implements Serializabl
 					balance += entry.getAmount();
 				}
 			} catch (FablabException ex) {
-				addErrorAndLog("TODO Cannot retrieve history", ex);
+				addErrorAndLog("Cannot retrieve history", ex);
 			}
 		}
 	}
@@ -124,16 +124,16 @@ public class PaymentController extends AbstractController implements Serializabl
 
 	public void handleAddUsage(ActionEvent event) {
 		if (valueUsageMachine == null) {
-			addError("TODO No machine selected");
+			addError(getString("payment.error.noMachineSelected"));
 		} else {
 			try {
 				int minutes = valueUsageHours * 60 + valueUsageMinutes;
 				paymentService.useMachine(userSelected, valueUsageMachine, setCurrentHourForDate(valueUsageDate), minutes, valueUsageAdditional, valueUsageComment);
-				addInfo("TODO machine time added successfully");
+				addInfo(getString("payment.result.addMachineTime"));
 				reloadHistory();
 				resetUsageValue();
 			} catch (FablabException ex) {
-				addErrorAndLog("TODO cannot add machine time", ex);
+				addErrorAndLog("Cannot add machine time", ex);
 			}
 		}
 	}
@@ -151,7 +151,7 @@ public class PaymentController extends AbstractController implements Serializabl
 	public void handleAddPayment(ActionEvent event) {
 		try {
 			paymentService.addPayment(userSelected, setCurrentHourForDate(valuePaymentDate), valuePaymentAmount, valuePaymentComment);
-			addInfo("TODO payment added successfully");
+			addInfo(getString("payment.result.addPayment"));
 			reloadHistory();
 			resetPaymentValue();
 		} catch (FablabException ex) {
