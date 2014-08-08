@@ -83,6 +83,9 @@
 						<p:column sortBy="balance" headerText="#{lang['users.balance']}">
 							<h:outputText value="#{item.balance}"/>
 						</p:column>
+						<p:column sortBy="membershipType" headerText="#{lang['users.membershipType']}">
+							<h:outputText value="#{item.membershipType.name}"/>
+						</p:column>
 
 
 						<p:column style="width:90px; padding: 4px 2px; text-align: center;">

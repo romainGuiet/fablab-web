@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -14,6 +15,7 @@ import javax.faces.event.ActionEvent;
 import net.collaud.fablab.data.MachineTypeEO;
 import net.collaud.fablab.data.MembershipTypeEO;
 import net.collaud.fablab.data.PriceMachineEO;
+import net.collaud.fablab.data.virtual.HistoryEntry;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.service.itf.MachineService;
 import net.collaud.fablab.service.itf.PaymentService;
@@ -134,4 +136,23 @@ public class HomeController extends AbstractController implements Serializable {
 		}
 		return null;
 	}
+	
+	public float getBalance(){
+		try {
+			return securityService.getCurrentUser().getBalance();
+		} catch (FablabException ex) {
+			addErrorAndLog("Cannot get current user balance", ex);
+		}
+		return 0f;
+	}
+	
+	public List<HistoryEntry> getListHistory(){
+		try {
+			return paymentService.getLastPaymentEntriesForCurrentUser(100);
+		} catch (FablabException ex) {
+			addErrorAndLog("Cannot get history for current user", ex);
+		}
+		return null;
+	}
+	
 }

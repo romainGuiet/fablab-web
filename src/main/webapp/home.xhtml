@@ -39,7 +39,7 @@
 						<p:commandButton value="#{lang['home.subscription.notConfirmed.button']}"
 										 style="float:right;"
 										 actionListener="#{homeCtrl.handleCotisationPayment}"
-										 update=":subscriptionForm">
+										 update=":subscriptionForm,:history">
 							<p:confirm header="#{lang['home.subscription.confirmeDialog.title']}"
 									   message="#{lang['home.subscription.confirmeDialog.text']}"
 									   icon="ui-icon-alert">
@@ -81,6 +81,38 @@
 				</div>
 			</p:panel>
 
+			<h:form id="history">
+				<p:panel header="#{lang['payment.title.history']}">
+
+					<div class="alert alert-#{homeCtrl.balance>=0 ? 'success' : 'danger'}">
+						<h:outputFormat value="#{lang['home.balanceText']}" escape="false">
+							<f:param value="#{homeCtrl.balance}" />
+							<f:param value="#{lang.currency}" />
+						</h:outputFormat>
+					</div>
+
+					<p:dataTable id="history" value="#{homeCtrl.listHistory}" var="item"
+								 rowStyleClass="tablerow #{item.type.css}"
+								 resizableColumns="true"
+								 >
+
+						<p:column headerText="#{lang['payment.date']}">
+							<h:outputText value="#{item.date}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="#{lang['payment.amount']}">
+							<h:outputText value="#{item.amount}"/>
+						</p:column>
+						<p:column headerText="#{lang['payment.detail']}">
+							<h:outputText value="#{item.detail}"/>
+						</p:column>
+						<p:column headerText="#{lang['payment.comment']}">
+							<h:outputText value="#{item.comment}"/>
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</h:form>
 
 			<!--<h:form>
 				<p:panel header="test">

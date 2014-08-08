@@ -107,6 +107,7 @@ public class PaymentController extends AbstractController implements Serializabl
 		if (userSelected != null) {
 			try {
 				listHistory = paymentService.getLastPaymentEntries(userSelected, 100);
+				//FIXME balance is wrong, it cannot be calculated from the last 100 entry
 				balance = 0;
 				for (HistoryEntry entry : listHistory) {
 					balance += entry.getAmount();

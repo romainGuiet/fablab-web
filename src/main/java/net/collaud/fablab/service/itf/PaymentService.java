@@ -16,17 +16,17 @@ import net.collaud.fablab.exceptions.FablabException;
  */
 @Local
 public interface PaymentService {
-	
+
 	UserEO addSubscriptionConfirmation(UserEO userSelected) throws FablabException;
-	
+
 	void addSubscriptionConfirmationForCurrentUser() throws FablabException;
 
 	PaymentEO addPayment(UserEO user, Date datePayment, float amount, String comment) throws FablabException;
 
 	UsageEO useMachine(UserEO user, MachineEO machine, Date startDate, int minutes, float additionalCost, String comment) throws FablabException;
 
-	float computeBalance(UserEO user) throws FablabException;
-
 	List<HistoryEntry> getLastPaymentEntries(UserEO user, int nb) throws FablabException;
+
+	public 	List<HistoryEntry> getLastPaymentEntriesForCurrentUser(int nb) throws FablabException;
 
 }

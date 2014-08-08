@@ -82,8 +82,7 @@ public class PaymentServiceImpl extends AbstractServiceImpl implements PaymentSe
 		return usage;
 	}
 
-	@Override
-	public float computeBalance(UserEO user) throws FablabException {
+	private float computeBalance(UserEO user) throws FablabException {
 		List<HistoryEntry> listHistoryEntrys = getLastPaymentEntries(user, -1);
 		float sum = 0;
 		for (HistoryEntry history : listHistoryEntrys) {
@@ -151,7 +150,16 @@ public class PaymentServiceImpl extends AbstractServiceImpl implements PaymentSe
 		subscription.setDateSubscription(now);
 		subscription.setPriceCotisation(priceDao.getPriceCotisationForUser(user.getMembershipType()));
 		subscriptionDao.add(subscription);
+		
+		//update balance of the user
+		computeBalance(user);
 
 		return userDao.save(user);
+	}
+
+	@Override
+	@RolesAllowed({RolesHelper.ROLE_USE_AUTH})
+	public List<HistoryEntry> getLastPaymentEntriesForCurrentUser(int nb) throws FablabException {
+		return getLastPaymentEntries(securityService.getCurrentUser(), nb);
 	}
 }
