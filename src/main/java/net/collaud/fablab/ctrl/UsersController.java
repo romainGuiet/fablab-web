@@ -10,11 +10,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import net.collaud.fablab.data.GroupEO;
 import net.collaud.fablab.data.MembershipTypeEO;
 import net.collaud.fablab.data.UserEO;
-import net.collaud.fablab.data.virtual.LDAPSyncResult;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.file.ConfigFileHelper;
 import net.collaud.fablab.file.FileHelperFactory;
@@ -38,6 +36,7 @@ public class UsersController extends AbstractController implements Serializable 
 	private UserService usersService;
 
 	private List<UserEO> items = null;
+	private List<UserEO> itemsFiltered = null;
 	private List<MembershipTypeEO> listMembershipTypes;
 	private UserEO selected;
 	private String newPassword;
@@ -195,32 +194,15 @@ public class UsersController extends AbstractController implements Serializable 
 		return findAll();
 	}
 
-	public void handleLDAPSync(ActionEvent event) {
-		try {
-			LDAPSyncResult res = usersService.syncWithLDAP();
-			for (String u : res.getUsersAdded()) {
-				LOG.info("User added : " + u);
-			}
-			for (String u : res.getUsersDisabled()) {
-				LOG.info("User disabled : " + u);
-			}
-			items = null;
-		} catch (FablabException ex) {
-			LOG.error("Cannot sync with LDAP");
-			addError("Cannot sync with LDAP", ex);
-		}
-
-	}
-
 	public String getDialogTitle() {
 		return getString(action == ControllerAction.CREATE ? "users.title.create" : "users.title.edit");
 	}
 
 	private boolean checkPasswords() {
 		if (!newPasswordConfirmation.equals(newPassword)) {
-			addError("TODO wrong confirmation");
+			addError(getString("users.error.passwordConfirmation"));
 		} else if (newPassword.length() < 6) {
-			addError("Password too short");
+			addError(getString("users.error.passwordTooShort"));
 		} else {
 			return true;
 		}
@@ -279,6 +261,14 @@ public class UsersController extends AbstractController implements Serializable 
 
 	public void setNewPasswordConfirmation(String newPasswordConfirmation) {
 		this.newPasswordConfirmation = newPasswordConfirmation;
+	}
+
+	public List<UserEO> getItemsFiltered() {
+		return itemsFiltered;
+	}
+
+	public void setItemsFiltered(List<UserEO> itemsFiltered) {
+		this.itemsFiltered = itemsFiltered;
 	}
 
 }

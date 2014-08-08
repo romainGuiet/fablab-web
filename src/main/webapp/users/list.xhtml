@@ -56,14 +56,28 @@
 					</p:confirmDialog>  
 
 					<p:dataTable id="datalist" value="#{userCtrl.items}" var="item" style="padding-top: 10px;"
+								 widgetVar="usersList" 
 								 paginator="false"
 								 rowKey="#{item.userId}"
-								 sortMode="single">
+								 sortMode="single"
+								 filteredValue="#{userCtrl.itemsFiltered}"
+								 >
 
-						<p:column sortBy="firstname" headerText="#{lang['users.firstname']}">
+						<f:facet name="header">
+							<p:outputPanel>
+								<h:outputText value="#{lang['users.filter.label']}" />
+								<p:inputText id="globalFilter" 
+											 onkeyup="usersList.filter()" 
+											 style="width:150px" placeholder="#{lang['users.filter.placeholder']}"/>
+							</p:outputPanel>
+						</f:facet>
+
+						<p:column sortBy="firstname" headerText="#{lang['users.firstname']}" 
+								  filterBy="firstname" filterStyle="display:none">
 							<h:outputText value="#{item.firstname}"/>
 						</p:column>
-						<p:column sortBy="lastname" headerText="#{lang['users.lastname']}">
+						<p:column sortBy="lastname" headerText="#{lang['users.lastname']}" 
+								  filterBy="lastname" filterStyle="display:none">
 							<h:outputText value="#{item.lastname}"/>
 						</p:column>
 						<p:column sortBy="balance" headerText="#{lang['users.balance']}">

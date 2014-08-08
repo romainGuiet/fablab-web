@@ -9,93 +9,87 @@
 	  xmlns:o="http://omnifaces.org/ui">
 
 	<o:importConstants type="net.collaud.fablab.security.RolesHelper" />
-	
-	<f:view locale="#{localeBean.locale}">
 
-		<h:head>
-			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-			<title><ui:insert name="title">Default Title</ui:insert></title>
 
-			<link rel="shortcut icon" href="resources/img/fablab_logo.jpg" />
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title><ui:insert name="title">Default Title</ui:insert></title>
 
-			<h:outputScript library="js" name="bootstrap.min.js" />
-			<h:outputStylesheet library="css" name="bootstrap.min.css" />
-			<h:outputStylesheet library="css" name="bootstrap-theme.min.css" />
-			<f:facet name="last">
-				<h:outputStylesheet library="css" name="style.css" />
-			</f:facet>
-		</h:head>
+		<link rel="shortcut icon" href="resources/img/fablab_logo.jpg" />
 
-		<h:body>
+		<h:outputScript library="js" name="bootstrap.min.js" />
+		<h:outputStylesheet library="css" name="bootstrap.min.css" />
+		<h:outputStylesheet library="css" name="bootstrap-theme.min.css" />
+		<f:facet name="last">
 			<h:outputStylesheet library="css" name="style.css" />
+		</f:facet>
+	</h:head>
 
-			<p:growl id="growl" life="3000" />
+	<h:body>
+		<h:outputStylesheet library="css" name="style.css" />
 
-			<div id="container">
-				<ui:insert name="naviguation">
+		<p:growl id="growl" life="3000" />
 
-					<h:form>
-						<p:menubar styleClass="menuBarCenter">
-							<p:menuitem value="#{lang['menu.home']}" icon="ui-icon-home" outcome="/home" />
-							<p:menuitem value="#{lang['menu.reservations']}" icon="ui-icon-calendar"
-										outcome="/reservations/list"
-										rendered="#{sessionBean.hasRole(RolesHelper.ROLE_USE_MACHINES) and link.showReservation}" />
-							<!--<p:menuitem value="#{lang['menu.workshops']}" icon="ui-icon-scissors"
-										outcome="workshops/list"
-										rendered="#{sessionBean.hasRole(RolesHelper.ROLE_USE_WORKSHOPS)}" />
-							<p:menuitem value="#{lang['menu.mahchines']}" icon="ui-icon-wrench"
-										outcome="/machines/list"
-										rendered="#{sessionBean.hasRole(RolesHelper.ROLE_MANAGE_MACHINES)}" />-->
-							<p:menuitem value="#{lang['menu.users']}" icon="ui-icon-person"
-										outcome="/users/list"
-										rendered="#{sessionBean.hasRole(RolesHelper.ROLE_MANAGE_USERS)}" />
-							<p:menuitem value="#{lang['menu.payment']}" icon="ui-icon-cart"
-										outcome="/payment/list"
-										rendered="#{sessionBean.hasRole(RolesHelper.ROLE_MANAGE_PAYMENT)}" />
-							<p:menuitem value="#{lang['menu.audit']}" icon="ui-icon-locked"
-										outcome="/audit/list"
-										rendered="#{sessionBean.hasRole(RolesHelper.ROLE_USE_AUDIT)}" />
+		<div id="container">
+			<ui:insert name="naviguation">
 
-							<c:if test="#{sessionBean.authentified}">
-								<f:facet name="options" rendered="#{sessionBean.authentified}">
-									#{lang['general.connectedAs']}
-									<b>#{sessionBean.currentUser.firstname} #{sessionBean.currentUser.lastname}</b>
-									(<p:commandLink style="display:inline;" value="#{lang['general.btLogout']}" action="#{sessionBean.actionLogout()}" />)
-								</f:facet>
-							</c:if>
+				<h:form>
+					<p:menubar styleClass="menuBarCenter">
+						<p:menuitem value="#{lang['menu.home']}" icon="ui-icon-home" outcome="/home" />
+						<p:menuitem value="#{lang['menu.reservations']}" icon="ui-icon-calendar"
+									outcome="/reservations/list"
+									rendered="#{sessionBean.hasRole(RolesHelper.ROLE_USE_MACHINES) and link.showReservation}" />
+						<!--<p:menuitem value="#{lang['menu.workshops']}" icon="ui-icon-scissors"
+									outcome="workshops/list"
+									rendered="#{sessionBean.hasRole(RolesHelper.ROLE_USE_WORKSHOPS)}" />
+						<p:menuitem value="#{lang['menu.mahchines']}" icon="ui-icon-wrench"
+									outcome="/machines/list"
+									rendered="#{sessionBean.hasRole(RolesHelper.ROLE_MANAGE_MACHINES)}" />-->
+						<p:menuitem value="#{lang['menu.users']}" icon="ui-icon-person"
+									outcome="/users/list"
+									rendered="#{sessionBean.hasRole(RolesHelper.ROLE_MANAGE_USERS)}" />
+						<p:menuitem value="#{lang['menu.payment']}" icon="ui-icon-cart"
+									outcome="/payment/list"
+									rendered="#{sessionBean.hasRole(RolesHelper.ROLE_MANAGE_PAYMENT)}" />
+						<p:menuitem value="#{lang['menu.audit']}" icon="ui-icon-locked"
+									outcome="/audit/list"
+									rendered="#{sessionBean.hasRole(RolesHelper.ROLE_USE_AUDIT)}" />
 
-						</p:menubar>
-					</h:form>
-				</ui:insert>
+						<c:if test="#{sessionBean.authentified}">
+							<f:facet name="options" rendered="#{sessionBean.authentified}">
+								#{lang['general.connectedAs']}
+								<b>#{sessionBean.currentUser.firstname} #{sessionBean.currentUser.lastname}</b>
+								(<p:commandLink style="display:inline;" value="#{lang['general.btLogout']}" action="#{sessionBean.actionLogout()}" />)
+							</f:facet>
+						</c:if>
 
-				<div id="content">
-					<p:messages id="actionMessages" autoUpdate="true" showDetail="true"  />
+					</p:menubar>
+				</h:form>
+			</ui:insert>
 
-					<ui:insert name="body">Default Body</ui:insert>
-				</div>
-				<p:ajaxStatus styleClass="ajaxStatus" id="statusDialog" widgetVar="ajaxStatus" >  
-					<f:facet name="start">  
-						<p:graphicImage width="150px" value="/resources/img/loading.gif" />  
-					</f:facet>  
+			<div id="content">
+				<p:messages id="actionMessages" autoUpdate="true" showDetail="true"  />
 
-					<f:facet name="complete">  
-						<h:outputText value="" />  
-					</f:facet>  
-				</p:ajaxStatus>  
-
-				<div id="footer">
-					<a href="https://github.com/gaetancollaud/fablab-web">
-						<img class="github" src="/resources/img/github.png" alt="github logo" />
-						Fablab-web
-					</a>
-					is an open-source application
-				</div>
+				<ui:insert name="body">Default Body</ui:insert>
 			</div>
+			<p:ajaxStatus styleClass="ajaxStatus" id="statusDialog" widgetVar="ajaxStatus" >  
+				<f:facet name="start">  
+					<p:graphicImage width="150px" value="/resources/img/loading.gif" />  
+				</f:facet>  
 
+				<f:facet name="complete">  
+					<h:outputText value="" />  
+				</f:facet>  
+			</p:ajaxStatus>  
 
-
-
-		</h:body>
-	</f:view>
+			<div id="footer">
+				<a href="https://github.com/gaetancollaud/fablab-web">
+					<img class="github" src="/resources/img/github.png" alt="github logo" />
+					Fablab-web
+				</a>
+				is an open-source application
+			</div>
+		</div>
+	</h:body>
 
 </html>

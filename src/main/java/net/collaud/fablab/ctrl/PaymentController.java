@@ -23,6 +23,7 @@ import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.service.itf.MachineService;
 import net.collaud.fablab.service.itf.PaymentService;
 import net.collaud.fablab.service.itf.UserService;
+import net.collaud.fablab.util.Filters;
 import org.apache.log4j.Logger;
 import org.primefaces.event.SelectEvent;
 
@@ -92,15 +93,7 @@ public class PaymentController extends AbstractController implements Serializabl
 
 	public List<UserEO> searchInUsers(String query) {
 		userSelected = null;
-		List<UserEO> results = new ArrayList<>();
-
-		for (UserEO u : listUsers) {
-			if (u.getFirstLastName().toLowerCase().contains(query.toLowerCase())) {
-				results.add(u);
-			}
-		}
-
-		return results;
+		return Filters.filterUsers(listUsers, query);
 	}
 
 	public void handleUserSelected(SelectEvent event) {
