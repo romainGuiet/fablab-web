@@ -63,7 +63,7 @@ public interface UserService {
 	Integer daysToEndOfSubscription(UserEO user) throws FablabException;
 
 	/**
-	 * Same as daysToEndOfSubscription bzt for the current user connected.
+	 * Same as daysToEndOfSubscription but for the current user connected.
 	 *
 	 * @see UserService.daysToEndOfSubscription
 	 * @return

@@ -1,12 +1,9 @@
 package net.collaud.fablab.ctrl;
 
 import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
@@ -30,8 +27,6 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 
 @ManagedBean(name = "userCtrl")
 @ViewScoped
@@ -45,9 +40,8 @@ public class UsersController extends AbstractController implements Serializable 
 	private List<UserEO> items = null;
 	private List<MembershipTypeEO> listMembershipTypes;
 	private UserEO selected;
-	private String changePassPassword;
-	private String changePassConfirmation;
-	private String changePassError;
+	private String newPassword;
+	private String newPasswordConfirmation;
 
 	public UsersController() {
 	}
@@ -72,21 +66,11 @@ public class UsersController extends AbstractController implements Serializable 
 		action = ControllerAction.CREATE;
 	}
 
-	public void prepareChangePassword() {
-		action = ControllerAction.EDIT;
-		changePassPassword = null;
-		changePassConfirmation = null;
-		changePassError = null;
-	}
-
 	public void create() {
 		selected.setLogin(selected.getFirstname().trim().toLowerCase() + "." + selected.getLastname().trim().toLowerCase());
-		if (selected.getPassword().isEmpty()) {
-			selected.setPassword("USR_CTRL_CREATE");
-		} else {
-			selected.setPassword(PasswordEncrypter.encryptMdp(selected.getPassword()));
+		if (definePassword()) {
+			persist(PersistAction.CREATE, getString("users.result.created"));
 		}
-		persist(PersistAction.CREATE, getString("users.result.created"));
 	}
 
 	public void prepareEdit() {
@@ -94,14 +78,28 @@ public class UsersController extends AbstractController implements Serializable 
 	}
 
 	public void update() {
-		persist(PersistAction.UPDATE, getString("users.result.updated"));
+		if (definePassword()) {
+			persist(PersistAction.UPDATE, getString("users.result.updated"));
+		}
 	}
 
-	public void updatePassword() {
-		if (checkPasswords()) {
-			selected.setPassword(PasswordEncrypter.encryptMdp(changePassPassword));
-			persist(PersistAction.UPDATE, getString("users.result.passwordUpdated"));
+	/**
+	 * Define the password for the current user
+	 *
+	 * @return true, if password are ok, false otherwise
+	 */
+	private boolean definePassword() {
+		if (newPassword.isEmpty() && newPasswordConfirmation.isEmpty()) {
+			if (action == ControllerAction.CREATE) {
+				selected.setPassword("USR_CTRL_CREATE");
+			}
+			return true;
 		}
+		if (checkPasswords()) {
+			selected.setPassword(PasswordEncrypter.encryptMdp(newPassword));
+			return true;
+		}
+		return false;
 	}
 
 	public void destroy() {
@@ -160,7 +158,6 @@ public class UsersController extends AbstractController implements Serializable 
 				switch (persistAction) {
 					case CREATE:
 						selected.setUserId(0);
-						selected.setPassword(PasswordEncrypter.encryptMdp(selected.getPassword()));
 					case UPDATE:
 						usersService.save(selected);
 						break;
@@ -220,10 +217,10 @@ public class UsersController extends AbstractController implements Serializable 
 	}
 
 	private boolean checkPasswords() {
-		if (!changePassConfirmation.equals(changePassPassword)) {
-			changePassError = "Wrong confrimation";
-		} else if (changePassPassword.length() < 6) {
-			changePassError = "Password too short";
+		if (!newPasswordConfirmation.equals(newPassword)) {
+			addError("TODO wrong confirmation");
+		} else if (newPassword.length() < 6) {
+			addError("Password too short");
 		} else {
 			return true;
 		}
@@ -242,11 +239,11 @@ public class UsersController extends AbstractController implements Serializable 
 			Cell cell = headerRow.createCell(i);
 			cell.setCellValue(headers[i]);
 		}
-		
-		for(UserEO user : items){
+
+		for (UserEO user : items) {
 			Row row = sheet.createRow(nbRow++);
 			int nbCell = 0;
-			
+
 			row.createCell(nbCell++).setCellValue(user.getLastname());
 			row.createCell(nbCell++).setCellValue(user.getFirstname());
 			row.createCell(nbCell++).setCellValue(user.getEmail());
@@ -254,7 +251,7 @@ public class UsersController extends AbstractController implements Serializable 
 			row.createCell(nbCell++).setCellValue(user.getAddress());
 			row.createCell(nbCell++).setCellValue(user.getBalance());
 		}
-		
+
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = facesContext.getExternalContext();
 		externalContext.setResponseContentType("application/vnd.ms-excel");
@@ -268,24 +265,20 @@ public class UsersController extends AbstractController implements Serializable 
 		facesContext.responseComplete();
 	}
 
-	public String getChangePassPassword() {
-		return changePassPassword;
+	public String getNewPassword() {
+		return newPassword;
 	}
 
-	public void setChangePassPassword(String changePassPassword) {
-		this.changePassPassword = changePassPassword;
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
 	}
 
-	public String getChangePassConfirmation() {
-		return changePassConfirmation;
+	public String getNewPasswordConfirmation() {
+		return newPasswordConfirmation;
 	}
 
-	public void setChangePassConfirmation(String changePassConfirmation) {
-		this.changePassConfirmation = changePassConfirmation;
-	}
-
-	public String getChangePassError() {
-		return changePassError;
+	public void setNewPasswordConfirmation(String newPasswordConfirmation) {
+		this.newPasswordConfirmation = newPasswordConfirmation;
 	}
 
 }

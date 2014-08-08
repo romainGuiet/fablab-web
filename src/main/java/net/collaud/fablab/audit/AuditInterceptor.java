@@ -2,6 +2,8 @@ package net.collaud.fablab.audit;
 
 import java.util.Date;
 import javax.ejb.EJB;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
@@ -24,6 +26,7 @@ import org.apache.log4j.Logger;
  */
 @Interceptor
 @Audit
+@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class AuditInterceptor {
 
 	private static final Logger LOG = Logger.getLogger(AuditInterceptor.class);

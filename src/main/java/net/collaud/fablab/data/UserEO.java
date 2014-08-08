@@ -59,7 +59,7 @@ public class UserEO extends AbstractDataEO implements Serializable {
 	private String login;
 
 	@Size(min = 0, max = 64)
-	@Column(name = "password", nullable = false)
+	@Column(name = "password", nullable = false, unique = true)
 	private String password;
 
 	@Size(min = 0, max = 45)
@@ -71,7 +71,7 @@ public class UserEO extends AbstractDataEO implements Serializable {
 	private String lastname;
 
 	@Size(min = 0, max = 100)
-	@Column(name = "email", nullable = true)
+	@Column(name = "email", nullable = true, unique=true)
 	private String email;
 
 	@Column(name = "date_inscr", nullable = false)

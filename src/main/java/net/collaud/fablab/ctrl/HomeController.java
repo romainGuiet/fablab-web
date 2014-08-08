@@ -35,16 +35,27 @@ public class HomeController extends AbstractController implements Serializable {
 
 	@EJB
 	private MachineService machineService;
-	
+
 	@EJB
 	private PriceService priceService;
 
 	public HomeController() {
 	}
 
+	public boolean haveToConfirmSubscription() {
+		try {
+			return usersService.daysToEndOfSubscriptionForCurrentUser() < 0;
+		} catch (FablabException ex) {
+			LOG.error("Cannot get days to end of subscription for the current user ", ex);
+			addInternalError(ex);
+		}
+		return false;
+	}
+
 	public boolean hasConfirmedSubscription() {
 		try {
-			return usersService.daysToEndOfSubscriptionForCurrentUser() >= 0;
+			int dayLeft = usersService.daysToEndOfSubscriptionForCurrentUser();
+			return  dayLeft >= 0 && dayLeft!=Integer.MAX_VALUE;
 		} catch (FablabException ex) {
 			LOG.error("Cannot get days to end of subscription for the current user ", ex);
 			addInternalError(ex);
@@ -91,14 +102,14 @@ public class HomeController extends AbstractController implements Serializable {
 		try {
 			List<PriceMachineEO> prices = priceService.getAllCurrentMachinePrices();
 			Map<MembershipTypeEO, List<PriceMachineEO>> res = new HashMap<>();
-			for(PriceMachineEO p : prices){
-				if(!res.containsKey(p.getMembershipType())){
+			for (PriceMachineEO p : prices) {
+				if (!res.containsKey(p.getMembershipType())) {
 					res.put(p.getMembershipType(), new ArrayList<PriceMachineEO>());
 				}
 				res.get(p.getMembershipType()).add(p);
 			}
-			
-			for(List<PriceMachineEO> values : res.values()){
+
+			for (List<PriceMachineEO> values : res.values()) {
 				Collections.sort(values, new Comparator<PriceMachineEO>() {
 					@Override
 					public int compare(PriceMachineEO o1, PriceMachineEO o2) {
@@ -106,16 +117,16 @@ public class HomeController extends AbstractController implements Serializable {
 					}
 				});
 			}
-			
+
 			return res;
-			
+
 		} catch (FablabException ex) {
 			addErrorAndLog("Cannot get prices", ex);
 		}
 		return null;
 	}
-	
-	public MembershipTypeEO getCurrentUserMemberShipType(){
+
+	public MembershipTypeEO getCurrentUserMemberShipType() {
 		try {
 			return securityService.getCurrentUser().getMembershipType();
 		} catch (FablabException ex) {

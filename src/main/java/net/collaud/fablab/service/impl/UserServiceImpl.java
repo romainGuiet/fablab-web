@@ -11,6 +11,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import net.collaud.fablab.audit.Audit;
 import net.collaud.fablab.audit.AuditDetail;
+import net.collaud.fablab.ctrl.UsersController;
 import net.collaud.fablab.dao.itf.GroupDAO;
 import net.collaud.fablab.dao.itf.MembershipTypeDAO;
 import net.collaud.fablab.dao.itf.PriceDAO;
@@ -31,6 +32,7 @@ import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.UserService;
 import net.collaud.fablab.service.systems.ldap.LDAPService;
 import net.collaud.fablab.service.systems.ldap.LDAPUser;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
@@ -42,6 +44,7 @@ import org.joda.time.Days;
 @LocalBean
 @RolesAllowed({RolesHelper.ROLE_ADMIN})
 public class UserServiceImpl extends AbstractServiceImpl implements UserService {
+	private static final Logger LOG = Logger.getLogger(UserServiceImpl.class);
 
 	@EJB
 	private UserDao userDao;
@@ -77,6 +80,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 	@Audit
 	@AuditDetail(object = AuditObject.USER, action = AuditAction.UPDATE)
 	public UserEO save(UserEO user) throws FablabException {
+		LOG.info("Saving user "+user);
 		return userDao.save(user);
 	}
 

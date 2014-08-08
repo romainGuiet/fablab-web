@@ -33,10 +33,11 @@
                         <p:outputLabel value="#{lang['users.email']}" for="email" />
                         <p:inputText id="email" value="#{userCtrl.selected.email}" />
 
-						<c:if test="#{userCtrl.action=='CREATE'}">
-							<p:outputLabel value="#{lang['users.password']}" for="password" />
-							<p:inputText id="password" value="#{userCtrl.selected.password}" />
-						</c:if>
+						<p:outputLabel value="#{lang['users.newpassword']}" for="password" />
+						<p:password id="password" value="#{userCtrl.newPassword}" />
+
+                        <p:outputLabel value="#{lang['users.confirmation']}" for="confirmation" />
+                        <p:password id="confirmation" value="#{userCtrl.newPasswordConfirmation}" />
 
                         <p:outputLabel value="#{lang['users.phone']}" for="phone" />
                         <p:inputText id="phone" value="#{userCtrl.selected.phone}" />

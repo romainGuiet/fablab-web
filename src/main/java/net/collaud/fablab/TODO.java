@@ -7,10 +7,12 @@ package net.collaud.fablab;
 public class TODO {
 /**
  * 
- * Must do (right now)
+ * Must do
  *		audit subscription confirmation
- *		password edition not easy
  *		field to filter users
+ *		Text on home page
+ *		Profile
+ *		webservice for the door
  * 
  * 
  * Must do (sometimes)

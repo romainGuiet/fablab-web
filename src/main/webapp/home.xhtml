@@ -27,7 +27,7 @@
 					<p:commandButton value="non" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>     
 				</p:confirmDialog>
 
-				<c:if test="#{!homeCtrl.hasConfirmedSubscription()}">
+				<c:if test="#{homeCtrl.haveToConfirmSubscription()}">
 					<div class="alert alert-danger">
 						<h:outputFormat value="#{lang['home.subscription.notConfirmed.text']}" />
 						<h:outputText value=" " />

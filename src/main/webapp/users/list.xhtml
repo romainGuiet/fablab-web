@@ -71,19 +71,11 @@
 						</p:column>
 
 
-						<p:column style="width:121px; padding: 4px 2px; text-align: left;">
+						<p:column style="width:90px; padding: 4px 2px; text-align: center;">
 							<p:commandButton id="selectButton" update=":UserEOForm" 
 											 oncomplete="PF('UserEODialog').show()" 
 											 actionListener="#{userCtrl.prepareEdit}"
 											 icon="ui-icon-pencil">
-								<f:setPropertyActionListener value="#{item}" target="#{userCtrl.selected}" />
-							</p:commandButton>
-							<p:commandButton rendered="#{item.authBySql}"
-											 update=":UserChangePassForm" 
-											 icon="ui-icon-locked"
-											 actionListener="#{userCtrl.prepareChangePassword}"
-											 oncomplete="PF('UserPasswordDialog').show()"
-											 >
 								<f:setPropertyActionListener value="#{item}" target="#{userCtrl.selected}" />
 							</p:commandButton>
 							<p:commandButton rendered="#{item.authBySql}" icon="ui-icon-close"
@@ -96,7 +88,6 @@
 			</p:panel>
 
             <ui:include src="edit.xhtml"/>
-            <ui:include src="editPassword.xhtml"/>
 
         </ui:define>
     </ui:composition>
