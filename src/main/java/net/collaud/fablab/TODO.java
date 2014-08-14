@@ -9,7 +9,7 @@ public class TODO {
  * 
  * Must do
  *		audit subscription confirmation
- *		field to filter users
+ *		mettre jour restant (membership) dans onglet paiment
  *		Text on home page
  *		Profile
  *		webservice for the door

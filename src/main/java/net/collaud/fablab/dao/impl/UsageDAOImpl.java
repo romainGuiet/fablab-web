@@ -49,4 +49,9 @@ public class UsageDAOImpl extends AbstractDAO<UsageEO> implements UsageDao {
 		return query.getResultList();
 	}
 
+	@Override
+	public void removeById(int usageId) throws FablabException {
+		remove(find(usageId));
+	}
+
 }

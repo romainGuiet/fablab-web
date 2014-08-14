@@ -17,6 +17,8 @@ public interface PaymentDao {
 
 	public PaymentEO add(PaymentEO current) throws FablabException;
 
-	public List<PaymentEO> getByIds(List<Integer> ids);
+	public List<PaymentEO> getByIds(List<Integer> ids) throws FablabException;
+	
+	public void removeById(int paymentId) throws FablabException;
 	
 }

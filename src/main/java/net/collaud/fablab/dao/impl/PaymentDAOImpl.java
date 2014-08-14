@@ -48,4 +48,9 @@ public class PaymentDAOImpl extends AbstractDAO<PaymentEO> implements PaymentDao
 		return query.getResultList();
 	}
 
+	@Override
+	public void removeById(int paymentId) throws FablabException {
+		remove(find(paymentId));
+	}
+
 }

@@ -20,4 +20,6 @@ public interface UsageDao {
 	
 	public List<UsageDetailEO> getByIds(List<Integer> ids) throws FablabException;
 	
+	public void removeById(int usageId) throws FablabException;
+	
 }

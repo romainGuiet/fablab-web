@@ -64,6 +64,10 @@ public class HistoryEntry implements Comparable<HistoryEntry> {
 		amount = -subscription.getPriceCotisation().getPrice();
 	}
 
+	public int getId() {
+		return id;
+	}
+
 	public String getComment() {
 		return comment;
 	}

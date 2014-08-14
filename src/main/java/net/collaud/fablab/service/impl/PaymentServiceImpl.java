@@ -11,6 +11,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import net.collaud.fablab.audit.Audit;
 import net.collaud.fablab.audit.AuditDetail;
+import net.collaud.fablab.audit.AuditUtils;
 import net.collaud.fablab.dao.itf.PaymentDao;
 import net.collaud.fablab.dao.itf.PriceDAO;
 import net.collaud.fablab.dao.itf.SubscriptionDao;
@@ -28,6 +29,7 @@ import net.collaud.fablab.data.type.AuditObject;
 import net.collaud.fablab.data.virtual.HistoryEntry;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.security.RolesHelper;
+import net.collaud.fablab.service.itf.AuditService;
 import net.collaud.fablab.service.itf.PaymentService;
 import net.collaud.fablab.service.itf.SecurityService;
 import org.apache.log4j.Logger;
@@ -44,10 +46,13 @@ public class PaymentServiceImpl extends AbstractServiceImpl implements PaymentSe
 	private static final Logger LOG = Logger.getLogger(PaymentServiceImpl.class);
 
 	@EJB
-	private UserDao userDao;
+	private AuditService audtiService;
 
 	@EJB
 	private SecurityService securityService;
+
+	@EJB
+	private UserDao userDao;
 
 	@EJB
 	private PaymentDao paymentDao;
@@ -130,11 +135,15 @@ public class PaymentServiceImpl extends AbstractServiceImpl implements PaymentSe
 		return addSubscriptionConfirmationIntern(user);
 	}
 
-	@AuditDetail(object = AuditObject.SUBSCRIPTION, action = AuditAction.CONFIRM)
-	@PermitAll
+	
 	@Override
-	public void addSubscriptionConfirmationForCurrentUser() throws FablabException {
-		addSubscriptionConfirmationIntern(securityService.getCurrentUser());
+	@Audit
+	@AuditDetail(object = AuditObject.SUBSCRIPTION, action = AuditAction.CONFIRM)
+	@RolesAllowed({RolesHelper.ROLE_USE_AUTH})
+	public UserEO addSubscriptionConfirmationForCurrentUser() throws FablabException {
+		UserEO user = securityService.getCurrentUser();
+		addSubscriptionConfirmationIntern(user);
+		return user;
 	}
 
 	private UserEO addSubscriptionConfirmationIntern(UserEO userParam) throws FablabException {
@@ -150,7 +159,7 @@ public class PaymentServiceImpl extends AbstractServiceImpl implements PaymentSe
 		subscription.setDateSubscription(now);
 		subscription.setPriceCotisation(priceDao.getPriceCotisationForUser(user.getMembershipType()));
 		subscriptionDao.add(subscription);
-		
+
 		//update balance of the user
 		computeBalance(user);
 
@@ -161,5 +170,26 @@ public class PaymentServiceImpl extends AbstractServiceImpl implements PaymentSe
 	@RolesAllowed({RolesHelper.ROLE_USE_AUTH})
 	public List<HistoryEntry> getLastPaymentEntriesForCurrentUser(int nb) throws FablabException {
 		return getLastPaymentEntries(securityService.getCurrentUser(), nb);
+	}
+
+	@Override
+	public void removeHistoryEntry(UserEO user, HistoryEntry entry) throws FablabException {
+		switch (entry.getType()) {
+			case PAYMENT:
+				paymentDao.removeById(entry.getId());
+				AuditUtils.addAudit(audtiService, securityService.getCurrentUser(), AuditObject.PAYMENT, AuditAction.DELETE, true,
+						"Payment (amount " + entry.getAmount() + ") removed for user " + user.getFirstLastName());
+				break;
+			case USAGE:
+				usageDao.removeById(entry.getId());
+				AuditUtils.addAudit(audtiService, securityService.getCurrentUser(), AuditObject.PAYMENT, AuditAction.DELETE, true, 
+						"Machine usage (amount " + (-entry.getAmount()) + ") removed for user " + user.getFirstLastName());
+				break;
+		}
+
+		computeBalance(user);
+
+		//FIXME TODO
+		//FIXME manual audit
 	}
 }

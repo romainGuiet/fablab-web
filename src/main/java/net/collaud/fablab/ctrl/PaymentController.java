@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBAccessException;
@@ -58,6 +59,8 @@ public class PaymentController extends AbstractController implements Serializabl
 	private float valuePaymentAmount;
 	private Date valuePaymentDate;
 	private String valuePaymentComment;
+	
+	private HistoryEntry selectedEntry;
 
 	public PaymentController() {
 		resetUsageValue();
@@ -250,6 +253,15 @@ public class PaymentController extends AbstractController implements Serializabl
 		}
 		return null;
 	}
+	
+	public void removeHistoryEntry(){
+		try {
+			paymentService.removeHistoryEntry(userSelected, selectedEntry);
+			reloadHistory();
+		} catch (FablabException ex) {
+			addErrorAndLog("Cannot remove history entry", ex);
+		}
+	}
 
 	public List<HistoryEntry> getListHistory() {
 		return listHistory;
@@ -329,6 +341,14 @@ public class PaymentController extends AbstractController implements Serializabl
 
 	public float getBalance() {
 		return balance;
+	}
+
+	public HistoryEntry getSelectedEntry() {
+		return selectedEntry;
+	}
+
+	public void setSelectedEntry(HistoryEntry selectedEntry) {
+		this.selectedEntry = selectedEntry;
 	}
 
 }

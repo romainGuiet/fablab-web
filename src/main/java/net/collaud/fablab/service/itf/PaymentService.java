@@ -19,7 +19,7 @@ public interface PaymentService {
 
 	UserEO addSubscriptionConfirmation(UserEO userSelected) throws FablabException;
 
-	void addSubscriptionConfirmationForCurrentUser() throws FablabException;
+	UserEO addSubscriptionConfirmationForCurrentUser() throws FablabException;
 
 	PaymentEO addPayment(UserEO user, Date datePayment, float amount, String comment) throws FablabException;
 
@@ -27,6 +27,7 @@ public interface PaymentService {
 
 	List<HistoryEntry> getLastPaymentEntries(UserEO user, int nb) throws FablabException;
 
-	public 	List<HistoryEntry> getLastPaymentEntriesForCurrentUser(int nb) throws FablabException;
+	List<HistoryEntry> getLastPaymentEntriesForCurrentUser(int nb) throws FablabException;
 
+	void removeHistoryEntry(UserEO user, HistoryEntry entry) throws FablabException;
 }

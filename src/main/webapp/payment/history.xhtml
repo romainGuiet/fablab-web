@@ -9,6 +9,19 @@
 
     <ui:composition>
 		<h:form id="formHistory" >
+			<p:confirmDialog message="#{lang['payment.history.delete.confirm.text']}" 
+							 header="#{lang['payment.history.delete.confirm.title']}"
+							 widgetVar="deleteConfirmation">  
+
+				<p:commandButton value="#{lang['general.confirm']}" update=":formHistory"
+								 oncomplete="deleteConfirmation.hide()"  
+								 actionListener="#{paymentCtrl.removeHistoryEntry}" />  
+				<p:commandButton value="#{lang['general.cancel']}"
+								 onclick="deleteConfirmation.hide()" />   
+			</p:confirmDialog>  
+
+
+
 			<p:panel rendered="#{paymentCtrl.oneUserSelected}"
 					 header="#{lang['payment.title.history']}">
 
@@ -20,11 +33,11 @@
 					</h:outputFormat>
 				</div>
 
-				<p:dataTable id="history" value="#{paymentCtrl.listHistory}" var="item"
+				<p:dataTable id="history" styleClass="history" value="#{paymentCtrl.listHistory}" var="item" 
 							 rowStyleClass="tablerow #{item.type.css}"
 							 resizableColumns="true"
 							 >
-					
+
 					<p:column headerText="#{lang['payment.date']}">
 						<h:outputText value="#{item.date}">
 							<f:convertDateTime pattern="dd/MM/yyyy" />
@@ -38,6 +51,14 @@
 					</p:column>
 					<p:column headerText="#{lang['payment.comment']}">
 						<h:outputText value="#{item.comment}"/>
+					</p:column>
+					<p:column style="width:50px; padding: 4px 2px; text-align: center;">
+						<p:commandButton
+							rendered="#{item.type!='SUBSCRIPTION'}"
+							icon="ui-icon-close"
+							onclick="deleteConfirmation.show()">
+							<f:setPropertyActionListener value="#{item}" target="#{paymentCtrl.selectedEntry}"/>
+						</p:commandButton>
 					</p:column>
 				</p:dataTable>
 			</p:panel>

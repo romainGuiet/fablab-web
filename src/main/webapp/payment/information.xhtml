@@ -26,6 +26,7 @@
 								<f:param value="#{-paymentCtrl.subscriptionDaysLeft}" />
 							</h:outputFormat>
 						</c:if>
+						
 						<p:commandButton value="#{lang['payment.subscription.notConfirmed.button']}" style="float:right;"
 										 actionListener="#{paymentCtrl.handleCotisationPayment}"
 										 update=":formHistory,:panelInfo">

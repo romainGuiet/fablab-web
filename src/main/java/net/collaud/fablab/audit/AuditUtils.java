@@ -16,6 +16,7 @@ abstract public class AuditUtils {
 	
 	public static void addAudit(AuditService service, UserEO user, AuditObject what, AuditAction action, boolean success, String content, String detail) throws FablabException {
 		AuditEO audit = new AuditEO();
+		audit.setWho(user);
 		audit.setWhen(new Date());
 		audit.setContent(content);
 		audit.setSuccess(success);
