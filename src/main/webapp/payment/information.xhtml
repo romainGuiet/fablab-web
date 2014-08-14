@@ -17,7 +17,15 @@
 			</p:confirmDialog>
 
 			<p:panel header="#{lang['payment.title.userInfo']}" rendered="#{paymentCtrl.oneUserSelected}">
-				<c:if test="#{!paymentCtrl.hasConfirmedSubscription()}">
+
+				<c:if test="#{paymentCtrl.hasConfirmedSubscription()}">
+					<div class="alert alert-info">
+						<h:outputFormat value="#{lang['payment.subscription.ok.detail']}">
+							<f:param value="#{homeCtrl.subscriptionDaysLeft}" />
+						</h:outputFormat>
+					</div>
+				</c:if>
+				<c:if test="#{paymentCtrl.haveToConfirmSubscription()}">
 					<div class="alert alert-danger">
 						<b><h:outputText value="#{lang['payment.subscription.notConfirmed.title']}" /></b> 
 						<h:outputFormat value="#{lang['payment.subscription.notConfirmed.text']}" />
@@ -26,7 +34,7 @@
 								<f:param value="#{-paymentCtrl.subscriptionDaysLeft}" />
 							</h:outputFormat>
 						</c:if>
-						
+
 						<p:commandButton value="#{lang['payment.subscription.notConfirmed.button']}" style="float:right;"
 										 actionListener="#{paymentCtrl.handleCotisationPayment}"
 										 update=":formHistory,:panelInfo">

@@ -59,7 +59,7 @@ public class PaymentController extends AbstractController implements Serializabl
 	private float valuePaymentAmount;
 	private Date valuePaymentDate;
 	private String valuePaymentComment;
-	
+
 	private HistoryEntry selectedEntry;
 
 	public PaymentController() {
@@ -174,10 +174,25 @@ public class PaymentController extends AbstractController implements Serializabl
 	}
 
 	public boolean hasConfirmedSubscription() {
-		try {
-			return usersService.daysToEndOfSubscription(userSelected) >= 0;
-		} catch (FablabException ex) {
-			addInternalErrorAndLog("Cannot get days to end of subscription for user " + userSelected, ex);
+		if (userSelected != null) {
+			try {
+				int dayLeft = usersService.daysToEndOfSubscription(userSelected);
+				return dayLeft >= 0 || dayLeft == Integer.MAX_VALUE;
+			} catch (FablabException ex) {
+				addInternalErrorAndLog("Cannot get days to end of subscription for user " + userSelected, ex);
+			}
+		}
+		return false;
+	}
+
+	public boolean haveToConfirmSubscription() {
+		if (userSelected != null) {
+			try {
+				return usersService.daysToEndOfSubscription(userSelected) < 0;
+			} catch (FablabException ex) {
+				LOG.error("Cannot get days to end of subscription for the current user ", ex);
+				addInternalError(ex);
+			}
 		}
 		return false;
 	}
@@ -253,8 +268,8 @@ public class PaymentController extends AbstractController implements Serializabl
 		}
 		return null;
 	}
-	
-	public void removeHistoryEntry(){
+
+	public void removeHistoryEntry() {
 		try {
 			paymentService.removeHistoryEntry(userSelected, selectedEntry);
 			reloadHistory();
