@@ -16,6 +16,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
 /**
@@ -24,9 +25,12 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "t_usage")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@NamedQueries({})
+@NamedQueries({
+	
+})
 public class UsageEO extends AbstractDataEO implements Serializable {
+	
+	public static final String SELECT_USAGE_DETAIL = "UsageEO.selectUsageDetail";
 
 	private static final long serialVersionUID = 1L;
 
@@ -64,7 +68,8 @@ public class UsageEO extends AbstractDataEO implements Serializable {
 	@JoinColumn(name = "price_revision_id", referencedColumnName = "price_revision_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private PriceRevisionEO priceRevision;
-
+	
+	
 	public UsageEO() {
 	}
 
@@ -178,7 +183,7 @@ public class UsageEO extends AbstractDataEO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "net.collaud.fablab.data.UtilisationEO[ utilisationId=" + usageId + " ]";
+		return "net.collaud.fablab.data.UsageEO[ utilisationId=" + usageId + " ]";
 	}
 
 }
