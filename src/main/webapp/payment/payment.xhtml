@@ -13,7 +13,7 @@
 				<h:panelGrid columns="2" cellpadding="5">
 
 					<h:outputLabel for="amount" value="#{lang['payment.amount']}" class="right" />
-					<p:spinner id="amount" min="1" suffix=" CHF" value="#{paymentCtrl.valuePaymentAmount}" stepFactor="10"  />
+					<p:spinner id="amount" min="1" prefix="CHF " value="#{paymentCtrl.valuePaymentAmount}" stepFactor="10"  />
 
 					<h:outputLabel for="datePayment" value="#{lang['payment.date']}" class="right" />
 					<p:calendar id="datePayment" value="#{paymentCtrl.valuePaymentDate}" />

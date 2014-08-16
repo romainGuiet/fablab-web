@@ -8,7 +8,9 @@ public class TODO {
 /**
  * 
  * Must do
- *		audit subscription confirmation
+ *		login par mail
+ *		afficher adresse pour différencier personne du même nom
+ *		recherche non sensible aux accents
  *		mettre jour restant (membership) dans onglet paiment
  *		Text on home page
  *		Profile

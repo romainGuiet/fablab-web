@@ -83,7 +83,7 @@ public class PaymentController extends AbstractController implements Serializabl
 		valueUsageAdditional = 0;
 		valueUsageComment = "";
 		valueUsageDate = new Date();
-		valueUsageHours = 1;
+		valueUsageHours = 0;
 		valueUsageMachine = null;
 		valueUsageMinutes = 0;
 	}
