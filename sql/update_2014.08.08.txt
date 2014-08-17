@@ -1,1 +1,0 @@
-ALTER TABLE `fablab`.`t_user` ADD UNIQUE INDEX `login_UNIQUE` (`login` ASC);

@@ -15,20 +15,42 @@
 					UserEODialog.hide()
 				}
 			}
+			
+			var loginEdited = false;
+			
+			function loginKeyPress(){
+				loginEdited = $("#UserEOForm\\:login").val().trim().length>0;
+				if(!loginEdited){
+					//reset to first.last
+					firstLastNameKeyPress();
+				}
+			}
+			
+			function firstLastNameKeyPress(){
+				if(!loginEdited){
+					var first = $("#UserEOForm\\:firstname").val().toLowerCase().replace(/\s/g, '');
+					var last = $("#UserEOForm\\:lastname").val().toLowerCase().replace(/\s/g, '');
+					$("#UserEOForm\\:login").val(first+"."+last);
+				}
+			}
 		</script>
 
         <p:dialog id="UserEODlg" widgetVar="UserEODialog" modal="true" resizable="false" appendTo="@(body)" header="#{userCtrl.dialogTitle}">
             <h:form id="UserEOForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{userCtrl.selected != null}">
-                        <p:outputLabel value="#{lang['users.login']}" for="login" />
-						<h:outputText id="login" value="#{userCtrl.selected.login}" />
 
                         <p:outputLabel value="#{lang['users.firstname']}" for="firstname" />
-                        <p:inputText id="firstname" value="#{userCtrl.selected.firstname}" required="true" />
+                        <p:inputText id="firstname" value="#{userCtrl.selected.firstname}" required="true"
+									 onkeyup="firstLastNameKeyPress()" />
 
                         <p:outputLabel value="#{lang['users.lastname']}" for="lastname" />
-                        <p:inputText id="lastname" value="#{userCtrl.selected.lastname}" required="true" />
+                        <p:inputText id="lastname" value="#{userCtrl.selected.lastname}" required="true" 
+									 onkeyup="firstLastNameKeyPress()" />
+						
+                        <p:outputLabel value="#{lang['users.login']}" for="login" />
+                        <p:inputText id="login" value="#{userCtrl.selected.login}" required="true"
+									 onchange="loginKeyPress()"/>
 
                         <p:outputLabel value="#{lang['users.email']}" for="email" />
                         <p:inputText id="email" value="#{userCtrl.selected.email}" />

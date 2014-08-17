@@ -13,6 +13,7 @@ import javax.faces.context.FacesContext;
 import net.collaud.fablab.data.GroupEO;
 import net.collaud.fablab.data.MembershipTypeEO;
 import net.collaud.fablab.data.UserEO;
+import net.collaud.fablab.exceptions.FablabConstraintException;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.file.ConfigFileHelper;
 import net.collaud.fablab.file.FileHelperFactory;
@@ -66,8 +67,7 @@ public class UsersController extends AbstractController implements Serializable 
 	}
 
 	public void create() {
-		selected.setLogin(selected.getFirstname().trim().toLowerCase() + "." + selected.getLastname().trim().toLowerCase());
-		if (definePassword()) {
+		if (checkUpdatePassword()) {
 			persist(PersistAction.CREATE, getString("users.result.created"));
 		}
 	}
@@ -77,9 +77,17 @@ public class UsersController extends AbstractController implements Serializable 
 	}
 
 	public void update() {
-		if (definePassword()) {
+		if (checkLogin() && checkUpdatePassword()) {
 			persist(PersistAction.UPDATE, getString("users.result.updated"));
 		}
+	}
+
+	private boolean checkLogin() {
+		if (selected.getLogin() != null && selected.getLogin().trim().isEmpty()) {
+			addError(getString("users.error.loginEmpty"));
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -87,7 +95,7 @@ public class UsersController extends AbstractController implements Serializable 
 	 *
 	 * @return true, if password are ok, false otherwise
 	 */
-	private boolean definePassword() {
+	private boolean checkUpdatePassword() {
 		if (newPassword.isEmpty() && newPasswordConfirmation.isEmpty()) {
 			if (action == ControllerAction.CREATE) {
 				selected.setPassword("USR_CTRL_CREATE");
@@ -114,8 +122,7 @@ public class UsersController extends AbstractController implements Serializable 
 			try {
 				listMembershipTypes = usersService.getListMembershipTypes();
 			} catch (FablabException ex) {
-				LOG.error("Cannot load membership types list", ex);
-				addError("Cannot load membership types list", ex);
+				addErrorAndLog("Cannot load membership types list", ex);
 			}
 		}
 		return listMembershipTypes;
@@ -153,6 +160,13 @@ public class UsersController extends AbstractController implements Serializable 
 			if (selected.getRfid() != null && selected.getRfid().trim().isEmpty()) {
 				selected.setRfid(null);
 			}
+			if (selected.getEmail() != null && selected.getEmail().trim().isEmpty()) {
+				selected.setEmail(null);
+			}
+			if (selected.getLogin().trim().isEmpty()) {
+				addError("TODO user login cannot be empty");
+				return;
+			}
 			try {
 				switch (persistAction) {
 					case CREATE:
@@ -167,7 +181,21 @@ public class UsersController extends AbstractController implements Serializable 
 						LOG.error("Unknown action " + persistAction);
 				}
 				addInfo(successMessage);
+			} catch (FablabConstraintException ex) {
+				FacesContext.getCurrentInstance().validationFailed();
+				switch(ex.getConstraint()){
+					case USER_EMAIL_UNIQUE:
+						addError(getString("users.error.emailUnique"));
+						break;
+					case USER_LOGIN_UNIQUE:
+						addError(getString("users.error.loginUnique"));
+						break;
+					default:
+						addError("Constraint error : "+ex.getConstraint());
+				}
+				return;
 			} catch (EJBException ex) {
+				FacesContext.getCurrentInstance().validationFailed();
 				String msg = "";
 				Throwable cause = ex.getCause();
 				if (cause != null) {
@@ -179,6 +207,7 @@ public class UsersController extends AbstractController implements Serializable 
 					addError(getString("error.persistenceErrorOccured"), ex);
 				}
 			} catch (FablabException ex) {
+				FacesContext.getCurrentInstance().validationFailed();
 				LOG.error("Cannot persist user " + selected, ex);
 				addError(getString("error.persistenceErrorOccured"), ex);
 			}
@@ -216,7 +245,7 @@ public class UsersController extends AbstractController implements Serializable 
 
 		int nbRow = 0;
 		Row headerRow = sheet.createRow(nbRow++);
-		String[] headers = new String[]{"lastname", "firstname", "email", "phone", "address", "balance"};
+		String[] headers = new String[]{"lastname", "firstname", "email", "phone", "address", "balance","membership"};
 		for (int i = 0; i < headers.length; i++) {
 			Cell cell = headerRow.createCell(i);
 			cell.setCellValue(headers[i]);
@@ -232,6 +261,7 @@ public class UsersController extends AbstractController implements Serializable 
 			row.createCell(nbCell++).setCellValue(user.getPhone());
 			row.createCell(nbCell++).setCellValue(user.getAddress());
 			row.createCell(nbCell++).setCellValue(user.getBalance());
+			row.createCell(nbCell++).setCellValue(user.getMembershipType().getName());
 		}
 
 		FacesContext facesContext = FacesContext.getCurrentInstance();

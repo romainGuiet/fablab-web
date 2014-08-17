@@ -46,7 +46,7 @@ public class UserEO extends AbstractDataEO implements Serializable {
 	public static final String PARAM_LOGIN = "login";
 	public static final String PARAM_RFID = "rfid";
 	public static final String PARAM_IDS = "ids";
-
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -55,7 +55,7 @@ public class UserEO extends AbstractDataEO implements Serializable {
 	private Integer userId;
 
 	@Size(min = 1, max = 45)
-	@Column(name = "login", nullable = false)
+	@Column(name = "login", nullable = false, unique = true)
 	private String login;
 
 	@Size(min = 0, max = 64)
@@ -71,7 +71,7 @@ public class UserEO extends AbstractDataEO implements Serializable {
 	private String lastname;
 
 	@Size(min = 0, max = 100)
-	@Column(name = "email", nullable = true, unique=true)
+	@Column(name = "email", nullable = true, unique = true)
 	private String email;
 
 	@Column(name = "date_inscr", nullable = false)

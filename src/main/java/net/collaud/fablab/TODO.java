@@ -9,7 +9,7 @@ public class TODO {
  * 
  * Must do
  *		login par mail
- *		afficher adresse pour différencier personne du même nom
+ *		login editable
  *		recherche non sensible aux accents
  *		mettre jour restant (membership) dans onglet paiment
  *		Text on home page

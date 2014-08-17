@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import net.collaud.fablab.dao.itf.UserDao;
 import net.collaud.fablab.data.GroupEO;
@@ -18,6 +19,7 @@ import net.collaud.fablab.data.MachineTypeEO;
 import net.collaud.fablab.data.UserAuthorizedMachineTypeEO;
 import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.data.UserEO_;
+import net.collaud.fablab.exceptions.FablabConstraintException;
 import net.collaud.fablab.exceptions.FablabException;
 import org.apache.log4j.Logger;
 
@@ -36,14 +38,15 @@ public class UserDAOImpl extends AbstractDAO<UserEO> implements UserDao {
 	}
 
 	@Override
-	public UserEO save(UserEO user) {
+	public UserEO save(UserEO user) throws FablabConstraintException {
+		checkUserConstraint(user);
 		//Scumbag JPA, insert new value if not merged
 		List<GroupEO> mergedGroup = new ArrayList<>();
-		for(GroupEO group : user.getGroupsList()){
+		for (GroupEO group : user.getGroupsList()) {
 			mergedGroup.add(getEntityManager().merge(group));
 		}
 		user.setGroupsList(mergedGroup);
-		
+
 		if (user.getUserId() > 0) {
 			return edit(user);
 		} else {
@@ -104,7 +107,7 @@ public class UserDAOImpl extends AbstractDAO<UserEO> implements UserDao {
 	@Override
 	public UserEO find(Object id) {
 		UserEO user = super.find(id);
-		if(user != null && user.isEnabled()){
+		if (user != null && user.isEnabled()) {
 			return user;
 		}
 		return null;
@@ -116,19 +119,18 @@ public class UserDAOImpl extends AbstractDAO<UserEO> implements UserDao {
 		u.setEnabled(false);
 		super.edit(u);
 	}
-	
-	
+
 	@Override
 	public UserEO saveMachineAuthorized(UserEO user, List<MachineTypeEO> listTypes) throws FablabException {
 		UserEO merged = getById(user.getId());
-		for(UserAuthorizedMachineTypeEO auth : merged.getMachineTypeAuthorizedList()){
+		for (UserAuthorizedMachineTypeEO auth : merged.getMachineTypeAuthorizedList()) {
 			getEntityManager().remove(auth);
 		}
 		getEntityManager().flush();
 		getEntityManager().clear();
-		
+
 		merged.getMachineTypeAuthorizedList().clear();
-		for(MachineTypeEO t : listTypes){
+		for (MachineTypeEO t : listTypes) {
 			UserAuthorizedMachineTypeEO auth = new UserAuthorizedMachineTypeEO(merged.getId(), t.getId());
 			auth.setFormationDate(new Date());
 			auth.setUser(merged);
@@ -148,6 +150,64 @@ public class UserDAOImpl extends AbstractDAO<UserEO> implements UserDao {
 		cq.where(group.get(GroupEO_.technicalname).in(groupTechnicalNames));
 
 		return getEntityManager().createQuery(cq).getResultList();
+	}
+
+	private void checkUserConstraint(UserEO userToCheck) throws FablabConstraintException {
+		checkUserConstraintLogin(userToCheck);
+		checkUserConstraintEmail(userToCheck);
+	}
+
+	/**
+	 * Will check if the login is already present in the db. Will trim the login too.
+	 *
+	 * @param userToCheck
+	 * @throws FablabConstraintException
+	 */
+	public void checkUserConstraintLogin(UserEO userToCheck) throws FablabConstraintException {
+		userToCheck.setLogin(userToCheck.getLogin().trim());
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<UserEO> cq = cb.createQuery(UserEO.class);
+		Root<UserEO> user = cq.from(UserEO.class);
+		Predicate wLogin = cb.equal(user.get(UserEO_.login), userToCheck.getLogin());
+		if (userToCheck.getId() > 0) {
+			cq.where(cb.and(wLogin, cb.notEqual(user.get(UserEO_.userId), userToCheck.getId())));
+		}else{
+			cq.where(wLogin);
+		}
+		if (!getEntityManager().createQuery(cq).getResultList().isEmpty()) {
+			throw new FablabConstraintException(FablabConstraintException.Constraints.USER_LOGIN_UNIQUE);
+		}
+	}
+
+	/**
+	 * Will check if the email already exists in the db for another user. Will trim and lowercase
+	 * the email trim.
+	 *
+	 * @param userToCheck
+	 * @throws FablabConstraintException
+	 */
+	public void checkUserConstraintEmail(UserEO userToCheck) throws FablabConstraintException {
+		if (userToCheck.getEmail() == null) {
+			return;
+		}
+		if (userToCheck.getEmail().trim().isEmpty()) {
+			userToCheck.setEmail(null);
+			return;
+		}
+		userToCheck.setEmail(userToCheck.getEmail().trim().toLowerCase());
+
+		CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+		CriteriaQuery<UserEO> cq = cb.createQuery(UserEO.class);
+		Root<UserEO> user = cq.from(UserEO.class);
+		Predicate wEmail = cb.equal(user.get(UserEO_.email), userToCheck.getEmail());
+		if (userToCheck.getId() > 0) {
+			cq.where(cb.and(wEmail, cb.notEqual(user.get(UserEO_.userId), userToCheck.getId())));
+		}else{
+			cq.where(wEmail);
+		}
+		if (!getEntityManager().createQuery(cq).getResultList().isEmpty()) {
+			throw new FablabConstraintException(FablabConstraintException.Constraints.USER_EMAIL_UNIQUE);
+		}
 	}
 
 }
