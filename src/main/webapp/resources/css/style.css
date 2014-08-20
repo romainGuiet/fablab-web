@@ -110,6 +110,9 @@ body {
 .tablerow.subscription{
 	background-color: #99ccff;
 }
+.tablerow.negativbalance{
+	background-color: #ff9999;
+}
 
 td{
 	vertical-align: top;
