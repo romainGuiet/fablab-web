@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.collaud.fablab</groupId>
-	<artifactId>fablab-web</artifactId>
+	<artifactId>fablab-manager</artifactId>
 	<version>1.0</version>
 	<packaging>war</packaging>
 
-	<name>fablab-web</name>
+	<name>fablab-manager</name>
 	<properties>
 		<endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
