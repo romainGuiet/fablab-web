@@ -28,7 +28,7 @@ The default users are (password is _fablab_ for each of them) :
 Requirement
 ------------
 
-To run a build :
+To run the application :
 
  * Java JRE 7
  * Glassfish 4
@@ -44,17 +44,16 @@ Libraries used :
 * Java EE (EJB and cie)
 * Log4j (logging)
 * PrimeFaces (frontend)
-* JPA EclipseLink (bdd)
+* JPA EclipseLink (database)
 * Jquery and sub-libraries
-* Joday (time utils)
 * Apache commons (general utils)
 
 Configure, compile and install
 ------------------------
 
-First you need to create the database with the sql schema provided in config/create.sql
+First you need to create the database with the sql schema provided in sql/create.sql
 
 Then you need to configure glassfish. Read the file config/INSTALL.txt to see how to properly configure glassfish.
 
 
-Finaly you can run `mvn clean install`. The deploy the .war (under target/) in glassfish.
+Finaly you can run `mvn clean install` and deploy the .war (under target/) in glassfish.
