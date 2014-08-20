@@ -12,6 +12,18 @@ This web application allows you to easily manage a Fablab (or any makerspace). Y
 * Subscription (price depend on membership type and subscription duration is editable)
 * Audit of all action done on the platform
 * Check of subsystems and send notification if they are down (or up again)
+ 
+Demo
+------------
+
+You can try a demo version at this address : [collaud2.collaud.me](http://collaud2.collaud.me/). The server is a bit slow, sorry for that. Just click on login without any credential and you will be loged as an admin. Don't mind to mess up with data. Just tell me if you broke anything (for example if you remove the admin user...).
+
+The default users are (password is _fablab_ for each of them) :
+
+ * gaetan.collaud
+ * animator1
+ * member1
+ * extern1
 
 Requirement
 ------------
