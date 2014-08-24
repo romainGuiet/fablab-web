@@ -39,6 +39,7 @@ public class AuditController extends AbstractController implements Serializable,
 	private Date filterAfter;
 	private Date filterBefore;
 	private String filterContent;
+	private List<AuditEO> listAuditEntries;
 
 	public AuditController() {
 	}
@@ -48,23 +49,30 @@ public class AuditController extends AbstractController implements Serializable,
 	}
 
 	public List<AuditEO> getListEntries() {
-		try {
-			if (filterBefore != null) {
-				Calendar c = Calendar.getInstance();
-				c.setTime(filterBefore);
-				c.add(Calendar.DATE, 1);
-				filterBefore = c.getTime();
+		if (listAuditEntries == null) {
+			try {
+				if (filterBefore != null) {
+					Calendar c = Calendar.getInstance();
+					c.setTime(filterBefore);
+					c.add(Calendar.DATE, 1);
+					filterBefore = c.getTime();
+				}
+				List<AuditEO> list = auditService.search(filterUser, filterObject, filterAfter, filterBefore, filterContent, AUDIT_SELECT_LIMIT);
+				return list;
+			} catch (FablabException ex) {
+				addError("TODO cannot load audit entries", ex);
+				LOG.error("Cannot load audit", ex);
 			}
-			List<AuditEO> list = auditService.search(filterUser, filterObject, filterAfter, filterBefore, filterContent, AUDIT_SELECT_LIMIT);
-			if (list.size() >= AUDIT_SELECT_LIMIT) {
-				addInfo("TODO you reach the max limit of " + AUDIT_SELECT_LIMIT + " entries, please affine your research");
-			}
-			return list;
-		} catch (FablabException ex) {
-			addError("TODO cannot load audit entries", ex);
-			LOG.error("Cannot load audit", ex);
 		}
-		return null;
+		return listAuditEntries;
+	}
+
+	public boolean isLimitExceeded() {
+		return getListEntries().size()>= AUDIT_SELECT_LIMIT;
+	}
+
+	public int getAuditLimit() {
+		return AUDIT_SELECT_LIMIT;
 	}
 
 	public List<AuditObject> getListObjects() {
@@ -96,7 +104,7 @@ public class AuditController extends AbstractController implements Serializable,
 	}
 
 	public void refreshSearch() {
-
+		listAuditEntries = null;
 	}
 
 	public UserEO getFilterUser() {
