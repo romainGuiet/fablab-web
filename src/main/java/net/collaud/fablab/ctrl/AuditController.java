@@ -33,13 +33,13 @@ public class AuditController extends AbstractController implements Serializable,
 	private UserService userService;
 
 	private List<UserEO> listUsers;
+	private List<AuditEO> listAuditEntries;
 
 	private UserEO filterUser;
 	private List<AuditObject> filterObject;
 	private Date filterAfter;
 	private Date filterBefore;
 	private String filterContent;
-	private List<AuditEO> listAuditEntries;
 
 	public AuditController() {
 	}
@@ -105,6 +105,15 @@ public class AuditController extends AbstractController implements Serializable,
 
 	public void refreshSearch() {
 		listAuditEntries = null;
+	}
+	
+	public void clearFilters(){
+		filterUser = null;
+		filterObject = null;
+		filterAfter = null;
+		filterBefore = null;
+		filterContent = null;
+		refreshSearch();
 	}
 
 	public UserEO getFilterUser() {

@@ -50,8 +50,11 @@
 						<h:outputLabel value="#{lang['audit.content']}" for="content" />  
 						<p:inputText id="content" value="#{auditCtrl.filterContent}" />
 
-						<p:commandButton style="text-align: right;" value="#{lang['general.refresh']}" update=":auditDataForm"/>
 					</h:panelGrid>
+						<div class="center">
+							<p:commandButton value="#{lang['general.refresh']}" action="#{auditCtrl.refreshSearch()}" update=":auditDataForm"/>
+							<p:commandButton value="#{lang['general.clear']}" action="#{auditCtrl.clearFilters()}" update=":auditDataForm,:auditFilterForm"/>
+						</div>
 				</h:form>
 			</p:panel>
 

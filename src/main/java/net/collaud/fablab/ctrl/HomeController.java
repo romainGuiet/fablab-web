@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import net.collaud.fablab.data.MachineTypeEO;
 import net.collaud.fablab.data.MembershipTypeEO;
@@ -23,7 +24,7 @@ import net.collaud.fablab.service.itf.UserService;
 import org.apache.log4j.Logger;
 
 @ManagedBean(name = "homeCtrl")
-@RequestScoped
+@ViewScoped
 public class HomeController extends AbstractController implements Serializable {
 
 	private static final Logger LOG = Logger.getLogger(HomeController.class);
