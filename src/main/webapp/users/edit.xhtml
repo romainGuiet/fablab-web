@@ -11,8 +11,8 @@
 
 
 
-        <p:dialog id="UserEODlg" widgetVar="UserEODialog" modal="true" resizable="false" appendTo="@(body)" header="#{userCtrl.dialogTitle}">
-            <h:form id="UserEOForm">
+		<p:dialog id="UserEODlg" widgetVar="UserEODialog" modal="true" resizable="false" appendTo="@(body)">
+			<h:form id="UserEOForm">
 				<script>
 					function handleSubmit(args, dialog) {
 						if (!args.validationFailed) {
@@ -39,6 +39,9 @@
 					}
 				</script>
 
+				<div class="center">
+					#{lang[userCtrl.action=='CREATE' ? 'users.title.create' : 'users.title.edit']}
+				</div>
 
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{userCtrl.selected != null}">
@@ -110,8 +113,8 @@
                     <p:commandButton value="#{lang['general.cancel']}" onclick="UserEODialog.hide();
 							return false"/>
                 </h:panelGroup>
-            </h:form>
-        </p:dialog>
+			</h:form>
+		</p:dialog>
 
     </ui:composition>
 </html>

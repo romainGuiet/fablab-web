@@ -223,10 +223,6 @@ public class UsersController extends AbstractController implements Serializable 
 		return findAll();
 	}
 
-	public String getDialogTitle() {
-		return getString(action == ControllerAction.CREATE ? "users.title.create" : "users.title.edit");
-	}
-
 	private boolean checkPasswords() {
 		if (!newPasswordConfirmation.equals(newPassword)) {
 			addError(getString("users.error.passwordConfirmation"));
