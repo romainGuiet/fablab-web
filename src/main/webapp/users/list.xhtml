@@ -61,7 +61,7 @@
 								 rowKey="#{item.userId}"
 								 sortMode="single"
 								 filteredValue="#{userCtrl.itemsFiltered}"
-								 rowStyleClass="tablerow #{item.balance lt 0 ? 'negativbalance' : ''}"
+								 rowStyleClass="tablerow"
 								 >
 
 						<f:facet name="header">
@@ -81,7 +81,12 @@
 								  filterBy="lastname" filterStyle="display:none">
 							<h:outputText value="#{item.lastname}"/>
 						</p:column>
-						<p:column sortBy="balance" headerText="#{lang['users.balance']}">
+						<p:column sortBy="email" headerText="#{lang['users.email']}" 
+								  filterBy="email" filterStyle="display:none">
+							<a href="mailto:#{item.email}"><h:outputText value="#{item.email}"/></a>
+						</p:column>
+						<p:column sortBy="balance" headerText="#{lang['users.balance']}"
+								  styleClass="#{item.balance lt 0 ? 'negativbalance' : ''}">
 							<h:outputText value="#{item.balance}"/>
 						</p:column>
 						<p:column sortBy="membershipType" headerText="#{lang['users.membershipType']}">

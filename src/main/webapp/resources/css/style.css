@@ -110,7 +110,8 @@ body {
 .tablerow.subscription{
 	background-color: #99ccff;
 }
-.tablerow.negativbalance{
+.tablerow .negativbalance{
+	font-weight: bold;
 	background-color: #ff9999;
 }
 

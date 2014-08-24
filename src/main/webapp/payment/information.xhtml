@@ -46,9 +46,12 @@
 				<h:panelGrid columns="2" cellpadding="5" >
 					<h:outputLabel value="#{lang['payment.user']}" /> 
 					<h:outputText value="#{paymentCtrl.userSelected.firstLastName}" />
-					
+
 					<h:outputLabel value="#{lang['payment.address']}" /> 
 					<h:outputText value="#{paymentCtrl.userSelected.address}" />
+
+					<h:outputLabel value="#{lang['payment.email']}" />
+					<h:outputLink value="mailto:#{paymentCtrl.userSelected.email}">#{paymentCtrl.userSelected.email}</h:outputLink>
 
 					<h:outputLabel value="#{lang['payment.membershipType']}" /> 
 					<h:outputText value="#{paymentCtrl.userSelected.membershipType.name}" />
