@@ -113,7 +113,6 @@ public class DoorResource extends AbstractWebService {
 					success = false;
 					break;
 			}
-			sb.append(action);
 		} else {
 			sb.append("did something with");
 		}
