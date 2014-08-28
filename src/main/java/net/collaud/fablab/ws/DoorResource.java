@@ -77,7 +77,7 @@ public class DoorResource extends AbstractWebService {
 		return Response.serverError().build();
 	}
 
-	@POST
+	@GET
 	@Path(WebServicePath.DOOR_EVENT)
 	public void doorEvent(
 			@QueryParam(WebServicePath.PARAM_DOOR_EVENT_ACTION) DoorAction action,
