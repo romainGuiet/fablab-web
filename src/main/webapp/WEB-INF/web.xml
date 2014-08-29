@@ -1,81 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-	<context-param>
-		<param-name>primefaces.THEME</param-name>
-		<param-value>bootstrap</param-value>
-	</context-param>
-	<context-param>
-		<param-name>javax.faces.PROJECT_STAGE</param-name>
-		<param-value>Development</param-value>
-	</context-param>
-	<servlet>
-		<servlet-name>Faces Servlet</servlet-name>
-		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>*.xhtml</url-pattern>
-	</servlet-mapping>
-	<context-param>
-		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
-		<param-value>true</param-value>
-	</context-param>
-	<session-config>
-		<session-timeout>
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>bootstrap</param-value>
+    </context-param>
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+    <context-param>
+        <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <session-config>
+        <session-timeout>
 			30
 		</session-timeout>
-	</session-config>
-	<welcome-file-list>
-		<welcome-file>login.xhtml</welcome-file>
-	</welcome-file-list>
-	<login-config>
-		<auth-method>BASIC</auth-method>
-		<realm-name>fablab-security-sql</realm-name>
-	</login-config>
-	<security-role>
-		<description/>
-		<role-name>manage_users</role-name>
-	</security-role>
-	<security-role>
-		<description/>
-		<role-name>manage_machines</role-name>
-	</security-role>
-	<security-role>
-		<description/>
-		<role-name>use_machines</role-name>
-	</security-role>
-	<security-role>
-		<description/>
-		<role-name>admin</role-name>
-	</security-role>
-	<security-role>
-		<description>can check rights
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>login.xhtml</welcome-file>
+    </welcome-file-list>
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>fablab-security-sql</realm-name>
+    </login-config>
+    <security-role>
+        <description/>
+        <role-name>manage_users</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>manage_machines</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>use_machines</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>admin</role-name>
+    </security-role>
+    <security-role>
+        <description>can check rights
 		</description>
-		<role-name>use_auth</role-name>
-	</security-role>
-	<security-role>
-		<description>add machine usage and payement</description>
-		<role-name>manage_payement</role-name>
-	</security-role>
-	<security-role>
-		<description/>
-		<role-name>use_audit</role-name>
-	</security-role>
-	<security-role>
-		<description/>
-		<role-name>use_system_status</role-name>
-	</security-role>
-	<security-role>
-		<description/>
-		<role-name>manage_system_status</role-name>
-	</security-role>
-	<security-role>
-		<description/>
-		<role-name>system</role-name>
-	</security-role>
-	<error-page>
-		<exception-type>javax.ejb.EJBAccessException</exception-type>
-		<location>/login.xhtml</location>
-	</error-page>
+        <role-name>use_auth</role-name>
+    </security-role>
+    <security-role>
+        <description>add machine usage and payment</description>
+        <role-name>manage_payment</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>use_audit</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>use_system_status</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>manage_system_status</role-name>
+    </security-role>
+    <security-role>
+        <description/>
+        <role-name>system</role-name>
+    </security-role>
+    <error-page>
+        <exception-type>javax.ejb.EJBAccessException</exception-type>
+        <location>/login.xhtml</location>
+    </error-page>
 </web-app>

@@ -62,7 +62,7 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 	private GroupDAO groupDao;
 
 	@Override
-	@RolesAllowed({RolesHelper.ROLE_MANAGE_USERS})
+	@RolesAllowed({RolesHelper.ROLE_MANAGE_USERS, RolesHelper.ROLE_MANAGE_PAYMENT})
 	public List<UserEO> getAllUsers() throws FablabException {
 		return userDao.findAll();
 	}

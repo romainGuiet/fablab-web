@@ -14,7 +14,7 @@ public class RolesHelper {
 	public static final String ROLE_USE_WORKSHOPS = "use_workshop";
 	public static final String ROLE_USE_AUTH = "use_auth";
 	public static final String ROLE_USE_MACHINES = "use_machines";
-	public static final String ROLE_MANAGE_PAYMENT = "manage_payement";
+	public static final String ROLE_MANAGE_PAYMENT = "manage_payment";
 	public static final String ROLE_MANAGE_SYSTEM_STATUS = "manage_system_status";
 	public static final String ROLE_USE_SYSTEM_STATUS = "use_system_status";
 	public static final String ROLE_SYSTEM = "system";

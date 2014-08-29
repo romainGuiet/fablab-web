@@ -3,69 +3,70 @@
 <glassfish-web-app error-url="">
 	<context-root>/</context-root>
 	<security-role-mapping>
-    <role-name>manage_machines</role-name>
-    <group-name>comite</group-name>
-    <group-name>admin</group-name>
-  </security-role-mapping>
+		<role-name>manage_machines</role-name>
+		<group-name>comite</group-name>
+		<group-name>admin</group-name>
+	</security-role-mapping>
 	<security-role-mapping>
-    <role-name>manage_users</role-name>
-    <group-name>comite</group-name>
-    <group-name>admin</group-name>
-  </security-role-mapping>
+		<role-name>manage_users</role-name>
+		<group-name>comite</group-name>
+		<group-name>admin</group-name>
+	</security-role-mapping>
 	<security-role-mapping>
-    <role-name>use_machines</role-name>
-    <group-name>comite</group-name>
-    <group-name>member</group-name>
-    <group-name>animator</group-name>
-    <group-name>admin</group-name>
-  </security-role-mapping>
+		<role-name>use_machines</role-name>
+		<group-name>comite</group-name>
+		<group-name>member</group-name>
+		<group-name>animator</group-name>
+		<group-name>admin</group-name>
+	</security-role-mapping>
 	<security-role-mapping>
-    <role-name>use_auth</role-name>
-    <group-name>comite</group-name>
-    <group-name>animator</group-name>
-    <group-name>member</group-name>
-    <group-name>admin</group-name>
-    <group-name>default</group-name>
-  </security-role-mapping>
+		<role-name>use_auth</role-name>
+		<group-name>comite</group-name>
+		<group-name>animator</group-name>
+		<group-name>member</group-name>
+		<group-name>admin</group-name>
+		<group-name>default</group-name>
+	</security-role-mapping>
 	<security-role-mapping>
-    <role-name>admin</role-name>
-    <group-name>admin</group-name>
-  </security-role-mapping>
+		<role-name>admin</role-name>
+		<group-name>admin</group-name>
+	</security-role-mapping>
 	<security-role-mapping>
-    <role-name>manage_access</role-name>
-    <group-name>comite</group-name>
-    <group-name>admin</group-name>
-  </security-role-mapping>
+		<role-name>manage_access</role-name>
+		<group-name>comite</group-name>
+		<group-name>admin</group-name>
+	</security-role-mapping>
 	<security-role-mapping>
-    <role-name>manage_payement</role-name>
-    <group-name>comite</group-name>
-    <group-name>admin</group-name>
-  </security-role-mapping>
+		<role-name>use_audit</role-name>
+		<group-name>comite</group-name>
+		<group-name>admin</group-name>
+	</security-role-mapping>
 	<security-role-mapping>
-    <role-name>use_audit</role-name>
-    <group-name>comite</group-name>
-    <group-name>admin</group-name>
-  </security-role-mapping>
+		<role-name>use_system_status</role-name>
+		<group-name>comite</group-name>
+		<group-name>admin</group-name>
+	</security-role-mapping>
 	<security-role-mapping>
-    <role-name>use_system_status</role-name>
-    <group-name>comite</group-name>
-    <group-name>admin</group-name>
-  </security-role-mapping>
+		<role-name>manage_system_status</role-name>
+		<group-name>admin</group-name>
+		<group-name>comite</group-name>
+	</security-role-mapping>
 	<security-role-mapping>
-    <role-name>manage_system_status</role-name>
-    <group-name>admin</group-name>
-    <group-name>comite</group-name>
-  </security-role-mapping>
-    <security-role-mapping>
-    <role-name>system</role-name>
-    <principal-name>system</principal-name>
-  </security-role-mapping>
-    <class-loader delegate="true"/>
+		<role-name>system</role-name>
+		<principal-name>system</principal-name>
+	</security-role-mapping>
+	<security-role-mapping>
+		<role-name>manage_payment</role-name>
+		<group-name>animator</group-name>
+		<group-name>comite</group-name>
+		<group-name>admin</group-name>
+	</security-role-mapping>
+	<class-loader delegate="true"/>
 	<jsp-config>
-    <property name="keepgenerated" value="true">
-      <description>Keep a copy of the generated servlet class' java code.</description>
-    </property>
-  </jsp-config>
+		<property name="keepgenerated" value="true">
+			<description>Keep a copy of the generated servlet class' java code.</description>
+		</property>
+	</jsp-config>
 
-  p
-  </glassfish-web-app>
+	p
+</glassfish-web-app>

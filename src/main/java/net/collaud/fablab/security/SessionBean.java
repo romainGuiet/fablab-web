@@ -128,6 +128,10 @@ public class SessionBean extends AbstractController implements Serializable {
 		}
 	}
 
+	public void verifHasRoleManagePayment(ComponentSystemEvent event) {
+		verifRole(RolesHelper.ROLE_MANAGE_PAYMENT);
+	}
+
 	public void verifHasRoleManageUsers(ComponentSystemEvent event) {
 		verifRole(RolesHelper.ROLE_MANAGE_USERS);
 	}
