@@ -70,9 +70,9 @@
 
 				<p:dataTable id="listEntries" var="entry" value="#{auditCtrl.listEntries}"
 							 resizableColumns="true" liveResize="true" rowStyleClass="#{entry.object}">
-					<p:column  headerText="#{lang['audit.date']}" style="width: 150px">
+					<p:column  headerText="#{lang['audit.date']}" style="width: 160px">
 						<h:outputFormat value="#{entry.when}" >
-							<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"  />
+							<f:convertDateTime pattern="${lang['date.face.full']}" timeZone="#{auditCtrl.timeZone}"  />
 						</h:outputFormat>
 					</p:column>
 					<p:column headerText="#{lang['audit.who']}" style="width: 130px" >

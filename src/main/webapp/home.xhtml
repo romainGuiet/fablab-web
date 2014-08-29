@@ -96,12 +96,12 @@
 								 resizableColumns="true"
 								 >
 
-						<p:column headerText="#{lang['payment.date']}">
+						<p:column headerText="#{lang['payment.date']}" style="width:180px">
 							<h:outputText value="#{item.date}">
-								<f:convertDateTime pattern="dd/MM/yyyy" />
+								<f:convertDateTime pattern="${lang['date.face.full']}"  timeZone="#{homeCtrl.timeZone}"/>
 							</h:outputText>
 						</p:column>
-						<p:column headerText="#{lang['payment.amount']}">
+						<p:column headerText="#{lang['payment.amount']}" style="width:80px">
 							<h:outputText value="#{item.amount}"/>
 						</p:column>
 						<p:column headerText="#{lang['payment.detail']}">
