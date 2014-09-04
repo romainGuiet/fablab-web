@@ -7,6 +7,9 @@ package net.collaud.fablab;
 public class TODO {
 /**
  * 
+ * BUGS
+ *	Cannot login when two groups. GetUserByLogin singleresult fail
+ * 
  * Must do
  *		recherche non sensible aux accents
  *		Text on home page
