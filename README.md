@@ -1,4 +1,4 @@
-fablab-web [![Build Status](http://collaud2.collaud.me:8080/buildStatus/icon?job=fablab-web)](http://collaud2.collaud.me:8080/job/fablab-web/)
+fablab-web [![Build Status](http://collaud2.collaud.me:8080/buildStatus/icon?job=fablab-manager)](http://collaud2.collaud.me:8080/job/fablab-manager/)
 ==========
 
 This web application allows you to easily manage a Fablab (or any makerspace). You can manage :
