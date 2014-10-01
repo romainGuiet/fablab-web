@@ -25,13 +25,25 @@ public class AccountingController extends AbstractController {
 	private PaymentService paymentService;
 
 	private List<HistoryEntry> listEntries;
-	private double totalIn;
-	private double totalOut;
+	private double totalSell;
+	private double totalCashIn;
 
 	private Date filterAfter;
 	private Date filterBefore;
 
 	public AccountingController() {
+		clearFilters();
+	}
+
+	public String prepareList() {
+		return "list";
+	}
+
+	public void refreshSearch() {
+		listEntries = null;
+	}
+
+	public void clearFilters() {
 		Calendar c = Calendar.getInstance();
 		c.set(c.get(Calendar.YEAR), 0, 1, 0, 0, 0);
 		filterAfter = c.getTime();
@@ -39,12 +51,9 @@ public class AccountingController extends AbstractController {
 		filterBefore = c.getTime();
 	}
 
-	public String prepareList() {
-		return "list";
-	}
-	
-
 	public List<HistoryEntry> getListEntries() {
+		totalCashIn = 0;
+		totalSell = 0;
 		if (listEntries == null) {
 			try {
 				List<HistoryEntry> list = paymentService.getPaymentEntries(filterBefore, filterAfter);
@@ -57,17 +66,25 @@ public class AccountingController extends AbstractController {
 		}
 		return listEntries;
 	}
-	
-	private void updateTotal(List<HistoryEntry> list){
-		totalIn = 0;
-		totalOut = 0;
-		for(HistoryEntry entry : list){
-			if(entry.getAmount()>0){
-				totalOut += entry.getAmount();
-			}else{
-				totalIn += -entry.getAmount();
+
+	private void updateTotal(List<HistoryEntry> list) {
+		for (HistoryEntry entry : list) {
+			if (entry.getAmount() > 0) {
+				totalCashIn += entry.getAmount();
+			} else {
+				totalSell += -entry.getAmount();
 			}
 		}
+	}
+
+	public double getTotalSell() {
+		getListEntries();//update list entries
+		return totalSell;
+	}
+
+	public double getTotalCashIn() {
+		getListEntries();//update list entries
+		return totalCashIn;
 	}
 
 	public Date getFilterAfter() {

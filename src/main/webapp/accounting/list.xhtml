@@ -20,56 +20,47 @@
 
         <ui:define name="body">
 
-			<!--<p:panel header="#{lang['general.filters']}">
-				<h:form id="auditFilterForm">
+			<p:panel header="#{lang['general.filters']}">
+				<h:form id="accountFilterForm">
 
 					<h:panelGrid columns="2" cellpadding="5">
-						<h:outputLabel for="selectObject" value="#{lang['audit.object']}"  />
-						<p:selectManyButton id="selectObject" value="#{auditCtrl.filterObject}"
-											converter="auditObjectConverter"
-											styleClass="">
-							<f:selectItems value="#{auditCtrl.listObjects}"
-										   var="o" itemLabel="#{o.name}" itemValue="#{o}"
-										   id="btn_#{o}"
-										   />
-						</p:selectManyButton>
 
-						<h:outputLabel value="#{lang['audit.author']}" for="userSelect" />  
-						<p:autoComplete id="userSelect" forceSelection="true"
-										value="#{auditCtrl.filterUser}"
-										var="u" itemLabel="#{u.firstLastName}" itemValue="#{u}"
-										converter="userConverter"
-										completeMethod="#{auditCtrl.searchInUsers}">
-						</p:autoComplete>
+						<h:outputLabel value="#{lang['general.after']}" for="after" />  
+						<p:calendar id="after" value="#{accountCtrl.filterAfter}" /> 
 
-						<h:outputLabel value="#{lang['audit.after']}" for="after" />  
-						<p:calendar id="after" value="#{auditCtrl.filterAfter}" /> 
-
-						<h:outputLabel value="#{lang['audit.before']}" for="before" />  
-						<p:calendar id="before" value="#{auditCtrl.filterBefore}" />
-
-						<h:outputLabel value="#{lang['audit.content']}" for="content" />  
-						<p:inputText id="content" value="#{auditCtrl.filterContent}" />
+						<h:outputLabel value="#{lang['general.before']}" for="before" />  
+						<p:calendar id="before" value="#{accountCtrl.filterBefore}" />
 
 					</h:panelGrid>
-						<div class="center">
-							<p:commandButton value="#{lang['general.refresh']}" action="#{auditCtrl.refreshSearch()}" update=":auditDataForm"/>
-							<p:commandButton value="#{lang['general.clear']}" action="#{auditCtrl.clearFilters()}" update=":auditDataForm,:auditFilterForm"/>
-						</div>
+					<div class="center">
+						<p:commandButton value="#{lang['general.refresh']}" action="#{accountCtrl.refreshSearch()}" update=":accountingDataForm"/>
+						<p:commandButton value="#{lang['general.clear']}" action="#{accountCtrl.clearFilters()}" update=":accountingDataForm,:accountFilterForm"/>
+					</div>
 				</h:form>
-			</p:panel>-->
+			</p:panel>
+
+
 
 			<h:form id="accountingDataForm">
+				<p:panel header="#{lang['account.summary']}">
 
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel value="#{lang['account.totalSell']}"  />
+						<h:outputText value="#{accountCtrl.totalSell} #{lang['currency']}" />
 
+						<h:outputLabel value="#{lang['account.totalCashIn']} "  />
+						<h:outputText value="#{accountCtrl.totalCashIn} #{lang['currency']}" />
+					</h:panelGrid>
+				</p:panel>
+				
 				<p:dataTable id="listEntries" var="item" value="#{accountCtrl.listEntries}"
 							 resizableColumns="true" liveResize="true">
-					<p:column headerText="#{lang['account.date']}" style="width:180px">
+					<p:column headerText="#{lang['account.date']}">
 						<h:outputText value="#{item.date}">
 							<f:convertDateTime pattern="${lang['date.face.full']}"  timeZone="#{accountCtrl.timeZone}"/>
 						</h:outputText>
 					</p:column>
-					<p:column headerText="#{lang['account.amount']}" style="width:80px">
+					<p:column headerText="#{lang['account.amount']}">
 						<h:outputText value="#{item.amount}"/>
 					</p:column>
 				</p:dataTable>
