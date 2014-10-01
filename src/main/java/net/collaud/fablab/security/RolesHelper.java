@@ -9,6 +9,7 @@ public class RolesHelper {
 	public static final String ROLE_ADMIN = "admin";
 	public static final String ROLE_MANAGE_MACHINES = "manage_machines";
 	public static final String ROLE_USE_AUDIT = "use_audit";
+	public static final String ROLE_USE_ACCOUNTING= "use_accounting";
 	public static final String ROLE_MANAGE_USERS = "manage_users";
 	public static final String ROLE_MANAGE_WORKSHOPS = "manage_workshop";
 	public static final String ROLE_USE_WORKSHOPS = "use_workshop";

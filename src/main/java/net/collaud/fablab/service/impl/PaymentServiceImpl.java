@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TreeSet;
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -99,12 +98,32 @@ public class PaymentServiceImpl extends AbstractServiceImpl implements PaymentSe
 		return sum;
 	}
 
+	//FIXME add role accounting
+	@Override
+	public List<HistoryEntry> getPaymentEntries(Date dateBefore, Date dateAfter) throws FablabException {
+		if(dateBefore==null || dateAfter==null){
+			throw new FablabException("Dates cannot be null");
+		}
+		List<UsageDetailEO> listUsage = usageDao.getAllBetween(dateBefore, dateAfter);
+		List<PaymentEO> listPayment = paymentDao.getAllBetween(dateBefore, dateAfter);
+		List<SubscriptionEO> listSubscription = subscriptionDao.getAllBetween(dateBefore, dateAfter);
+		return convertToHistoryEntry(listUsage, listPayment, listSubscription);
+	}
+
 	@Override
 	public List<HistoryEntry> getLastPaymentEntries(UserEO user, int nb) throws FablabException {
 		List<UsageDetailEO> listUsage = usageDao.getByUser(user, nb);
 		List<PaymentEO> listPayment = paymentDao.getByUser(user, nb);
 		List<SubscriptionEO> listSubscription = subscriptionDao.getByUser(user, nb);
 
+		List<HistoryEntry> listHistory = convertToHistoryEntry(listUsage, listPayment, listSubscription);
+		if (nb > 0 && listHistory.size() > nb) {
+			listHistory = listHistory.subList(0, nb - 1);
+		}
+		return listHistory;
+	}
+
+	protected List<HistoryEntry> convertToHistoryEntry(List<UsageDetailEO> listUsage, List<PaymentEO> listPayment, List<SubscriptionEO> listSubscription) {
 		TreeSet<HistoryEntry> setHistory = new TreeSet<>();
 
 		for (UsageDetailEO usage : listUsage) {
@@ -120,9 +139,6 @@ public class PaymentServiceImpl extends AbstractServiceImpl implements PaymentSe
 		}
 
 		List<HistoryEntry> listHistory = new ArrayList<>(setHistory);
-		if (nb > 0 && listHistory.size() > nb) {
-			listHistory = listHistory.subList(0, nb - 1);
-		}
 
 		return listHistory;
 	}
@@ -135,7 +151,6 @@ public class PaymentServiceImpl extends AbstractServiceImpl implements PaymentSe
 		return addSubscriptionConfirmationIntern(user);
 	}
 
-	
 	@Override
 	@Audit
 	@AuditDetail(object = AuditObject.SUBSCRIPTION, action = AuditAction.CONFIRM)
@@ -182,14 +197,12 @@ public class PaymentServiceImpl extends AbstractServiceImpl implements PaymentSe
 				break;
 			case USAGE:
 				usageDao.removeById(entry.getId());
-				AuditUtils.addAudit(audtiService, securityService.getCurrentUser(), AuditObject.PAYMENT, AuditAction.DELETE, true, 
+				AuditUtils.addAudit(audtiService, securityService.getCurrentUser(), AuditObject.PAYMENT, AuditAction.DELETE, true,
 						"Machine usage (amount " + (-entry.getAmount()) + ") removed for user " + user.getFirstLastName());
 				break;
 		}
 
 		computeBalance(user);
-
-		//FIXME TODO
-		//FIXME manual audit
 	}
+
 }

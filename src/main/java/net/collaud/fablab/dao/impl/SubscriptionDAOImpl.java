@@ -1,5 +1,6 @@
 package net.collaud.fablab.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -38,6 +39,14 @@ public class SubscriptionDAOImpl extends AbstractDAO<SubscriptionEO> implements 
 		} else {
 			return create(subscription);
 		}
+	}
+
+	@Override
+	public List<SubscriptionEO> getAllBetween(Date dateBefore, Date dateAfter) {
+		TypedQuery<SubscriptionEO> query = getEntityManager().createNamedQuery(SubscriptionEO.SELECT_FROM_DATES, SubscriptionEO.class);
+		query.setParameter(SubscriptionEO.PARAM_DATE_BEFORE, dateBefore);
+		query.setParameter(SubscriptionEO.PARAM_DATE_AFTER, dateAfter);
+		return query.getResultList();
 	}
 
 }

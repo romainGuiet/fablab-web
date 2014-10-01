@@ -54,6 +54,9 @@
 						<p:menuitem value="#{lang['menu.audit']}" icon="ui-icon-locked"
 									outcome="/audit/list"
 									rendered="#{sessionBean.hasRole(RolesHelper.ROLE_USE_AUDIT)}" />
+						<p:menuitem value="#{lang['menu.accounting']}" icon="ui-icon-locked"
+									outcome="/accounting/list"
+									rendered="#{sessionBean.hasRole(RolesHelper.ROLE_USE_ACCOUNTING)}" />
 
 						<c:if test="#{sessionBean.authentified}">
 							<f:facet name="options" rendered="#{sessionBean.authentified}">

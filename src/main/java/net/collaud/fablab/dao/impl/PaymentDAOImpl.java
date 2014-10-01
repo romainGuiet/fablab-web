@@ -1,5 +1,6 @@
 package net.collaud.fablab.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -51,6 +52,14 @@ public class PaymentDAOImpl extends AbstractDAO<PaymentEO> implements PaymentDao
 	@Override
 	public void removeById(int paymentId) throws FablabException {
 		remove(find(paymentId));
+	}
+
+	@Override
+	public List<PaymentEO> getAllBetween(Date dateBefore, Date dateAfter) {
+		TypedQuery<PaymentEO> query = getEntityManager().createNamedQuery(PaymentEO.SELECT_FROM_DATES, PaymentEO.class);
+		query.setParameter(PaymentEO.PARAM_DATE_BEFORE, dateBefore);
+		query.setParameter(PaymentEO.PARAM_DATE_AFTER, dateAfter);
+		return query.getResultList();
 	}
 
 }

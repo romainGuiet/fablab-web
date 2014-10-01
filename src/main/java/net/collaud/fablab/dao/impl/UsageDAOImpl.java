@@ -1,5 +1,6 @@
 package net.collaud.fablab.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -52,6 +53,14 @@ public class UsageDAOImpl extends AbstractDAO<UsageEO> implements UsageDao {
 	@Override
 	public void removeById(int usageId) throws FablabException {
 		remove(find(usageId));
+	}
+
+	@Override
+	public List<UsageDetailEO> getAllBetween(Date dateBefore, Date dateAfter) {
+		TypedQuery<UsageDetailEO> query = getEntityManager().createNamedQuery(UsageDetailEO.SELECT_FROM_DATES, UsageDetailEO.class);
+		query.setParameter(UsageDetailEO.PARAM_DATE_BEFORE, dateBefore);
+		query.setParameter(UsageDetailEO.PARAM_DATE_AFTER, dateAfter);
+		return query.getResultList();
 	}
 
 }

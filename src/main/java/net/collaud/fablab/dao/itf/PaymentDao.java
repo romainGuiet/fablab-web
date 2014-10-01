@@ -1,5 +1,6 @@
 package net.collaud.fablab.dao.itf;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 import net.collaud.fablab.data.PaymentEO;
@@ -20,5 +21,7 @@ public interface PaymentDao {
 	public List<PaymentEO> getByIds(List<Integer> ids) throws FablabException;
 	
 	public void removeById(int paymentId) throws FablabException;
+
+	public List<PaymentEO> getAllBetween(Date dateBefore, Date dateAfter);
 	
 }

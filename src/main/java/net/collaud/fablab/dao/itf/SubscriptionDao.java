@@ -1,5 +1,6 @@
 package net.collaud.fablab.dao.itf;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 import net.collaud.fablab.data.SubscriptionEO;
@@ -16,5 +17,7 @@ public interface SubscriptionDao {
 	public List<SubscriptionEO> getByUser(UserEO user, int limit) throws FablabException;
 
 	public SubscriptionEO add(SubscriptionEO current) throws FablabException;
+
+	public List<SubscriptionEO> getAllBetween(Date dateBefore, Date dateAfter);
 	
 }

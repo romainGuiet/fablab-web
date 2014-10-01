@@ -24,6 +24,12 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "t_payment")
 @NamedQueries({
+	@NamedQuery(name = PaymentEO.SELECT_FROM_DATES, query
+			= " SELECT p "
+			+ " FROM PaymentEO p"
+			+ " JOIN FETCH p.cashier AS c"
+			+ " WHERE p.datePayment<=:" + PaymentEO.PARAM_DATE_BEFORE+" "
+					+ " AND p.datePayment >= :"+PaymentEO.PARAM_DATE_AFTER),
 	@NamedQuery(name = PaymentEO.SELECT_FROM_USER, query
 			= " SELECT p "
 			+ " FROM PaymentEO p"
@@ -36,10 +42,13 @@ public class PaymentEO extends AbstractDataEO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final String SELECT_FROM_USER = "PaymentEO.selectFromUser";
+	public static final String SELECT_FROM_DATES = "PaymentEO.selectFromDates";
 	public static final String PARAM_USER = "user";
 
 	public static final String SELECT_FROM_IDS = "PaymentEO.findByIds";
 	public static final String PARAM_IDS = "ids";
+	public static final String PARAM_DATE_BEFORE = "dateBefore";
+	public static final String PARAM_DATE_AFTER = "dateAfter";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,7 +60,7 @@ public class PaymentEO extends AbstractDataEO implements Serializable {
 
 	@Column(name = "date_payement", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date datePayement;
+	private Date datePayment;
 
 	@Size(max = 255)
 	@Column(name = "comment")
@@ -70,7 +79,7 @@ public class PaymentEO extends AbstractDataEO implements Serializable {
 
 	public PaymentEO(Date datePayement, float total, UserEO user, UserEO cashier, String comment) {
 		this.paymentId = 0;
-		this.datePayement = datePayement;
+		this.datePayment = datePayement;
 		this.total = total;
 		this.user = user;
 		this.cashier = cashier;
@@ -98,12 +107,12 @@ public class PaymentEO extends AbstractDataEO implements Serializable {
 		this.total = total;
 	}
 
-	public Date getDatePayement() {
-		return datePayement;
+	public Date getDatePayment() {
+		return datePayment;
 	}
 
-	public void setDatePayement(Date datePayement) {
-		this.datePayement = datePayement;
+	public void setDatePayment(Date datePayement) {
+		this.datePayment = datePayement;
 	}
 
 	public String getComment() {

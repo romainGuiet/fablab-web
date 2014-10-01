@@ -27,6 +27,16 @@ public interface PaymentService {
 
 	List<HistoryEntry> getLastPaymentEntries(UserEO user, int nb) throws FablabException;
 
+	/**
+	 * Get the list of entry for accounting.
+	 *
+	 * @param dateBefore entries before this date
+	 * @param dateAfter entries after this date
+	 * @return
+	 * @throws FablabException
+	 */
+	List<HistoryEntry> getPaymentEntries(Date dateBefore, Date dateAfter) throws FablabException;
+
 	List<HistoryEntry> getLastPaymentEntriesForCurrentUser(int nb) throws FablabException;
 
 	void removeHistoryEntry(UserEO user, HistoryEntry entry) throws FablabException;

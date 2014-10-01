@@ -40,7 +40,7 @@ public class HistoryEntry implements Comparable<HistoryEntry> {
 	public HistoryEntry(PaymentEO payment) {
 		type = HistoryEntryType.PAYMENT;
 		id = payment.getPaymentId();
-		date = payment.getDatePayement();
+		date = payment.getDatePayment();
 		comment = payment.getComment();
 		detail = "cashier=" + payment.getCashier().getFirstLastName();
 		amount = payment.getTotal();

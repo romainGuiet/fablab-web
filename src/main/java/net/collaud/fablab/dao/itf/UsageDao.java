@@ -1,5 +1,6 @@
 package net.collaud.fablab.dao.itf;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 import net.collaud.fablab.data.UsageDetailEO;
@@ -21,5 +22,7 @@ public interface UsageDao {
 	public List<UsageDetailEO> getByIds(List<Integer> ids) throws FablabException;
 	
 	public void removeById(int usageId) throws FablabException;
-	
+
+	public List<UsageDetailEO> getAllBetween(Date dateBefore, Date dateAfter);
+
 }

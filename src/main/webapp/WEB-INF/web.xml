@@ -78,4 +78,8 @@
         <exception-type>javax.ejb.EJBAccessException</exception-type>
         <location>/login.xhtml</location>
     </error-page>
+    <security-role>
+        <description>Use accounting page </description>
+        <role-name>use_accounting</role-name>
+    </security-role>
 </web-app>
