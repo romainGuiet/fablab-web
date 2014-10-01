@@ -25,6 +25,8 @@ public class AccountingController extends AbstractController {
 	private PaymentService paymentService;
 
 	private List<HistoryEntry> listEntries;
+	private double totalIn;
+	private double totalOut;
 
 	private Date filterAfter;
 	private Date filterBefore;
@@ -40,11 +42,13 @@ public class AccountingController extends AbstractController {
 	public String prepareList() {
 		return "list";
 	}
+	
 
 	public List<HistoryEntry> getListEntries() {
 		if (listEntries == null) {
 			try {
 				List<HistoryEntry> list = paymentService.getPaymentEntries(filterBefore, filterAfter);
+				updateTotal(list);
 				return list;
 			} catch (FablabException ex) {
 				addError("TODO cannot load audit entries", ex);
@@ -52,6 +56,18 @@ public class AccountingController extends AbstractController {
 			}
 		}
 		return listEntries;
+	}
+	
+	private void updateTotal(List<HistoryEntry> list){
+		totalIn = 0;
+		totalOut = 0;
+		for(HistoryEntry entry : list){
+			if(entry.getAmount()>0){
+				totalOut += entry.getAmount();
+			}else{
+				totalIn += -entry.getAmount();
+			}
+		}
 	}
 
 	public Date getFilterAfter() {
