@@ -103,20 +103,19 @@ public class DoorResource extends AbstractWebService {
 		if (action != null) {
 			switch (action) {
 				case OPEN:
-					sb.append("opened");
+					sb.append("opened the door");
 					break;
 				case CLOSE:
-					sb.append("closed");
+					sb.append("closed the door");
 					break;
 				case TRY_OPEN_BUT_FAIL:
-					sb.append("tried to open but failed");
+					sb.append("tried to open the door but failed");
 					success = false;
 					break;
 			}
 		} else {
-			sb.append("did something with");
+			sb.append("did something with the door");
 		}
-		sb.append(" the door");
 
 		LOG.info(sb.toString());
 		try {
