@@ -160,3 +160,19 @@ tr.USAGE{
 tr.USER{
 	background-color: #ff9999;
 }
+
+.outcome{
+	color:chocolate;
+	font-weight: bold;
+}
+.income{
+	color:#3e8f3e;
+	font-weight: bold;
+}
+.gridMarginBottom{
+	margin-bottom: 10px;
+}
+.gridCenter{
+	text-align: center; 
+	margin: auto;
+}

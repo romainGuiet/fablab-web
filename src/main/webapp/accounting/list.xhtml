@@ -22,8 +22,8 @@
 			<p:panel header="#{lang['general.filters']}">
 				<h:form id="accountFilterForm">
 
-					<h:panelGrid columns="1">
-						<h:panelGrid columns="6" cellpadding="5" style="margin-bottom: 10px;">
+					<h:panelGrid columns="1" width="800px" styleClass="gridCenter">
+						<h:panelGrid columns="6" cellpadding="5" styleClass="gridMarginBottom" width="100%">
 							<p:commandButton value="#{lang['general.today']}" action="#{accountCtrl.quickToday()}" update=":accountingDataForm,:accountFilterForm"/>
 							<p:commandButton value="#{lang['general.yesterday']}" action="#{accountCtrl.quickYesterday()}" update=":accountingDataForm,:accountFilterForm"/>
 							<p:commandButton value="#{lang['general.thismonth']}" action="#{accountCtrl.quickThisMonth()}" update=":accountingDataForm,:accountFilterForm"/>
@@ -31,8 +31,10 @@
 							<p:commandButton value="#{lang['general.thisyear']}" action="#{accountCtrl.quickThisYear()}" update=":accountingDataForm,:accountFilterForm"/>
 							<p:commandButton value="#{lang['general.lastyear']}" action="#{accountCtrl.quickLastYear()}" update=":accountingDataForm,:accountFilterForm"/>
 						</h:panelGrid>
-						<h:panelGrid columns="4" cellpadding="5" >
-
+						
+						<hr />
+						
+						<h:panelGrid columns="4" cellpadding="5" styleClass="gridMarginBottom" width="100%" >
 							<h:outputLabel value="#{lang['general.after']}" for="after" />  
 							<p:calendar id="after" value="#{accountCtrl.filterAfter}" /> 
 
@@ -41,12 +43,10 @@
 
 						</h:panelGrid>
 					</h:panelGrid>
-
-
-					<div class="center">
+					
+					<h:panelGrid columns="2" width="200px" styleClass="gridCenter">
 						<p:commandButton value="#{lang['general.refresh']}" action="#{accountCtrl.refreshSearch()}" update=":accountingDataForm"/>
-						<p:commandButton value="#{lang['general.clear']}" action="#{accountCtrl.clearFilters()}" update=":accountingDataForm,:accountFilterForm"/>
-					</div>
+					</h:panelGrid>
 				</h:form>
 			</p:panel>
 
@@ -57,10 +57,10 @@
 
 					<h:panelGrid columns="2" cellpadding="5">
 						<h:outputLabel value="#{lang['account.totalSell']}"  />
-						<h:outputText value="#{accountCtrl.totalSell} #{lang['currency']}" />
+						<h:outputText class="outcome" value="#{accountCtrl.totalSell} #{lang['currency']}" />
 
 						<h:outputLabel value="#{lang['account.totalCashIn']} "  />
-						<h:outputText value="#{accountCtrl.totalCashIn} #{lang['currency']}" />
+						<h:outputText class="income" value="#{accountCtrl.totalCashIn} #{lang['currency']}" />
 					</h:panelGrid>
 				</p:panel>
 

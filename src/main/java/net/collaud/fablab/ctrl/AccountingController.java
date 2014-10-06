@@ -32,7 +32,7 @@ public class AccountingController extends AbstractController {
 	private Calendar filterBefore;
 
 	public AccountingController() {
-		clearFilters();
+		quickThisMonth();
 	}
 
 	public String prepareList() {
@@ -43,13 +43,6 @@ public class AccountingController extends AbstractController {
 		listEntries = null;
 		totalCashIn = 0;
 		totalSell = 0;
-	}
-
-	public void clearFilters() {
-		filterAfter = Calendar.getInstance();
-		filterAfter.set(filterAfter.get(Calendar.YEAR), 0, 1, 0, 0, 0);
-		filterBefore = Calendar.getInstance();
-		filterBefore.set(filterBefore.get(Calendar.YEAR), 11, 31, 23, 59, 59);
 	}
 	
 	public void quickToday(){
