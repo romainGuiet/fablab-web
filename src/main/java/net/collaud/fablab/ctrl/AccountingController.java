@@ -28,8 +28,8 @@ public class AccountingController extends AbstractController {
 	private double totalSell;
 	private double totalCashIn;
 
-	private Date filterAfter;
-	private Date filterBefore;
+	private Calendar filterAfter;
+	private Calendar filterBefore;
 
 	public AccountingController() {
 		clearFilters();
@@ -41,24 +41,86 @@ public class AccountingController extends AbstractController {
 
 	public void refreshSearch() {
 		listEntries = null;
+		totalCashIn = 0;
+		totalSell = 0;
 	}
 
 	public void clearFilters() {
-		Calendar c = Calendar.getInstance();
-		c.set(c.get(Calendar.YEAR), 0, 1, 0, 0, 0);
-		filterAfter = c.getTime();
-		c.set(c.get(Calendar.YEAR), 11, 31, 25, 59, 59);
-		filterBefore = c.getTime();
+		filterAfter = Calendar.getInstance();
+		filterAfter.set(filterAfter.get(Calendar.YEAR), 0, 1, 0, 0, 0);
+		filterBefore = Calendar.getInstance();
+		filterBefore.set(filterBefore.get(Calendar.YEAR), 11, 31, 23, 59, 59);
+	}
+	
+	public void quickToday(){
+		filterAfter = Calendar.getInstance();
+		filterBefore = Calendar.getInstance();
+		refreshSearch();
+	}
+	
+	public void quickYesterday(){
+		filterAfter = Calendar.getInstance();
+		filterAfter.add(Calendar.DATE, -1);
+		filterBefore = Calendar.getInstance();
+		filterBefore.add(Calendar.DATE, -1);
+		refreshSearch();
+	}
+	
+	public void quickThisMonth(){
+		filterAfter = Calendar.getInstance();
+		filterAfter.set(Calendar.DATE, 1);
+		filterBefore = Calendar.getInstance();
+		filterBefore.set(Calendar.DATE, 1);
+		filterBefore.add(Calendar.MONTH, 1);
+		filterBefore.add(Calendar.DATE, -1);
+		refreshSearch();
+	}
+	
+	public void quickLastMonth(){
+		filterAfter = Calendar.getInstance();
+		filterAfter.set(Calendar.DATE, 1);
+		filterAfter.add(Calendar.MONTH, -1);
+		filterBefore = Calendar.getInstance();
+		filterBefore.set(Calendar.DATE, 1);
+		filterBefore.add(Calendar.DATE, -1);
+		refreshSearch();
+	}
+	
+	public void quickThisYear(){
+		filterAfter = Calendar.getInstance();
+		filterAfter.set(Calendar.DAY_OF_YEAR, 1);
+		filterBefore = Calendar.getInstance();
+		filterBefore.set(Calendar.DAY_OF_YEAR, 1);
+		filterBefore.add(Calendar.YEAR, 1);
+		filterBefore.add(Calendar.DATE, -1);
+		refreshSearch();
+	}
+	
+	public void quickLastYear(){
+		filterAfter = Calendar.getInstance();
+		filterAfter.add(Calendar.YEAR, -1);
+		filterAfter.set(Calendar.DAY_OF_YEAR, 1);
+		filterBefore = Calendar.getInstance();
+		filterBefore.set(Calendar.DAY_OF_YEAR, 1);
+		filterBefore.add(Calendar.DATE, -1);
+		refreshSearch();
+	}
+	
+	private void updateHoursOfFilters(){
+		filterBefore.set(Calendar.HOUR, 23);
+		filterBefore.set(Calendar.MINUTE, 59);
+		filterBefore.set(Calendar.SECOND, 59);
+		filterAfter.set(Calendar.HOUR, 0);
+		filterAfter.set(Calendar.MINUTE, 0);
+		filterAfter.set(Calendar.SECOND, 0);
 	}
 
 	public List<HistoryEntry> getListEntries() {
-		totalCashIn = 0;
-		totalSell = 0;
 		if (listEntries == null) {
+			updateHoursOfFilters();
 			try {
-				List<HistoryEntry> list = paymentService.getPaymentEntries(filterBefore, filterAfter);
-				updateTotal(list);
-				return list;
+				listEntries = paymentService.getPaymentEntries(filterBefore.getTime(), filterAfter.getTime());
+				updateTotal(listEntries);
 			} catch (FablabException ex) {
 				addError("TODO cannot load audit entries", ex);
 				LOG.error("Cannot load audit", ex);
@@ -72,7 +134,7 @@ public class AccountingController extends AbstractController {
 			if (entry.getAmount() > 0) {
 				totalCashIn += entry.getAmount();
 			} else {
-				totalSell += -entry.getAmount();
+				totalSell -= entry.getAmount();
 			}
 		}
 	}
@@ -88,18 +150,18 @@ public class AccountingController extends AbstractController {
 	}
 
 	public Date getFilterAfter() {
-		return filterAfter;
+		return filterAfter.getTime();
 	}
 
 	public void setFilterAfter(Date filterAfter) {
-		this.filterAfter = filterAfter;
+		this.filterAfter.setTime(filterAfter);
 	}
 
 	public Date getFilterBefore() {
-		return filterBefore;
+		return filterBefore.getTime();
 	}
 
 	public void setFilterBefore(Date filterBefore) {
-		this.filterBefore = filterBefore;
+		this.filterBefore.setTime(filterBefore);
 	}
 }

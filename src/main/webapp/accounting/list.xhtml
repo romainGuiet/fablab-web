@@ -19,19 +19,30 @@
         </ui:define>
 
         <ui:define name="body">
-
 			<p:panel header="#{lang['general.filters']}">
 				<h:form id="accountFilterForm">
 
-					<h:panelGrid columns="2" cellpadding="5">
+					<h:panelGrid columns="1">
+						<h:panelGrid columns="6" cellpadding="5" style="margin-bottom: 10px;">
+							<p:commandButton value="#{lang['general.today']}" action="#{accountCtrl.quickToday()}" update=":accountingDataForm,:accountFilterForm"/>
+							<p:commandButton value="#{lang['general.yesterday']}" action="#{accountCtrl.quickYesterday()}" update=":accountingDataForm,:accountFilterForm"/>
+							<p:commandButton value="#{lang['general.thismonth']}" action="#{accountCtrl.quickThisMonth()}" update=":accountingDataForm,:accountFilterForm"/>
+							<p:commandButton value="#{lang['general.lastmonth']}" action="#{accountCtrl.quickLastMonth()}" update=":accountingDataForm,:accountFilterForm"/>
+							<p:commandButton value="#{lang['general.thisyear']}" action="#{accountCtrl.quickThisYear()}" update=":accountingDataForm,:accountFilterForm"/>
+							<p:commandButton value="#{lang['general.lastyear']}" action="#{accountCtrl.quickLastYear()}" update=":accountingDataForm,:accountFilterForm"/>
+						</h:panelGrid>
+						<h:panelGrid columns="4" cellpadding="5" >
 
-						<h:outputLabel value="#{lang['general.after']}" for="after" />  
-						<p:calendar id="after" value="#{accountCtrl.filterAfter}" /> 
+							<h:outputLabel value="#{lang['general.after']}" for="after" />  
+							<p:calendar id="after" value="#{accountCtrl.filterAfter}" /> 
 
-						<h:outputLabel value="#{lang['general.before']}" for="before" />  
-						<p:calendar id="before" value="#{accountCtrl.filterBefore}" />
+							<h:outputLabel value="#{lang['general.before']}" for="before" />  
+							<p:calendar id="before" value="#{accountCtrl.filterBefore}"/>
 
+						</h:panelGrid>
 					</h:panelGrid>
+
+
 					<div class="center">
 						<p:commandButton value="#{lang['general.refresh']}" action="#{accountCtrl.refreshSearch()}" update=":accountingDataForm"/>
 						<p:commandButton value="#{lang['general.clear']}" action="#{accountCtrl.clearFilters()}" update=":accountingDataForm,:accountFilterForm"/>
@@ -52,7 +63,7 @@
 						<h:outputText value="#{accountCtrl.totalCashIn} #{lang['currency']}" />
 					</h:panelGrid>
 				</p:panel>
-				
+
 				<p:dataTable id="listEntries" var="item" value="#{accountCtrl.listEntries}"
 							 resizableColumns="true" liveResize="true">
 					<p:column headerText="#{lang['account.date']}">
