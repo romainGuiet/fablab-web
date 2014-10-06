@@ -1,5 +1,7 @@
 package net.collaud.fablab.ctrl;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +32,8 @@ public class AccountingController extends AbstractController {
 
 	private Calendar filterAfter;
 	private Calendar filterBefore;
+	
+	private NumberFormat formatter = new DecimalFormat("#0.00"); 
 
 	public AccountingController() {
 		quickThisMonth();
@@ -132,14 +136,14 @@ public class AccountingController extends AbstractController {
 		}
 	}
 
-	public double getTotalSell() {
+	public String getTotalSell() {
 		getListEntries();//update list entries
-		return totalSell;
+		return  formatter.format(totalSell);
 	}
 
-	public double getTotalCashIn() {
+	public String getTotalCashIn() {
 		getListEntries();//update list entries
-		return totalCashIn;
+		return  formatter.format(totalCashIn);
 	}
 
 	public Date getFilterAfter() {
