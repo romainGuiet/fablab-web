@@ -4,6 +4,7 @@ import java.util.Date;
 import net.collaud.fablab.data.PaymentEO;
 import net.collaud.fablab.data.SubscriptionEO;
 import net.collaud.fablab.data.UsageDetailEO;
+import net.collaud.fablab.data.UserEO;
 import org.apache.log4j.Logger;
 
 /**
@@ -36,6 +37,7 @@ public class HistoryEntry implements Comparable<HistoryEntry> {
 	private final Date date;
 	private final float amount;
 	private final String detail;
+	private final UserEO user;
 
 	public HistoryEntry(PaymentEO payment) {
 		type = HistoryEntryType.PAYMENT;
@@ -44,15 +46,17 @@ public class HistoryEntry implements Comparable<HistoryEntry> {
 		comment = payment.getComment();
 		detail = "cashier=" + payment.getCashier().getFirstLastName();
 		amount = payment.getTotal();
+		user = payment.getUser();
 	}
 
-	public HistoryEntry(UsageDetailEO usage){
+	public HistoryEntry(UsageDetailEO usage) {
 		type = HistoryEntryType.USAGE;
 		id = usage.getUsageId();
 		date = usage.getDateStart();
 		comment = usage.getComment();
 		detail = usage.getMachine().getName() + " | " + usage.getMinutes() + "min" + " | " + usage.getAdditionalCost() + " CHF additional";
 		amount = -((usage.getPrice() * usage.getMinutes()) / 60 + usage.getAdditionalCost());
+		user = usage.getUser();
 	}
 
 	public HistoryEntry(SubscriptionEO subscription) {
@@ -62,6 +66,7 @@ public class HistoryEntry implements Comparable<HistoryEntry> {
 		comment = subscription.getComment();
 		detail = "Subscription type : " + subscription.getPriceCotisation().getMembershipType().getName();
 		amount = -subscription.getPriceCotisation().getPrice();
+		user = subscription.getUser();
 	}
 
 	public int getId() {
@@ -86,6 +91,10 @@ public class HistoryEntry implements Comparable<HistoryEntry> {
 
 	public HistoryEntryType getType() {
 		return type;
+	}
+
+	public UserEO getUser() {
+		return user;
 	}
 
 	@Override

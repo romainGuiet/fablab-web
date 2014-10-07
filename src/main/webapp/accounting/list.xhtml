@@ -65,14 +65,24 @@
 				</p:panel>
 
 				<p:dataTable id="listEntries" var="item" value="#{accountCtrl.listEntries}"
-							 resizableColumns="true" liveResize="true">
-					<p:column headerText="#{lang['account.date']}">
+							 resizableColumns="true" liveResize="true"
+							 rowStyleClass="tablerow #{item.type.css}">
+					<p:column headerText="#{lang['account.date']}" width="170">
 						<h:outputText value="#{item.date}">
 							<f:convertDateTime pattern="${lang['date.face.full']}"  timeZone="#{accountCtrl.timeZone}"/>
 						</h:outputText>
 					</p:column>
-					<p:column headerText="#{lang['account.amount']}">
+					<!--<p:column headerText="#{lang['account.type']}" width="100">
+						<h:outputText value="#{item.type}"/>
+					</p:column>-->
+					<p:column headerText="#{lang['account.amount']}" width="100">
 						<h:outputText value="#{item.amount}"/>
+					</p:column>
+					<p:column headerText="#{lang['account.user']}" width="200">
+						<h:outputText value="#{item.user.firstLastName}"/>
+					</p:column>
+					<p:column headerText="#{lang['account.detail']}">
+						<h:outputText value="#{item.detail}"/>
 					</p:column>
 				</p:dataTable>
 			</h:form>

@@ -27,7 +27,8 @@ import org.eclipse.persistence.annotations.ReadOnly;
 @ReadOnly
 @NamedQueries({
 	@NamedQuery(name = UsageDetailEO.SELECT_FROM_DATES,
-			query = "SELECT u FROM UsageDetailEO u"
+			query = "SELECT u FROM UsageDetailEO u "
+			+ " JOIN FETCH u.user"
 			+ " WHERE u.dateStart<=:" + UsageDetailEO.PARAM_DATE_BEFORE
 			+ " AND u.dateStart>=:" + UsageDetailEO.PARAM_DATE_AFTER),
 	@NamedQuery(name = UsageDetailEO.SELECT_FROM_USER,
@@ -41,7 +42,7 @@ public class UsageDetailEO extends AbstractDataEO implements Serializable {
 	public static final String SELECT_FROM_USER = "UsageEO.selectFromUser";
 	public static final String SELECT_FROM_DATES = "UsageEO.selectFromDates";
 	public static final String SELECT_FROM_IDS = "UsageEO.findByIds";
-	
+
 	public static final String PARAM_IDS = "ids";
 	public static final String PARAM_USER = "user";
 	public static final String PARAM_DATE_BEFORE = "dateBefore";

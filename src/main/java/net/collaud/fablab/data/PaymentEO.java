@@ -27,6 +27,7 @@ import javax.validation.constraints.Size;
 	@NamedQuery(name = PaymentEO.SELECT_FROM_DATES, query
 			= " SELECT p "
 			+ " FROM PaymentEO p"
+			+ " JOIN FETCH p.user"
 			+ " JOIN FETCH p.cashier AS c"
 			+ " WHERE p.datePayment<=:" + PaymentEO.PARAM_DATE_BEFORE+" "
 					+ " AND p.datePayment >= :"+PaymentEO.PARAM_DATE_AFTER),

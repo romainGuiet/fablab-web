@@ -27,18 +27,18 @@ import javax.validation.constraints.Size;
 @NamedQueries({
 	@NamedQuery(name = SubscriptionEO.SELECT_FROM_DATES,
 			query = "SELECT s FROM SubscriptionEO s"
-					+ " WHERE s.dateSubscription<=:" + SubscriptionEO.PARAM_DATE_BEFORE +" "
-					+ " AND s.dateSubscription>=:"+SubscriptionEO.PARAM_DATE_AFTER),
+			+ " JOIN FETCH s.user"
+			+ " WHERE s.dateSubscription<=:" + SubscriptionEO.PARAM_DATE_BEFORE + " "
+			+ " AND s.dateSubscription>=:" + SubscriptionEO.PARAM_DATE_AFTER),
 	@NamedQuery(name = SubscriptionEO.SELECT_FROM_USER,
-			query = "SELECT s FROM SubscriptionEO s WHERE s.user=:" + SubscriptionEO.PARAM_USER),
-})
+			query = "SELECT s FROM SubscriptionEO s WHERE s.user=:" + SubscriptionEO.PARAM_USER),})
 public class SubscriptionEO extends AbstractDataEO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public static final String SELECT_FROM_USER = "SubscriptionEO.selectFromUser";
 	public static final String SELECT_FROM_DATES = "SubscriptionEO.selectFromDates";
-	
+
 	public static final String PARAM_USER = "user";
 	public static final String PARAM_DATE_BEFORE = "dateBefore";
 	public static final String PARAM_DATE_AFTER = "dateAfter";
