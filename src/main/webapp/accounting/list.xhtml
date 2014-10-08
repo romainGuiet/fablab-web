@@ -54,6 +54,12 @@
 
 			<h:form id="accountingDataForm">
 				<p:panel header="#{lang['account.summary']}">
+					
+					<div style="float:right">
+						<p:commandButton value="#{lang['general.export']}" ajax="false" icon="ui-icon-arrowthick-1-s"
+										 action="#{accountCtrl.exportExcel()}">
+						</p:commandButton>
+					</div>
 
 					<h:panelGrid columns="2" cellpadding="5">
 						<h:outputLabel value="#{lang['account.totalSell']}"  />

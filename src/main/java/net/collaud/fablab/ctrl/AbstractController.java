@@ -75,6 +75,15 @@ public class AbstractController extends AbstractLocalizable implements Constants
 		JsfUtil.addErrorMessage(e, getString(key));
 	}
 
+	protected SimpleDateFormat getDateTimeFormatter() {
+		String formatter = getStringDefault("date.sp.full", "dd/MM/yyy hh:mm:ss");
+		return new SimpleDateFormat(formatter);
+	}
+	protected SimpleDateFormat getDateFormatter() {
+		String formatter = getStringDefault("date.sp.day", "dd/MM/yyy");
+		return new SimpleDateFormat(formatter);
+	}
+
 	public String getDate(Date date) {
 		Calendar objDate = new GregorianCalendar();
 		objDate.setTime(date);

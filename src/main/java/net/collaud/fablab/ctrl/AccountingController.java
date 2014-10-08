@@ -1,17 +1,26 @@
 package net.collaud.fablab.ctrl;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.data.virtual.HistoryEntry;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.service.itf.PaymentService;
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 
 /**
  *
@@ -32,8 +41,8 @@ public class AccountingController extends AbstractController {
 
 	private Calendar filterAfter;
 	private Calendar filterBefore;
-	
-	private NumberFormat formatter = new DecimalFormat("#0.00"); 
+
+	private NumberFormat formatter = new DecimalFormat("#0.00");
 
 	public AccountingController() {
 		quickThisMonth();
@@ -48,22 +57,22 @@ public class AccountingController extends AbstractController {
 		totalCashIn = 0;
 		totalSell = 0;
 	}
-	
-	public void quickToday(){
+
+	public void quickToday() {
 		filterAfter = Calendar.getInstance();
 		filterBefore = Calendar.getInstance();
 		refreshSearch();
 	}
-	
-	public void quickYesterday(){
+
+	public void quickYesterday() {
 		filterAfter = Calendar.getInstance();
 		filterAfter.add(Calendar.DATE, -1);
 		filterBefore = Calendar.getInstance();
 		filterBefore.add(Calendar.DATE, -1);
 		refreshSearch();
 	}
-	
-	public void quickThisMonth(){
+
+	public void quickThisMonth() {
 		filterAfter = Calendar.getInstance();
 		filterAfter.set(Calendar.DATE, 1);
 		filterBefore = Calendar.getInstance();
@@ -72,8 +81,8 @@ public class AccountingController extends AbstractController {
 		filterBefore.add(Calendar.DATE, -1);
 		refreshSearch();
 	}
-	
-	public void quickLastMonth(){
+
+	public void quickLastMonth() {
 		filterAfter = Calendar.getInstance();
 		filterAfter.set(Calendar.DATE, 1);
 		filterAfter.add(Calendar.MONTH, -1);
@@ -82,8 +91,8 @@ public class AccountingController extends AbstractController {
 		filterBefore.add(Calendar.DATE, -1);
 		refreshSearch();
 	}
-	
-	public void quickThisYear(){
+
+	public void quickThisYear() {
 		filterAfter = Calendar.getInstance();
 		filterAfter.set(Calendar.DAY_OF_YEAR, 1);
 		filterBefore = Calendar.getInstance();
@@ -92,8 +101,8 @@ public class AccountingController extends AbstractController {
 		filterBefore.add(Calendar.DATE, -1);
 		refreshSearch();
 	}
-	
-	public void quickLastYear(){
+
+	public void quickLastYear() {
 		filterAfter = Calendar.getInstance();
 		filterAfter.add(Calendar.YEAR, -1);
 		filterAfter.set(Calendar.DAY_OF_YEAR, 1);
@@ -102,8 +111,8 @@ public class AccountingController extends AbstractController {
 		filterBefore.add(Calendar.DATE, -1);
 		refreshSearch();
 	}
-	
-	private void updateHoursOfFilters(){
+
+	private void updateHoursOfFilters() {
 		filterBefore.set(Calendar.HOUR, 23);
 		filterBefore.set(Calendar.MINUTE, 59);
 		filterBefore.set(Calendar.SECOND, 59);
@@ -138,12 +147,12 @@ public class AccountingController extends AbstractController {
 
 	public String getTotalSell() {
 		getListEntries();//update list entries
-		return  formatter.format(totalSell);
+		return formatter.format(totalSell);
 	}
 
 	public String getTotalCashIn() {
 		getListEntries();//update list entries
-		return  formatter.format(totalCashIn);
+		return formatter.format(totalCashIn);
 	}
 
 	public Date getFilterAfter() {
@@ -160,5 +169,51 @@ public class AccountingController extends AbstractController {
 
 	public void setFilterBefore(Date filterBefore) {
 		this.filterBefore.setTime(filterBefore);
+	}
+
+	public void exportExcel() {
+		HSSFWorkbook wb = new HSSFWorkbook();
+		HSSFSheet sheet = wb.createSheet("Members");
+
+		int nbRow = 0;
+		Row headerRow = sheet.createRow(nbRow++);
+		String[] headers = new String[]{"date", "credit", "debit", "user", "detail", "comment"};
+		for (int i = 0; i < headers.length; i++) {
+			Cell cell = headerRow.createCell(i);
+			cell.setCellValue(headers[i]);
+		}
+		
+		SimpleDateFormat dateTimeFormatter = getDateTimeFormatter();
+		SimpleDateFormat dateFormatter = getDateFormatter();
+
+		for (HistoryEntry entry : getListEntries()) {
+			Row row = sheet.createRow(nbRow++);
+			int nbCell = 0;
+
+			row.createCell(nbCell++).setCellValue(dateTimeFormatter.format(entry.getDate()));
+			if (entry.getAmount() >= 0) {
+				row.createCell(nbCell++).setCellValue(entry.getAmount());
+				row.createCell(nbCell++).setCellValue("");
+			} else {
+				row.createCell(nbCell++).setCellValue("");
+				row.createCell(nbCell++).setCellValue(-entry.getAmount());
+			}
+			row.createCell(nbCell++).setCellValue(entry.getUser().getFirstLastName());
+			row.createCell(nbCell++).setCellValue(entry.getDetail());
+			row.createCell(nbCell++).setCellValue(entry.getComment());
+		}
+
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = facesContext.getExternalContext();
+		externalContext.setResponseContentType("application/vnd.ms-excel");
+		String filename = "fablab_compta-"+dateFormatter.format(getFilterAfter())+"-"+dateFormatter.format(getFilterBefore())+".xls";
+		externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\""+filename+"\"");
+
+		try {
+			wb.write(externalContext.getResponseOutputStream());
+		} catch (IOException ex) {
+			addErrorAndLog("Cannot write excel file", ex);
+		}
+		facesContext.responseComplete();
 	}
 }
