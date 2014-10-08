@@ -31,9 +31,9 @@
 							<p:commandButton value="#{lang['general.thisyear']}" action="#{accountCtrl.quickThisYear()}" update=":accountingDataForm,:accountFilterForm"/>
 							<p:commandButton value="#{lang['general.lastyear']}" action="#{accountCtrl.quickLastYear()}" update=":accountingDataForm,:accountFilterForm"/>
 						</h:panelGrid>
-						
+
 						<hr />
-						
+
 						<h:panelGrid columns="4" cellpadding="5" styleClass="gridMarginBottom" width="100%" >
 							<h:outputLabel value="#{lang['general.after']}" for="after" />  
 							<p:calendar id="after" value="#{accountCtrl.filterAfter}" /> 
@@ -43,7 +43,7 @@
 
 						</h:panelGrid>
 					</h:panelGrid>
-					
+
 					<h:panelGrid columns="2" width="200px" styleClass="gridCenter">
 						<p:commandButton value="#{lang['general.refresh']}" action="#{accountCtrl.refreshSearch()}" update=":accountingDataForm"/>
 					</h:panelGrid>
@@ -75,8 +75,11 @@
 					<!--<p:column headerText="#{lang['account.type']}" width="100">
 						<h:outputText value="#{item.type}"/>
 					</p:column>-->
-					<p:column headerText="#{lang['account.amount']}" width="100">
-						<h:outputText value="#{item.amount}"/>
+					<p:column headerText="#{lang['account.credit']}" width="100">
+						<h:outputText value="#{item.amount}" rendered="#{item.amount ge 0}"/>
+					</p:column>
+					<p:column headerText="#{lang['account.debit']}" width="100">
+						<h:outputText value="#{-item.amount}" rendered="#{item.amount lt 0}"/>
 					</p:column>
 					<p:column headerText="#{lang['account.user']}" width="200">
 						<h:outputText value="#{item.user.firstLastName}"/>
