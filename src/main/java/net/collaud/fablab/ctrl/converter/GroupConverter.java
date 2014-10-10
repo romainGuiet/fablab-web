@@ -1,6 +1,5 @@
 package net.collaud.fablab.ctrl.converter;
 
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -10,15 +9,18 @@ import javax.faces.convert.FacesConverter;
 import net.collaud.fablab.dao.itf.GroupDAO;
 import net.collaud.fablab.data.GroupEO;
 import net.collaud.fablab.exceptions.FablabException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author gaetan
  */
 @FacesConverter(forClass = GroupEO.class, value = "groupConverter")
+@Component
 public class GroupConverter implements Converter {
 
-	@EJB
+	@Autowired
 	private GroupDAO groupDao;
 
 	@Override

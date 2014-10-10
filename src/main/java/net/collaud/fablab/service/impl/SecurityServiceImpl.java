@@ -6,9 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJB;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
 import net.collaud.fablab.dao.itf.GroupDAO;
 import net.collaud.fablab.dao.itf.UserDao;
@@ -17,22 +14,23 @@ import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.SecurityService;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author gaetan
  */
-@Stateless
-@LocalBean
 @RolesAllowed({RolesHelper.ROLE_ADMIN})
+@Service
 public class SecurityServiceImpl extends AbstractServiceImpl implements SecurityService {
 
 	private static final Logger LOG = Logger.getLogger(SecurityServiceImpl.class);
 
-	@EJB
+	@Autowired
 	private UserDao userDao;
 
-	@EJB
+	@Autowired
 	private GroupDAO groupDao;
 
 	@Override

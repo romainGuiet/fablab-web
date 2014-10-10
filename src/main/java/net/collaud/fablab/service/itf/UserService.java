@@ -1,7 +1,6 @@
 package net.collaud.fablab.service.itf;
 
 import java.util.List;
-import javax.ejb.Local;
 import net.collaud.fablab.data.GroupEO;
 import net.collaud.fablab.data.MachineTypeEO;
 import net.collaud.fablab.data.MembershipTypeEO;
@@ -13,7 +12,6 @@ import net.collaud.fablab.exceptions.FablabException;
  *
  * @author gaetan
  */
-@Local
 public interface UserService {
 
 	UserEO save(UserEO selectedUser) throws FablabException;
@@ -34,20 +32,6 @@ public interface UserService {
 	UserEO getById(int userid) throws FablabException;
 
 	List<MembershipTypeEO> getListMembershipTypes() throws FablabException;
-
-	/**
-	 * Sync all users with LDAP.
-	 *
-	 * If a new user is found in the LDAP server, it will be added to the database.
-	 *
-	 * If a user is not found in the LDAP server, it will be disabled.
-	 *
-	 * If a user was disabled but is now present, it will be reactivated.
-	 *
-	 * @return
-	 * @throws FablabException
-	 */
-	LDAPSyncResult syncWithLDAP() throws FablabException;
 
 	/**
 	 * get the number of days remaining for the user subscription. A negativ number mean that the

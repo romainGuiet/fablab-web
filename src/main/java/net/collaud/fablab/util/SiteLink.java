@@ -1,21 +1,19 @@
 package net.collaud.fablab.util;
 
 import java.io.IOException;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import net.collaud.fablab.file.ConfigFileHelper;
 import net.collaud.fablab.file.FileHelperFactory;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
 
 /**
  *
  * @author gaetan
  */
-@Stateless
-@LocalBean
 @ManagedBean(name = "link")
+@Controller
 public class SiteLink {
 	private static final Logger LOG = Logger.getLogger(SiteLink.class);
 

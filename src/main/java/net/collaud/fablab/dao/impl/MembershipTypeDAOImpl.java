@@ -1,20 +1,18 @@
 package net.collaud.fablab.dao.impl;
 
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import net.collaud.fablab.dao.itf.MembershipTypeDAO;
 import net.collaud.fablab.data.MembershipTypeEO;
 import net.collaud.fablab.exceptions.FablabException;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author gaetan
  */
-@Stateless
-@LocalBean
+@Repository
 public class MembershipTypeDAOImpl extends AbstractDAO<MembershipTypeEO> implements MembershipTypeDAO {
 
 	private static final Logger LOG = Logger.getLogger(MembershipTypeDAOImpl.class);

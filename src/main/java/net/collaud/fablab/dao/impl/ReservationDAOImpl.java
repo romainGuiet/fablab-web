@@ -3,8 +3,6 @@ package net.collaud.fablab.dao.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -14,13 +12,13 @@ import net.collaud.fablab.dao.itf.ReservationDAO;
 import net.collaud.fablab.data.ReservationEO;
 import net.collaud.fablab.data.ReservationEO_;
 import net.collaud.fablab.exceptions.FablabException;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author gaetan
  */
-@Stateless
-@LocalBean
+@Repository
 public class ReservationDAOImpl extends AbstractDAO<ReservationEO> implements ReservationDAO {
 
 	public ReservationDAOImpl() {

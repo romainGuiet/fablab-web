@@ -1,20 +1,19 @@
 package net.collaud.fablab.dao.impl;
 
 import java.util.List;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import net.collaud.fablab.dao.itf.SystemStatusDao;
 import net.collaud.fablab.data.SystemStatusEO;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author gaetan
  */
-@Stateless
-@LocalBean
+@Repository
 public class SystemStatusDAOImpl extends AbstractDAO<SystemStatusEO> implements SystemStatusDao {
 
 	private static final Logger LOG = Logger.getLogger(SystemStatusDAOImpl.class);

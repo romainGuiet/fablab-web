@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import javax.annotation.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -19,11 +18,12 @@ import net.collaud.fablab.data.type.AuditObject;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.service.itf.AuditService;
 import org.apache.log4j.Logger;
+import org.springframework.context.annotation.Scope;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 @ManagedBean("auditCtrl")
-@ViewScoped
+@Scope("request")
 public class AuditController implements Serializable, Constants {
 
 	private Logger LOG = Logger.getLogger(AuditController.class);
@@ -35,13 +35,13 @@ public class AuditController implements Serializable, Constants {
 		return TimeZone.getDefault();
 	}
 
-//	@EJB
+//	@Autowired
 //	private AuditService auditService;
 
 	@Inject
 	private AuditService auditService;
 
-//	@EJB
+//	@Autowired
 //	private UserService userService;
 
 	private List<UserEO> listUsers;

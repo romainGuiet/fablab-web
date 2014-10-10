@@ -1,21 +1,19 @@
 package net.collaud.fablab.dao.impl;
 
 import java.util.List;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import net.collaud.fablab.dao.itf.MachineDAO;
 import net.collaud.fablab.data.MachineEO;
 import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.exceptions.FablabException;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author gaetan
  */
-@Stateless
-@LocalBean
+@Repository
 public class MachineDAOImpl extends AbstractDAO<MachineEO> implements MachineDAO {
 
 	public MachineDAOImpl() {

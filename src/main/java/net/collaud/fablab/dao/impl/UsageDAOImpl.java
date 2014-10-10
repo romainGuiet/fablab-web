@@ -2,21 +2,20 @@ package net.collaud.fablab.dao.impl;
 
 import java.util.Date;
 import java.util.List;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import net.collaud.fablab.dao.itf.UsageDao;
 import net.collaud.fablab.data.UsageDetailEO;
 import net.collaud.fablab.data.UsageEO;
 import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.exceptions.FablabException;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author gaetan
  */
-@Stateless
-@LocalBean
+@Repository
 public class UsageDAOImpl extends AbstractDAO<UsageEO> implements UsageDao {
 
 	public UsageDAOImpl() {

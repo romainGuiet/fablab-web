@@ -5,7 +5,6 @@ import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import javax.interceptor.InterceptorBinding;
 import net.collaud.fablab.data.type.AuditAction;
 import net.collaud.fablab.data.type.AuditObject;
 
@@ -14,7 +13,8 @@ import net.collaud.fablab.data.type.AuditObject;
  * @author gaetan
  */
 @Inherited
-@InterceptorBinding
+//FIXME
+//@InterceptorBinding
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface AuditDetail {

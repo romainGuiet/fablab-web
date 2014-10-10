@@ -14,15 +14,16 @@ import net.collaud.fablab.data.AbstractDataEO;
 public abstract class AbstractDAO<T extends AbstractDataEO> {
 
 	private final Class<T> entityClass;
-	
-	@PersistenceContext(unitName = Constants.PERSISTANCE_UNIT_NAME)
+
+	@PersistenceContext(name = Constants.PERSISTANCE_UNIT_NAME)
 	private EntityManager em;
+	
 
 	public AbstractDAO(Class<T> entityClass) {
 		this.entityClass = entityClass;
 	}
 
-	protected EntityManager getEntityManager(){
+	protected EntityManager getEntityManager() {
 		return em;
 	}
 

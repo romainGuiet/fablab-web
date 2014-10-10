@@ -1,8 +1,6 @@
 package net.collaud.fablab.dao.impl;
 
 import java.util.List;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import net.collaud.fablab.dao.itf.PriceDAO;
 import net.collaud.fablab.data.MembershipTypeEO;
@@ -10,13 +8,13 @@ import net.collaud.fablab.data.PriceCotisationEO;
 import net.collaud.fablab.data.PriceMachineEO;
 import net.collaud.fablab.data.PriceRevisionEO;
 import net.collaud.fablab.exceptions.FablabException;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author gaetan
  */
-@Stateless
-@LocalBean
+@Repository
 public class PriceDAOImpl extends AbstractDAO<PriceMachineEO> implements PriceDAO {
 
 	public PriceDAOImpl() {

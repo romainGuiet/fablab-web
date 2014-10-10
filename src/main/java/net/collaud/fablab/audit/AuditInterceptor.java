@@ -1,12 +1,6 @@
 package net.collaud.fablab.audit;
 
 import java.util.Date;
-import javax.ejb.EJB;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.Interceptor;
-import javax.interceptor.InvocationContext;
 import net.collaud.fablab.data.AbstractDataEO;
 import net.collaud.fablab.data.AuditEO;
 import net.collaud.fablab.data.PaymentEO;
@@ -19,41 +13,44 @@ import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.service.itf.AuditService;
 import net.collaud.fablab.service.itf.SecurityService;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author gaetan
  */
-@Interceptor
-@Audit
-@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+
+//FIXME
+//@Interceptor
+//@Audit
+//@TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
 public class AuditInterceptor {
 
 	private static final Logger LOG = Logger.getLogger(AuditInterceptor.class);
 
-	@EJB
+	@Autowired
 	private AuditService auditService;
 
-	@EJB
+	@Autowired
 	private SecurityService securityService;
 
-	@AroundInvoke
-	public Object audit(InvocationContext context) throws Exception {
-		LOG.info("Intercepted method " + context.getMethod().getName());
-		AuditDetail ann = context.getMethod().getAnnotation(AuditDetail.class);
-		try {
-			Object result = context.proceed();
-			Object object = getObjectOutOfResultAndParameters(ann, result, context.getParameters());
-			Integer id = getIdOfObject(object);
-			addEntry(ann.action(), ann.object(), id, true, getReadableMessage(ann.object(), ann.action(), object), null);
-			return result;
-		} catch (Exception ex) {
-			Object entity = getObjectOutOfResultAndParameters(ann, null, context.getParameters());
-			Integer id = getIdOfObject(entity);
-			addEntry(ann.action(), ann.object(), id, true, "Error while " + ann.action() + " " + ann.object() + " with id  " + id, ex.getMessage());
-			throw ex;
-		}
-	}
+//	@AroundInvoke
+//	public Object audit(InvocationContext context) throws Exception {
+//		LOG.info("Intercepted method " + context.getMethod().getName());
+//		AuditDetail ann = context.getMethod().getAnnotation(AuditDetail.class);
+//		try {
+//			Object result = context.proceed();
+//			Object object = getObjectOutOfResultAndParameters(ann, result, context.getParameters());
+//			Integer id = getIdOfObject(object);
+//			addEntry(ann.action(), ann.object(), id, true, getReadableMessage(ann.object(), ann.action(), object), null);
+//			return result;
+//		} catch (Exception ex) {
+//			Object entity = getObjectOutOfResultAndParameters(ann, null, context.getParameters());
+//			Integer id = getIdOfObject(entity);
+//			addEntry(ann.action(), ann.object(), id, true, "Error while " + ann.action() + " " + ann.object() + " with id  " + id, ex.getMessage());
+//			throw ex;
+//		}
+//	}
 
 	private void addEntry(AuditAction action, AuditObject object, Integer objectId, boolean success, String content, String detail) throws FablabException {
 		if (detail != null && detail.isEmpty()) {

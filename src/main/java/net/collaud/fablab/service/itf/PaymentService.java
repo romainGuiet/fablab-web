@@ -2,7 +2,6 @@ package net.collaud.fablab.service.itf;
 
 import java.util.Date;
 import java.util.List;
-import javax.ejb.Local;
 import net.collaud.fablab.data.MachineEO;
 import net.collaud.fablab.data.PaymentEO;
 import net.collaud.fablab.data.UsageEO;
@@ -14,7 +13,6 @@ import net.collaud.fablab.exceptions.FablabException;
  *
  * @author gaetan
  */
-@Local
 public interface PaymentService {
 
 	UserEO addSubscriptionConfirmation(UserEO userSelected) throws FablabException;

@@ -5,9 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.EJB;
-import javax.ejb.EJBAccessException;
-import javax.enterprise.context.RequestScoped;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -25,6 +22,7 @@ import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.service.itf.ReservationService;
 import net.collaud.fablab.service.itf.UserService;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * REST Web Service
@@ -32,15 +30,14 @@ import org.apache.log4j.Logger;
  * @author gaetan
  */
 @Path("/reservations")
-@RequestScoped
 public class ReservationsResource {
 	
 	private static final Logger LOG = Logger.getLogger(ReservationsResource.class);
 	
-	@EJB
+	@Autowired
 	private ReservationService reservationService;
 	
-	@EJB
+	@Autowired
 	private UserService userService;
 	
 	private final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -87,8 +84,8 @@ public class ReservationsResource {
 		} catch (NumberFormatException | ParseException ex) {
 			LOG.error("Cannot parse date for query " + startParam + " - " + endParam + " m:" + machines, ex);
 			return Response.serverError().entity("Cannot parse date or machine ids for query " + startParam + " - " + endParam + " m:" + machines).build();
-		} catch (EJBAccessException ex) {
-			return Response.serverError().entity("Your are not allowed").build();
+//		} catch (EJBAccessException ex) {
+//			return Response.serverError().entity("Your are not allowed").build();
 		}
 		return Response.serverError().build();
 	}

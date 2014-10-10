@@ -1,23 +1,18 @@
 package net.collaud.fablab.service.systems.mail;
 
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import net.collaud.fablab.exceptions.FablabException;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author gaetan
  */
-@Stateless
-@LocalBean
-@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
+@Service
 public class MailServiceImpl implements MailService {
 
 	private static final Logger LOG = Logger.getLogger(MailServiceImpl.class);

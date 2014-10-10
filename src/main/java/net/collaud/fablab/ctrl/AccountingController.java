@@ -7,12 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.data.virtual.HistoryEntry;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.service.itf.PaymentService;
@@ -21,6 +19,8 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 /**
  *
@@ -28,11 +28,12 @@ import org.apache.poi.ss.usermodel.Row;
  */
 @ManagedBean(name = "accountCtrl")
 @ViewScoped
+@Controller
 public class AccountingController extends AbstractController {
 
 	private Logger LOG = Logger.getLogger(AccountingController.class);
 
-	@EJB
+	@Autowired
 	private PaymentService paymentService;
 
 	private List<HistoryEntry> listEntries;

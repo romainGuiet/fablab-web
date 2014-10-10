@@ -1,31 +1,29 @@
 package net.collaud.fablab.service.impl;
 
+import antlr.StringUtils;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
-import javax.ejb.EJB;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
 import net.collaud.fablab.dao.itf.ReservationDAO;
 import net.collaud.fablab.data.ReservationEO;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.ReservationService;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author gaetan
  */
-@Stateless
-@LocalBean
 @RolesAllowed({RolesHelper.ROLE_ADMIN})
+@Service
 public class ReservationServiceImpl extends AbstractServiceImpl implements ReservationService {
 
 	private static final Logger LOG = Logger.getLogger(ReservationServiceImpl.class);
 
-	@EJB
+	@Autowired
 	private ReservationDAO reservationDao;
 
 	@Override
@@ -47,7 +45,7 @@ public class ReservationServiceImpl extends AbstractServiceImpl implements Reser
 	public List<ReservationEO> findReservations(Date dateStart, Date dateEnd, List<Integer> machineIds) throws FablabException {
 		List<ReservationEO> list = reservationDao.findReservations(dateStart, dateEnd, machineIds);
 		if (LOG.isDebugEnabled()) {
-			LOG.debug(list.size() + " reservations found between " + dateStart + " and " + dateEnd +" for machines"+StringUtils.join(machineIds, ","));
+			LOG.debug(list.size() + " reservations found between " + dateStart + " and " + dateEnd +" for machines "+machineIds);
 		}
 		return list;
 	}
