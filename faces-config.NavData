@@ -2,22 +2,22 @@
 <Scene Scope="Project" version="2">
     <Scope Scope="Faces Configuration Only"/>
     <Scope Scope="Project">
-        <Node id="workshops/list.xhtml" x="400" y="450" zoom="true"/>
         <Node id="machines/view.xhtml" x="650" y="450" zoom="true"/>
+        <Node id="workshops/list.xhtml" x="400" y="450" zoom="true"/>
         <Node id="payment/history.xhtml" x="1400" y="150" zoom="true"/>
         <Node id="machines/list.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="users/list.xhtml" x="150" y="600" zoom="true"/>
         <Node id="users/edit.xhtml" x="650" y="600" zoom="true"/>
         <Node id="payment/payment.xhtml" x="900" y="450" zoom="true"/>
-        <Node id="users/list.xhtml" x="150" y="600" zoom="true"/>
         <Node id="login.xhtml" x="400" y="150" zoom="true"/>
-        <Node id="accounting/list.xhtml" x="650" y="300" zoom="true"/>
         <Node id="payment/list.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="accounting/list.xhtml" x="650" y="300" zoom="true"/>
         <Node id="reservations/list.xhtml" x="150" y="750" zoom="true"/>
         <Node id="payment/usage.xhtml" x="150" y="450" zoom="true"/>
         <Node id="home.xhtml" x="650" y="150" zoom="true"/>
         <Node id="machines/edit.xhtml" x="400" y="750" zoom="true"/>
-        <Node id="payment/information.xhtml" x="1150" y="150" zoom="true"/>
         <Node id="template.xhtml" x="400" y="300" zoom="false"/>
+        <Node id="payment/information.xhtml" x="1150" y="150" zoom="true"/>
         <Node id="machines/create.xhtml" x="900" y="150" zoom="true"/>
         <Node id="audit/list.xhtml" x="150" y="150" zoom="true"/>
         <Node id="users/password.xhtml" x="400" y="600" zoom="true"/>

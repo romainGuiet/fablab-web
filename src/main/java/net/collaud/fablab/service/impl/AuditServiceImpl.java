@@ -18,6 +18,8 @@ import net.collaud.fablab.data.type.AuditObject;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.AuditService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
@@ -25,17 +27,12 @@ import net.collaud.fablab.service.itf.AuditService;
  */
 @Stateless
 @LocalBean
+@Service("AuditService")
 @TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class AuditServiceImpl extends AbstractServiceImpl implements AuditService {
 
-	@EJB
+	@Autowired
 	private AuditDAO auditDAO;
-
-	@EJB
-	private UsageDao usageDAO;
-
-	@EJB
-	private PaymentDao paymentDAO;
 
 	@Override
 	@PermitAll
