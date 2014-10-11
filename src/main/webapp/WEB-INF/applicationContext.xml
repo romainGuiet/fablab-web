@@ -19,6 +19,19 @@ http://www.springframework.org/schema/jee/spring-jee-4.1.xsd">
 	<context:annotation-config/>
 	<context:spring-configured/>
 	
+	<!-- Data Source Declaration -->
+	<!--<bean id="fablabDatatSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/fablab" />
+		<property name="username" value="fablab" />
+		<property name="password" value="fablab" />
+	</bean>
+	-->
+	
+	<!--<bean id="fablabDatatSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:jdbc/fablab"/>
+		<property name="proxyInterface" value="javax.sql.DataSource" />
+	</bean>-->
 	<bean id="fablabDatatSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/fablab" />
@@ -30,6 +43,22 @@ http://www.springframework.org/schema/jee/spring-jee-4.1.xsd">
 		  class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="fablabDatatSource" />
 		<property name="persistenceUnitName" value="fablabHibernatePU" />
+		
+		<!--<property name="packagesToScan">
+			<list>
+				<value>net.collaud.fablab.data</value>
+			</list>
+		</property>
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">false</prop>
+			</props>
+		</property>-->
 	</bean>
  
 	<!--<bean id="transactionManager" class="org.springframework.orm.jta.JtaTransactionManager" />-->
@@ -37,5 +66,13 @@ http://www.springframework.org/schema/jee/spring-jee-4.1.xsd">
 	</bean>
 	
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+ 
+	<!--<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>-->
+	
+	
+	
+	
 
 </beans>

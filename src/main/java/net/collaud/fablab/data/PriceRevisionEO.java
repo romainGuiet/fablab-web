@@ -25,11 +25,7 @@ import javax.persistence.TemporalType;
 @Table(name = "t_price_revision")
 @NamedQueries({
 	@NamedQuery(name = PriceRevisionEO.SELECT_REVISIONS_ORDERED_BY_DATE_DESC,
-			query = "SELECT t FROM PriceRevisionEO t "
-					+ " JOIN FETCH t.priceMachineList AS m "
-					+ " JOIN FETCH m.membershipType "
-					+ " JOIN FETCH m.machineTypeEO  "
-					+ " ORDER BY t.dateRevision DESC "),})
+			query = "SELECT t FROM PriceRevisionEO t ORDER BY t.dateRevision DESC"),})
 public class PriceRevisionEO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

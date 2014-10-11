@@ -7,22 +7,19 @@ import net.collaud.fablab.dao.itf.MachineTypeDAO;
 import net.collaud.fablab.data.MachineEO;
 import net.collaud.fablab.data.MachineTypeEO;
 import net.collaud.fablab.data.UserEO;
-import net.collaud.fablab.exceptions.BusinessException;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.MachineService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author gaetan
  */
+@RolesAllowed({RolesHelper.ROLE_ADMIN})
 @Service
-@Transactional(propagation = Propagation.REQUIRED, rollbackFor = BusinessException.class)
 public class MachineServiceImpl extends AbstractServiceImpl implements MachineService {
 
 	private static final Logger LOG = Logger.getLogger(MachineServiceImpl.class);

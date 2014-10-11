@@ -4,7 +4,7 @@ package net.collaud.fablab.exceptions;
  *
  * @author gaetan
  */
-public class FablabException extends BusinessException{
+public class FablabException extends Exception{
 
 	public FablabException(String message, Throwable cause) {
 		super(message, cause);

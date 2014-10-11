@@ -2,11 +2,10 @@ package net.collaud.fablab.security;
 
 import java.io.Serializable;
 import java.security.Principal;
-import javax.annotation.ManagedBean;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
-import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import net.collaud.fablab.ctrl.AbstractController;
 import net.collaud.fablab.data.UserEO;
@@ -16,13 +15,16 @@ import net.collaud.fablab.file.FileHelperFactory;
 import net.collaud.fablab.service.itf.UserService;
 import net.collaud.fablab.util.SiteLink;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author gaetan
  */
 @SessionScoped
-@ManagedBean("sessionBean")
+@ManagedBean(name = "sessionBean")
+@Component
 public class SessionBean extends AbstractController implements Serializable {
 
 	private static final Logger LOG = Logger.getLogger(SessionBean.class);
@@ -35,10 +37,10 @@ public class SessionBean extends AbstractController implements Serializable {
 	private String password;
 	private UserEO currentUser;
 
-	@Inject
+	@Autowired
 	protected UserService userService;
 
-	@Inject
+	@Autowired
 	protected SiteLink link;
 
 	public SessionBean() {
@@ -56,17 +58,13 @@ public class SessionBean extends AbstractController implements Serializable {
 			actionRedirectToHomePage();
 			return SiteLink.PAGE_LOGIN;
 		} else {
-//			FacesContext.getCurrentInstance().getExternalContext().
-//			LOG.info("Login successfull for user " + getUserPrincipal().getName());
+			//FIXME
+			LOG.info("Login successfull for user " + username);
 			retrieveCurrentUser(username);
 			actionRedirectToHomePage();
 			return null;
-
 //			try {
 //				HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-//				securityService.login(username, password);
-//				
-//				FacesContext.getCurrentInstance().getExternalContext().set
 //				request.login(username, PasswordEncrypter.addPasswordSalt(password));
 //				LOG.info("Login successfull for user " + getUserPrincipal().getName());
 //				retrieveCurrentUser(username);
