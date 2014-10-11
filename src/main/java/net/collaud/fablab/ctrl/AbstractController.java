@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import net.collaud.fablab.Constants;
 import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.exceptions.FablabException;
@@ -16,7 +17,6 @@ import net.collaud.fablab.service.itf.SecurityService;
 import net.collaud.fablab.util.AbstractLocalizable;
 import net.collaud.fablab.util.JsfUtil;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -37,7 +37,7 @@ public class AbstractController extends AbstractLocalizable implements Constants
 
 	public static final String ACTION_MESSAGE_ID = "actionMessages";
 
-	@Autowired
+	@Inject
 	protected SecurityService securityService;
 
 	private UserEO savedUser;
