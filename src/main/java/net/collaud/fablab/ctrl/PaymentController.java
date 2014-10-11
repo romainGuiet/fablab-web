@@ -8,7 +8,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.ejb.EJBAccessException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
@@ -24,23 +27,20 @@ import net.collaud.fablab.service.itf.UserService;
 import net.collaud.fablab.util.Filters;
 import org.apache.log4j.Logger;
 import org.primefaces.event.SelectEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 @ManagedBean(name = "paymentCtrl")
 @ViewScoped
-@Controller
 public class PaymentController extends AbstractController implements Serializable {
 
 	private static final Logger LOG = Logger.getLogger(PaymentController.class);
 
-	@Autowired
+	@EJB
 	private UserService usersService;
 
-	@Autowired
+	@EJB
 	private MachineService machineService;
 
-	@Autowired
+	@EJB
 	private PaymentService paymentService;
 
 	private List<UserEO> listUsers;
@@ -69,15 +69,14 @@ public class PaymentController extends AbstractController implements Serializabl
 
 	@PostConstruct
 	private void init() {
-			//FIXME
-//		try {
-//			//listUsers = usersService.getAllUsers();
-//		} catch (FablabException ex) {
-//			LOG.error("Cannot retrieve user and machine list", ex);
-//			addError("TODO cannot retrieve users list", ex);
-////		} catch (EJBAccessException ex) {
-////			LOG.error("Cannot get users because of right access", ex);
-//		}
+		try {
+			listUsers = usersService.getAllUsers();
+		} catch (FablabException ex) {
+			LOG.error("Cannot retrieve user and machine list", ex);
+			addError("TODO cannot retrieve users list", ex);
+		} catch (EJBAccessException ex) {
+			LOG.error("Cannot get users because of right access", ex);
+		}
 	}
 
 	private void resetUsageValue() {

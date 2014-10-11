@@ -1,5 +1,6 @@
 package net.collaud.fablab.ctrl.converter;
 
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -9,18 +10,15 @@ import javax.faces.convert.FacesConverter;
 import net.collaud.fablab.dao.itf.UserDao;
 import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.exceptions.FablabException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  *
  * @author gaetan
  */
 @FacesConverter(forClass = UserEO.class, value = "userConverter")
-@Component
 public class UserConverter implements Converter {
 
-	@Autowired
+	@EJB
 	private UserDao userDao;
 
 	@Override

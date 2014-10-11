@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.TreeSet;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import net.collaud.fablab.audit.Audit;
 import net.collaud.fablab.audit.AuditDetail;
 import net.collaud.fablab.audit.AuditUtils;
@@ -29,38 +32,37 @@ import net.collaud.fablab.service.itf.AuditService;
 import net.collaud.fablab.service.itf.PaymentService;
 import net.collaud.fablab.service.itf.SecurityService;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  *
  * @author gaetan
  */
+@Stateless
+@LocalBean
 @RolesAllowed({RolesHelper.ROLE_MANAGE_PAYMENT})
-@Service
 public class PaymentServiceImpl extends AbstractServiceImpl implements PaymentService {
 
 	private static final Logger LOG = Logger.getLogger(PaymentServiceImpl.class);
 
-	@Autowired
+	@EJB
 	private AuditService audtiService;
 
-	@Autowired
+	@EJB
 	private SecurityService securityService;
 
-	@Autowired
+	@EJB
 	private UserDao userDao;
 
-	@Autowired
+	@EJB
 	private PaymentDao paymentDao;
 
-	@Autowired
+	@EJB
 	private SubscriptionDao subscriptionDao;
 
-	@Autowired
+	@EJB
 	private UsageDao usageDao;
 
-	@Autowired
+	@EJB
 	private PriceDAO priceDao;
 
 	@Override

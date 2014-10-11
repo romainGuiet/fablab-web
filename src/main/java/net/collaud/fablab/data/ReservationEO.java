@@ -14,6 +14,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -47,15 +48,18 @@ public class ReservationEO extends AbstractDataEO implements Serializable {
 	
 	@Id
     @Basic(optional = false)
+    @NotNull
     @Column(name = "reservation_id")
 	private Integer reservationId;
 	
 	@Basic(optional = false)
+    @NotNull
     @Column(name = "date_start")
     @Temporal(TemporalType.TIMESTAMP)
 	private Date dateStart;
 	
 	@Basic(optional = false)
+    @NotNull
     @Column(name = "date_end")
     @Temporal(TemporalType.TIMESTAMP)
 	private Date dateEnd;

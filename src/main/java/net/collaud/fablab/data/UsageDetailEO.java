@@ -15,6 +15,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
+import org.eclipse.persistence.annotations.ReadOnly;
 
 /**
  *
@@ -22,6 +24,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "v_usage_detail")
+@ReadOnly
 @NamedQueries({
 	@NamedQuery(name = UsageDetailEO.SELECT_FROM_DATES,
 			query = "SELECT u FROM UsageDetailEO u "
@@ -60,6 +63,7 @@ public class UsageDetailEO extends AbstractDataEO implements Serializable {
 	@Column(name = "additional_cost", nullable = false)
 	private float additionalCost;
 
+	@Size(max = 255)
 	@Column(name = "comment")
 	private String comment;
 

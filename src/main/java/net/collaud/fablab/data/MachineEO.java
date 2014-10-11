@@ -15,6 +15,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -55,6 +56,7 @@ public class MachineEO extends AbstractDataEO implements Serializable {
     @Column(name = "machine_id", nullable = false)
 	private Integer machineId;
 	
+	@Size(max = 45)
     @Column(name = "name")
 	private String name;
 	

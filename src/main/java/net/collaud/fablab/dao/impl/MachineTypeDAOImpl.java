@@ -1,6 +1,8 @@
 package net.collaud.fablab.dao.impl;
 
 import java.util.List;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -9,13 +11,13 @@ import net.collaud.fablab.dao.itf.MachineTypeDAO;
 import net.collaud.fablab.data.MachineTypeEO;
 import net.collaud.fablab.data.MachineTypeEO_;
 import net.collaud.fablab.exceptions.FablabException;
-import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author gaetan
  */
-@Repository
+@Stateless
+@LocalBean
 public class MachineTypeDAOImpl extends AbstractDAO<MachineTypeEO> implements MachineTypeDAO {
 
 	public MachineTypeDAOImpl() {

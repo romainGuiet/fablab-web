@@ -3,6 +3,8 @@ package net.collaud.fablab.ctrl;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
+import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import net.collaud.fablab.data.MachineEO;
@@ -11,17 +13,14 @@ import net.collaud.fablab.service.itf.MachineService;
 import net.collaud.fablab.util.JsfUtil;
 import net.collaud.fablab.util.JsfUtil.PersistAction;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 @ManagedBean(name = "machineController")
 @ViewScoped
-@Controller
 public class MachineController extends AbstractController implements Serializable {
 
 	private static final Logger LOG = Logger.getLogger(MachineController.class);
 
-	@Autowired
+	@EJB
 	private MachineService machineService;
 
 	private List<MachineEO> items = null;
@@ -86,18 +85,17 @@ public class MachineController extends AbstractController implements Serializabl
 			try {
 				machineService.save(selected);
 				JsfUtil.addSuccessMessage(successMessage);
-				//FIXME
-//			} catch (EJBException ex) {
-//				String msg = "";
-//				Throwable cause = ex.getCause();
-//				if (cause != null) {
-//					msg = cause.getLocalizedMessage();
-//				}
-//				if (msg.length() > 0) {
-//					JsfUtil.addErrorMessage(msg);
-//				} else {
-//					JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-//				}
+			} catch (EJBException ex) {
+				String msg = "";
+				Throwable cause = ex.getCause();
+				if (cause != null) {
+					msg = cause.getLocalizedMessage();
+				}
+				if (msg.length() > 0) {
+					JsfUtil.addErrorMessage(msg);
+				} else {
+					JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+				}
 			} catch (Exception ex) {
 				LOG.error("Cannot save machine " + selected, ex);
 				JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));

@@ -16,6 +16,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -47,6 +48,7 @@ public class SubscriptionEO extends AbstractDataEO implements Serializable {
 	@Column(name = "subscription_id", nullable = false)
 	private Integer subscriptionId;
 
+	@Size(max = 255)
 	@Column(name = "comment")
 	private String comment;
 

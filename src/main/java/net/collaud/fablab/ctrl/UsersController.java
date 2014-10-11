@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
@@ -24,17 +26,14 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 @ManagedBean(name = "userCtrl")
 @ViewScoped
-@Controller
 public class UsersController extends AbstractController implements Serializable {
 
 	private static final Logger LOG = Logger.getLogger(UsersController.class);
 
-	@Autowired
+	@EJB
 	private UserService usersService;
 
 	private List<UserEO> items = null;
@@ -184,7 +183,7 @@ public class UsersController extends AbstractController implements Serializable 
 				addInfo(successMessage);
 			} catch (FablabConstraintException ex) {
 				FacesContext.getCurrentInstance().validationFailed();
-				switch (ex.getConstraint()) {
+				switch(ex.getConstraint()){
 					case USER_EMAIL_UNIQUE:
 						addError(getString("users.error.emailUnique"));
 						break;
@@ -192,22 +191,21 @@ public class UsersController extends AbstractController implements Serializable 
 						addError(getString("users.error.loginUnique"));
 						break;
 					default:
-						addError("Constraint error : " + ex.getConstraint());
+						addError("Constraint error : "+ex.getConstraint());
 				}
 				return;
-				//FIXME
-//			} catch (EJBException ex) {
-//				FacesContext.getCurrentInstance().validationFailed();
-//				String msg = "";
-//				Throwable cause = ex.getCause();
-//				if (cause != null) {
-//					msg = cause.getLocalizedMessage();
-//				}
-//				if (msg != null && msg.length() > 0) {
-//					addError(msg);
-//				} else {
-//					addError(getString("error.persistenceErrorOccured"), ex);
-//				}
+			} catch (EJBException ex) {
+				FacesContext.getCurrentInstance().validationFailed();
+				String msg = "";
+				Throwable cause = ex.getCause();
+				if (cause != null) {
+					msg = cause.getLocalizedMessage();
+				}
+				if (msg != null && msg.length() > 0) {
+					addError(msg);
+				} else {
+					addError(getString("error.persistenceErrorOccured"), ex);
+				}
 			} catch (FablabException ex) {
 				FacesContext.getCurrentInstance().validationFailed();
 				LOG.error("Cannot persist user " + selected, ex);
@@ -243,7 +241,7 @@ public class UsersController extends AbstractController implements Serializable 
 
 		int nbRow = 0;
 		Row headerRow = sheet.createRow(nbRow++);
-		String[] headers = new String[]{"lastname", "firstname", "email", "phone", "address", "balance", "membership"};
+		String[] headers = new String[]{"lastname", "firstname", "email", "phone", "address", "balance","membership"};
 		for (int i = 0; i < headers.length; i++) {
 			Cell cell = headerRow.createCell(i);
 			cell.setCellValue(headers[i]);

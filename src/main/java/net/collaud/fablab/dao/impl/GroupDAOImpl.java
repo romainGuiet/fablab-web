@@ -1,17 +1,19 @@
 package net.collaud.fablab.dao.impl;
 
 import java.util.List;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import net.collaud.fablab.dao.itf.GroupDAO;
 import net.collaud.fablab.data.GroupEO;
 import net.collaud.fablab.exceptions.FablabException;
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author gaetan
  */
-@Repository
+@Stateless
+@LocalBean
 public class GroupDAOImpl extends AbstractDAO<GroupEO> implements GroupDAO {
 
 	private static final Logger LOG = Logger.getLogger(GroupDAOImpl.class);

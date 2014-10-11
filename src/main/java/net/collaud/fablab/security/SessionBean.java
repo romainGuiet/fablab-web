@@ -2,10 +2,13 @@ package net.collaud.fablab.security;
 
 import java.io.Serializable;
 import java.security.Principal;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import net.collaud.fablab.ctrl.AbstractController;
 import net.collaud.fablab.data.UserEO;
@@ -15,8 +18,6 @@ import net.collaud.fablab.file.FileHelperFactory;
 import net.collaud.fablab.service.itf.UserService;
 import net.collaud.fablab.util.SiteLink;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -24,7 +25,6 @@ import org.springframework.stereotype.Component;
  */
 @SessionScoped
 @ManagedBean(name = "sessionBean")
-@Component
 public class SessionBean extends AbstractController implements Serializable {
 
 	private static final Logger LOG = Logger.getLogger(SessionBean.class);
@@ -37,10 +37,10 @@ public class SessionBean extends AbstractController implements Serializable {
 	private String password;
 	private UserEO currentUser;
 
-	@Autowired
+	@EJB
 	protected UserService userService;
 
-	@Autowired
+	@EJB
 	protected SiteLink link;
 
 	public SessionBean() {
@@ -58,29 +58,24 @@ public class SessionBean extends AbstractController implements Serializable {
 			actionRedirectToHomePage();
 			return SiteLink.PAGE_LOGIN;
 		} else {
-			//FIXME
-			LOG.info("Login successfull for user " + username);
-			retrieveCurrentUser(username);
-			actionRedirectToHomePage();
-			return null;
-//			try {
-//				HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-//				request.login(username, PasswordEncrypter.addPasswordSalt(password));
-//				LOG.info("Login successfull for user " + getUserPrincipal().getName());
-//				retrieveCurrentUser(username);
-//				actionRedirectToHomePage();
-//				return null;
-//			} catch (ServletException ex) {
-//				if (ex.getMessage().equalsIgnoreCase("Login failed")) {
-//					addLocalizedErrorMessage("login.failed", "login.failed.detail");
-//					LOG.warn("Wrong login or password for user " + username);
-//				} else {
-//					addLocalizedErrorMessage("error.internal", ex);
-//					LOG.error("Cannot login !", ex);
-//				}
-//			}
+			try {
+				HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+				request.login(username, PasswordEncrypter.addPasswordSalt(password));
+				LOG.info("Login successfull for user " + getUserPrincipal().getName());
+				retrieveCurrentUser(username);
+				actionRedirectToHomePage();
+				return null;
+			} catch (ServletException ex) {
+				if (ex.getMessage().equalsIgnoreCase("Login failed")) {
+					addLocalizedErrorMessage("login.failed", "login.failed.detail");
+					LOG.warn("Wrong login or password for user " + username);
+				} else {
+					addLocalizedErrorMessage("error.internal", ex);
+					LOG.error("Cannot login !", ex);
+				}
+			}
 		}
-		//return SiteLink.PAGE_LOGIN;
+		return SiteLink.PAGE_LOGIN;
 	}
 
 	protected void retrieveCurrentUser(String login) {

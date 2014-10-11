@@ -2,18 +2,20 @@ package net.collaud.fablab.dao.impl;
 
 import java.util.Date;
 import java.util.List;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import net.collaud.fablab.dao.itf.PaymentDao;
 import net.collaud.fablab.data.PaymentEO;
 import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.exceptions.FablabException;
-import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author gaetan
  */
-@Repository
+@Stateless
+@LocalBean
 public class PaymentDAOImpl extends AbstractDAO<PaymentEO> implements PaymentDao {
 
 	public PaymentDAOImpl() {

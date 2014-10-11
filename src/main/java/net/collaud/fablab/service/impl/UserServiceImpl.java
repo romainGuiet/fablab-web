@@ -6,8 +6,12 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import net.collaud.fablab.audit.Audit;
 import net.collaud.fablab.audit.AuditDetail;
+import net.collaud.fablab.ctrl.UsersController;
 import net.collaud.fablab.dao.itf.GroupDAO;
 import net.collaud.fablab.dao.itf.MembershipTypeDAO;
 import net.collaud.fablab.dao.itf.PriceDAO;
@@ -26,31 +30,35 @@ import net.collaud.fablab.file.ConfigFileHelper;
 import net.collaud.fablab.file.FileHelperFactory;
 import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.UserService;
+import net.collaud.fablab.service.systems.ldap.LDAPService;
+import net.collaud.fablab.service.systems.ldap.LDAPUser;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  *
  * @author gaetan
  */
+@Stateless
+@LocalBean
 @RolesAllowed({RolesHelper.ROLE_ADMIN})
-@Service
 public class UserServiceImpl extends AbstractServiceImpl implements UserService {
 	private static final Logger LOG = Logger.getLogger(UserServiceImpl.class);
 
-	@Autowired
+	@EJB
 	private UserDao userDao;
 
-	@Autowired
+	@EJB
 	private MembershipTypeDAO membershipTypeDao;
 
-	@Autowired
+	@EJB
+	private LDAPService ldapService;
+
+	@EJB
 	private PriceDAO priceDao;
 	
-	@Autowired
+	@EJB
 	private GroupDAO groupDao;
 
 	@Override
@@ -106,6 +114,49 @@ public class UserServiceImpl extends AbstractServiceImpl implements UserService 
 	@RolesAllowed({RolesHelper.ROLE_MANAGE_USERS})
 	public List<MembershipTypeEO> getListMembershipTypes() throws FablabException {
 		return membershipTypeDao.findAll();
+	}
+
+	@Override
+	@RolesAllowed({RolesHelper.ROLE_MANAGE_USERS})
+	public LDAPSyncResult syncWithLDAP() throws FablabException {
+		List<LDAPUser> ldapUsers = ldapService.getAllActiveUsers();
+		List<UserEO> users = userDao.findAll();
+
+		Iterator<UserEO> itrEo = users.iterator();
+		while (itrEo.hasNext()) {
+			UserEO uEo = itrEo.next();
+			Iterator<LDAPUser> itrLdap = ldapUsers.iterator();
+			while (itrLdap.hasNext()) {
+				LDAPUser uLdap = itrLdap.next();
+				if (uEo.getLogin().equals(uLdap.getLogin())) {
+					//user matched, remove it from both list
+					itrLdap.remove();
+					itrEo.remove();
+				}
+			}
+		}
+
+		LDAPSyncResult res = new LDAPSyncResult();
+
+		MembershipTypeEO defaultMT = null;
+		if (!ldapUsers.isEmpty()) {
+			defaultMT = membershipTypeDao.getByName(FileHelperFactory.getConfig().get(ConfigFileHelper.DEFAULT_MEMBERSHIP_TYPE));
+		}
+
+		for (LDAPUser u : ldapUsers) {
+			//users to add
+			res.userAdded(u.getLogin());
+			UserEO add = new UserEO(0, false, u.getLogin(), "", "UKNOWN", "UNKONWN", new Date(), 0f, "");
+			add.setMembershipType(defaultMT);
+			userDao.save(add);
+		}
+
+		for (UserEO u : users) {
+			//user to disable
+			res.userDisabled(u.getLogin());
+		}
+
+		return res;
 	}
 
 	@Override

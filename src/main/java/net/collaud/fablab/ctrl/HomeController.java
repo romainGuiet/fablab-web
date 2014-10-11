@@ -7,7 +7,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import net.collaud.fablab.data.MachineTypeEO;
@@ -20,26 +22,23 @@ import net.collaud.fablab.service.itf.PaymentService;
 import net.collaud.fablab.service.itf.PriceService;
 import net.collaud.fablab.service.itf.UserService;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 @ManagedBean(name = "homeCtrl")
 @ViewScoped
-@Controller
 public class HomeController extends AbstractController implements Serializable {
 
 	private static final Logger LOG = Logger.getLogger(HomeController.class);
 
-	@Autowired
+	@EJB
 	private UserService usersService;
 
-	@Autowired
+	@EJB
 	private PaymentService paymentService;
 
-	@Autowired
+	@EJB
 	private MachineService machineService;
 
-	@Autowired
+	@EJB
 	private PriceService priceService;
 
 	public HomeController() {

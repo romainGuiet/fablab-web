@@ -4,7 +4,14 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import net.collaud.fablab.dao.itf.AuditDAO;
+import net.collaud.fablab.dao.itf.PaymentDao;
+import net.collaud.fablab.dao.itf.UsageDao;
 import net.collaud.fablab.data.AuditEO;
 import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.data.type.AuditObject;
@@ -18,7 +25,10 @@ import org.springframework.stereotype.Service;
  *
  * @author gaetan
  */
+@Stateless
+@LocalBean
 @Service("AuditService")
+@TransactionAttribute(TransactionAttributeType.REQUIRED)
 public class AuditServiceImpl extends AbstractServiceImpl implements AuditService {
 
 	@Autowired

@@ -3,7 +3,10 @@ package net.collaud.fablab.ws;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.security.RunAs;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -26,13 +29,13 @@ import net.collaud.fablab.service.itf.AuditService;
 import net.collaud.fablab.service.itf.SecurityService;
 import net.collaud.fablab.service.itf.UserService;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * REST Web Service
  *
  * @author gaetan
  */
+@Stateless
 @Path(WebServicePath.DOOR_URL)
 @RunAs(RolesHelper.ROLE_SYSTEM)
 public class DoorResource extends AbstractWebService {
@@ -41,13 +44,13 @@ public class DoorResource extends AbstractWebService {
 
 	private UriInfo context;
 
-	@Autowired
+	@EJB
 	private SecurityService securityService;
 
-	@Autowired
+	@EJB
 	private AuditService auditService;
 
-	@Autowired
+	@EJB
 	private UserService userService;
 
 	@Override

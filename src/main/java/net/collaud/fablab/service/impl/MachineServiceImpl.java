@@ -2,6 +2,9 @@ package net.collaud.fablab.service.impl;
 
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import net.collaud.fablab.dao.itf.MachineDAO;
 import net.collaud.fablab.dao.itf.MachineTypeDAO;
 import net.collaud.fablab.data.MachineEO;
@@ -11,23 +14,22 @@ import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.MachineService;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  *
  * @author gaetan
  */
+@Stateless
+@LocalBean
 @RolesAllowed({RolesHelper.ROLE_ADMIN})
-@Service
 public class MachineServiceImpl extends AbstractServiceImpl implements MachineService {
 
 	private static final Logger LOG = Logger.getLogger(MachineServiceImpl.class);
 
-	@Autowired
+	@EJB
 	private MachineDAO machineDao;
 	
-	@Autowired
+	@EJB
 	private MachineTypeDAO machineTypeDao;
 
 	@Override

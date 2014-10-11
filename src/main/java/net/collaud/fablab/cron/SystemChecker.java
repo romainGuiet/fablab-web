@@ -3,6 +3,10 @@ package net.collaud.fablab.cron;
 import java.util.List;
 import java.util.logging.Level;
 import javax.annotation.security.RunAs;
+import javax.ejb.EJB;
+import javax.ejb.Schedule;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import net.collaud.fablab.audit.AuditUtils;
 import net.collaud.fablab.cron.system.AbstractSystem;
 import net.collaud.fablab.cron.system.SystemStatusFactory;
@@ -15,33 +19,32 @@ import net.collaud.fablab.service.itf.AuditService;
 import net.collaud.fablab.service.itf.SystemStatusService;
 import net.collaud.fablab.service.systems.mail.MailService;
 import org.apache.log4j.Logger;
-import org.primefaces.component.schedule.Schedule;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author gaetan
  */
-//FIXME remettre cron
+@Startup
+@Singleton
 @RunAs(RolesHelper.ROLE_SYSTEM)
 public class SystemChecker {
 
 	private static final Logger LOG = Logger.getLogger(SystemChecker.class);
 
-	@Autowired
+	@EJB
 	private SystemStatusService systemStatusService;
 
-	@Autowired
+	@EJB
 	private AuditService auditService;
 
-	@Autowired
+	@EJB
 	private MailService mailService;
 
 	public SystemChecker() {
 	}
 
 	//@Schedule(second = "0, 10, 20, 30, 40, 50", minute = "*", hour = "*")
-	//@Schedule(second = "0", minute = "*", hour = "*")
+	@Schedule(second = "0", minute = "*", hour = "*")
 	public void checkSystemStatus() {
 		try {
 			List<SystemStatusEO> listSystems = systemStatusService.getAllSystemStatus();

@@ -2,23 +2,25 @@ package net.collaud.fablab.service.impl;
 
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import net.collaud.fablab.dao.itf.SystemStatusDao;
 import net.collaud.fablab.data.SystemStatusEO;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.SystemStatusService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  *
  * @author gaetan
  */
+@Stateless
+@LocalBean
 @RolesAllowed({RolesHelper.ROLE_ADMIN})
-@Service
 public class SystemStatusServiceImpl extends AbstractServiceImpl implements SystemStatusService {
 
-	@Autowired
+	@EJB
 	private SystemStatusDao systemStatusDao;
 
 	@Override
