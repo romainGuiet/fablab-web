@@ -6,43 +6,31 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
-import javax.annotation.ManagedBean;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import net.collaud.fablab.Constants;
 import net.collaud.fablab.data.AuditEO;
 import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.data.type.AuditObject;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.service.itf.AuditService;
+import net.collaud.fablab.service.itf.UserService;
 import org.apache.log4j.Logger;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
-@ManagedBean("auditCtrl")
+@ManagedBean(name = "auditCtrl")
 @ViewScoped
-public class AuditController implements Serializable, Constants {
+public class AuditController extends AbstractController implements Serializable, Constants {
 
 	private Logger LOG = Logger.getLogger(AuditController.class);
 
 	private static final int AUDIT_SELECT_LIMIT = 200;
-	
-	//FIXME remove
-	public TimeZone getTimeZone() {
-		return TimeZone.getDefault();
-	}
 
-//	@EJB
-//	private AuditService auditService;
-
-	@Inject
+	@EJB
 	private AuditService auditService;
 
-//	@EJB
-//	private UserService userService;
+	@EJB
+	private UserService userService;
 
 	private List<UserEO> listUsers;
 	private List<AuditEO> listAuditEntries;
@@ -59,12 +47,6 @@ public class AuditController implements Serializable, Constants {
 	public String prepareList() {
 		return "list";
 	}
-	
-	private Object getSpringBean(String name){
-        WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(
-                (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext());
-        return ctx.getBean(name);
-}
 
 	public List<AuditEO> getListEntries() {
 		if (listAuditEntries == null) {
@@ -78,8 +60,7 @@ public class AuditController implements Serializable, Constants {
 				List<AuditEO> list = auditService.search(filterUser, filterObject, filterAfter, filterBefore, filterContent, AUDIT_SELECT_LIMIT);
 				return list;
 			} catch (FablabException ex) {
-				//FIXME remettre
-				//addError("TODO cannot load audit entries", ex);
+				addError("TODO cannot load audit entries", ex);
 				LOG.error("Cannot load audit", ex);
 			}
 		}
@@ -111,15 +92,14 @@ public class AuditController implements Serializable, Constants {
 	}
 
 	private List<UserEO> getListUsers() {
-		//FIXME remettre
-//		if (listUsers == null) {
-//			try {
-//				listUsers = userService.getAllUsers();
-//			} catch (FablabException ex) {
-//				LOG.error("Cannot get all users", ex);
-//				addError("Cannot get all users", ex);
-//			}
-//		}
+		if (listUsers == null) {
+			try {
+				listUsers = userService.getAllUsers();
+			} catch (FablabException ex) {
+				LOG.error("Cannot get all users", ex);
+				addError("Cannot get all users", ex);
+			}
+		}
 		return listUsers;
 	}
 
