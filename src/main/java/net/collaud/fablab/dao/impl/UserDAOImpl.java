@@ -33,7 +33,7 @@ import org.springframework.stereotype.Service;
 @Repository
 public class UserDAOImpl extends AbstractDAO<UserEO> implements UserDao {
 	
-	@PersistenceContext
+	@PersistenceContext(name = Constants.PERSISTANCE_UNIT_NAME)
 	private EntityManager myEM;
 
 	protected EntityManager getEntityManager() {

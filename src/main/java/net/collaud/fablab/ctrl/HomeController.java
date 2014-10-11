@@ -9,10 +9,7 @@ import java.util.List;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
 import net.collaud.fablab.data.MachineTypeEO;
 import net.collaud.fablab.data.MembershipTypeEO;
 import net.collaud.fablab.data.PriceMachineEO;
@@ -23,41 +20,32 @@ import net.collaud.fablab.service.itf.PaymentService;
 import net.collaud.fablab.service.itf.PriceService;
 import net.collaud.fablab.service.itf.UserService;
 import org.apache.log4j.Logger;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 @ManagedBean(name = "homeCtrl")
 @ViewScoped
+@Controller
 public class HomeController extends AbstractController implements Serializable {
 
 	private static final Logger LOG = Logger.getLogger(HomeController.class);
 
-	@Inject
+	@Autowired
 	private UserService usersService;
 
-	@Inject
+	@Autowired
 	private PaymentService paymentService;
 
-	@Inject
+	@Autowired
 	private MachineService machineService;
 
-	@Inject
+	@Autowired
 	private PriceService priceService;
 
 	public HomeController() {
 	}
-	
-	
-	private void getSpringBean(){
-        WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(
-                (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext());
-		for(String beans : ctx.getBeanDefinitionNames()){
-			LOG.info("Bean : "+beans);
-		}
-}
 
 	public boolean haveToConfirmSubscription() {
-		getSpringBean();
 		try {
 			return usersService.daysToEndOfSubscriptionForCurrentUser() < 0;
 		} catch (FablabException ex) {

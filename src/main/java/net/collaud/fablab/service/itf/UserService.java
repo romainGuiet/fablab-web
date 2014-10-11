@@ -5,6 +5,7 @@ import net.collaud.fablab.data.GroupEO;
 import net.collaud.fablab.data.MachineTypeEO;
 import net.collaud.fablab.data.MembershipTypeEO;
 import net.collaud.fablab.data.UserEO;
+import net.collaud.fablab.data.virtual.LDAPSyncResult;
 import net.collaud.fablab.exceptions.FablabException;
 
 /**

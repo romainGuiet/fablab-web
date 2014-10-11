@@ -1,6 +1,8 @@
 package net.collaud.fablab.service.impl;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
@@ -18,7 +20,10 @@ import net.collaud.fablab.data.PriceRevisionEO;
 import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.data.type.AuditAction;
 import net.collaud.fablab.data.type.AuditObject;
+import net.collaud.fablab.data.virtual.LDAPSyncResult;
 import net.collaud.fablab.exceptions.FablabException;
+import net.collaud.fablab.file.ConfigFileHelper;
+import net.collaud.fablab.file.FileHelperFactory;
 import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.UserService;
 import org.apache.log4j.Logger;
@@ -31,7 +36,8 @@ import org.springframework.stereotype.Service;
  *
  * @author gaetan
  */
-@Service("UserService")
+@RolesAllowed({RolesHelper.ROLE_ADMIN})
+@Service
 public class UserServiceImpl extends AbstractServiceImpl implements UserService {
 	private static final Logger LOG = Logger.getLogger(UserServiceImpl.class);
 
