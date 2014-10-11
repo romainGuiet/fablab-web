@@ -3,16 +3,13 @@ package net.collaud.fablab.dao.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import net.collaud.fablab.Constants;
 import net.collaud.fablab.dao.itf.UserDao;
 import net.collaud.fablab.data.GroupEO;
 import net.collaud.fablab.data.GroupEO_;
@@ -24,7 +21,6 @@ import net.collaud.fablab.exceptions.FablabConstraintException;
 import net.collaud.fablab.exceptions.FablabException;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 /**
  *
@@ -32,13 +28,6 @@ import org.springframework.stereotype.Service;
  */
 @Repository
 public class UserDAOImpl extends AbstractDAO<UserEO> implements UserDao {
-	
-	@PersistenceContext
-	private EntityManager myEM;
-
-	protected EntityManager getEntityManager() {
-		return myEM;
-	}
 
 	private static final Logger LOG = Logger.getLogger(UserDAOImpl.class);
 

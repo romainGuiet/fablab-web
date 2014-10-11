@@ -4,10 +4,11 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
+import javax.annotation.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import net.collaud.fablab.data.GroupEO;
 import net.collaud.fablab.data.MembershipTypeEO;
 import net.collaud.fablab.data.UserEO;
@@ -24,17 +25,14 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
-@ManagedBean(name = "userCtrl")
+@ManagedBean("userCtrl")
 @ViewScoped
-@Controller
 public class UsersController extends AbstractController implements Serializable {
 
 	private static final Logger LOG = Logger.getLogger(UsersController.class);
 
-	@Autowired
+	@Inject
 	private UserService usersService;
 
 	private List<UserEO> items = null;

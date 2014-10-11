@@ -10,19 +10,22 @@ import javax.faces.context.FacesContext;
 import net.collaud.fablab.dao.itf.GroupDAO;
 import net.collaud.fablab.dao.itf.UserDao;
 import net.collaud.fablab.data.UserEO;
+import net.collaud.fablab.exceptions.BusinessException;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.SecurityService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author gaetan
  */
-@RolesAllowed({RolesHelper.ROLE_ADMIN})
 @Service
+@Transactional(propagation = Propagation.REQUIRED, rollbackFor = BusinessException.class)
 public class SecurityServiceImpl extends AbstractServiceImpl implements SecurityService {
 
 	private static final Logger LOG = Logger.getLogger(SecurityServiceImpl.class);
@@ -34,7 +37,7 @@ public class SecurityServiceImpl extends AbstractServiceImpl implements Security
 	private GroupDAO groupDao;
 
 	@Override
-	@RolesAllowed({RolesHelper.ROLE_SYSTEM})
+	//@RolesAllowed({RolesHelper.ROLE_SYSTEM})
 	public List<UserEO> getUsersWithDoorAccess() throws FablabException {
 		//FIXME from config list
 		List<String> technicalNames = Arrays.asList(new String[]{"comite", "animator"});
@@ -49,14 +52,16 @@ public class SecurityServiceImpl extends AbstractServiceImpl implements Security
 	}
 
 	@Override
-	@PermitAll
+	//@PermitAll
 	public UserEO getCurrentUser() throws FablabException {
 		FacesContext context = FacesContext.getCurrentInstance();
 		if (context == null) {
 			return null;
 		}
-		Principal principal = context.getExternalContext().getUserPrincipal();
-		return userDao.getByLogin(principal.getName());
+		//FIXME
+//		Principal principal = context.getExternalContext().getUserPrincipal();
+//		return userDao.getByLogin(principal.getName());
+		return userDao.getByLogin("gaetan.collaud");
 	}
 
 }

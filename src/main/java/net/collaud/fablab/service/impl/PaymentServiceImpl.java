@@ -23,6 +23,7 @@ import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.data.type.AuditAction;
 import net.collaud.fablab.data.type.AuditObject;
 import net.collaud.fablab.data.virtual.HistoryEntry;
+import net.collaud.fablab.exceptions.BusinessException;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.AuditService;
@@ -31,13 +32,15 @@ import net.collaud.fablab.service.itf.SecurityService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author gaetan
  */
-@RolesAllowed({RolesHelper.ROLE_MANAGE_PAYMENT})
 @Service
+@Transactional(propagation = Propagation.REQUIRED, rollbackFor = BusinessException.class)
 public class PaymentServiceImpl extends AbstractServiceImpl implements PaymentService {
 
 	private static final Logger LOG = Logger.getLogger(PaymentServiceImpl.class);

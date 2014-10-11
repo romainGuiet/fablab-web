@@ -3,25 +3,23 @@ package net.collaud.fablab.ctrl;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
-import javax.faces.bean.ManagedBean;
+import javax.annotation.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 import net.collaud.fablab.data.MachineEO;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.service.itf.MachineService;
 import net.collaud.fablab.util.JsfUtil;
 import net.collaud.fablab.util.JsfUtil.PersistAction;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
-@ManagedBean(name = "machineController")
+@ManagedBean("machineController")
 @ViewScoped
-@Controller
 public class MachineController extends AbstractController implements Serializable {
 
 	private static final Logger LOG = Logger.getLogger(MachineController.class);
 
-	@Autowired
+	@Inject
 	private MachineService machineService;
 
 	private List<MachineEO> items = null;

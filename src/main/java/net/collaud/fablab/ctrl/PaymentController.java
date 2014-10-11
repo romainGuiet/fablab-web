@@ -8,10 +8,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
+import javax.inject.Inject;
 import net.collaud.fablab.data.MachineEO;
 import net.collaud.fablab.data.MachineTypeEO;
 import net.collaud.fablab.data.UserAuthorizedMachineTypeEO;
@@ -24,23 +25,20 @@ import net.collaud.fablab.service.itf.UserService;
 import net.collaud.fablab.util.Filters;
 import org.apache.log4j.Logger;
 import org.primefaces.event.SelectEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
-@ManagedBean(name = "paymentCtrl")
+@ManagedBean("paymentCtrl")
 @ViewScoped
-@Controller
 public class PaymentController extends AbstractController implements Serializable {
 
 	private static final Logger LOG = Logger.getLogger(PaymentController.class);
 
-	@Autowired
+	@Inject
 	private UserService usersService;
 
-	@Autowired
+	@Inject
 	private MachineService machineService;
 
-	@Autowired
+	@Inject
 	private PaymentService paymentService;
 
 	private List<UserEO> listUsers;

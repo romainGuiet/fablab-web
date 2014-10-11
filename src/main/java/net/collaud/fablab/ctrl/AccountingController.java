@@ -7,10 +7,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.faces.bean.ManagedBean;
+import javax.annotation.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import net.collaud.fablab.data.virtual.HistoryEntry;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.service.itf.PaymentService;
@@ -19,21 +20,18 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 /**
  *
  * @author gaetan
  */
-@ManagedBean(name = "accountCtrl")
+@ManagedBean("accountCtrl")
 @ViewScoped
-@Controller
 public class AccountingController extends AbstractController {
 
 	private Logger LOG = Logger.getLogger(AccountingController.class);
 
-	@Autowired
+	@Inject
 	private PaymentService paymentService;
 
 	private List<HistoryEntry> listEntries;
@@ -43,7 +41,7 @@ public class AccountingController extends AbstractController {
 	private Calendar filterAfter;
 	private Calendar filterBefore;
 
-	private NumberFormat formatter = new DecimalFormat("#0.00");
+	private final NumberFormat formatter = new DecimalFormat("#0.00");
 
 	public AccountingController() {
 		quickThisMonth();

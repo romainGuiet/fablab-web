@@ -8,17 +8,21 @@ import net.collaud.fablab.dao.itf.AuditDAO;
 import net.collaud.fablab.data.AuditEO;
 import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.data.type.AuditObject;
+import net.collaud.fablab.exceptions.BusinessException;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.AuditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author gaetan
  */
-@Service("AuditService")
+@Service
+@Transactional(propagation = Propagation.REQUIRED, rollbackFor = BusinessException.class)
 public class AuditServiceImpl extends AbstractServiceImpl implements AuditService {
 
 	@Autowired

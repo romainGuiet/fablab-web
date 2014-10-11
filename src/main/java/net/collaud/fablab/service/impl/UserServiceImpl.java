@@ -18,6 +18,7 @@ import net.collaud.fablab.data.PriceRevisionEO;
 import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.data.type.AuditAction;
 import net.collaud.fablab.data.type.AuditObject;
+import net.collaud.fablab.exceptions.BusinessException;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.UserService;
@@ -26,12 +27,15 @@ import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author gaetan
  */
-@Service("UserService")
+@Service
+@Transactional(propagation = Propagation.REQUIRED, rollbackFor = BusinessException.class)
 public class UserServiceImpl extends AbstractServiceImpl implements UserService {
 	private static final Logger LOG = Logger.getLogger(UserServiceImpl.class);
 

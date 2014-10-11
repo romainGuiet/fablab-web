@@ -4,18 +4,21 @@ import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import net.collaud.fablab.dao.itf.SystemStatusDao;
 import net.collaud.fablab.data.SystemStatusEO;
+import net.collaud.fablab.exceptions.BusinessException;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.security.RolesHelper;
 import net.collaud.fablab.service.itf.SystemStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author gaetan
  */
-@RolesAllowed({RolesHelper.ROLE_ADMIN})
 @Service
+@Transactional(propagation = Propagation.REQUIRED, rollbackFor = BusinessException.class)
 public class SystemStatusServiceImpl extends AbstractServiceImpl implements SystemStatusService {
 
 	@Autowired

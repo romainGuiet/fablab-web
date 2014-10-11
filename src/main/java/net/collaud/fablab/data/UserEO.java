@@ -29,10 +29,10 @@ import javax.persistence.TemporalType;
 @Table(name = "t_user")
 @NamedQueries({
 	@NamedQuery(name = UserEO.FIND_BY_LOGIN, query = ""
-			+ "SELECT u "
-			+ "FROM UserEO u "
-			+ "JOIN FETCH u.groupsList "
-			+ "WHERE u.login = :" + UserEO.PARAM_LOGIN),
+			+ " SELECT u "
+			+ " FROM UserEO u "
+			+ " JOIN FETCH u.groupsList "
+			+ " WHERE u.login = :" + UserEO.PARAM_LOGIN),
 	@NamedQuery(name = UserEO.FIND_BY_RFID,
 			query = "SELECT u FROM UserEO u WHERE u.rfid = :" + UserEO.PARAM_RFID),
 	@NamedQuery(name = UserEO.FIND_BY_IDS,
@@ -115,7 +115,7 @@ public class UserEO extends AbstractDataEO implements Serializable {
 	private List<ReservationEO> reservationList;
 
 	@JoinColumn(name = "membership_type_id", referencedColumnName = "membership_type_id")
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	private MembershipTypeEO membershipType;
 
 	public UserEO() {

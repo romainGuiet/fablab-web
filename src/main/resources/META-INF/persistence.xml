@@ -5,9 +5,10 @@
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<shared-cache-mode>NONE</shared-cache-mode>
 	</persistence-unit>-->
-  <persistence-unit name="fablabHibernatePU" >
+  <persistence-unit name="fablabHibernatePU">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-	<exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <shared-cache-mode>NONE</shared-cache-mode>
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
       <property name="hibernate.show_sql" value="true"/>
