@@ -3,3 +3,6 @@ pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.next
 release.properties
+faces-config.NavData
+nbactions.xml
+nb-configuration.xml
