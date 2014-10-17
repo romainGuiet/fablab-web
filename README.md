@@ -11,7 +11,14 @@ This web application allows you to easily manage a Fablab (or any makerspace). Y
 * Usage of machines (when member pay for your services)
 * Subscription (price depend on membership type and subscription duration is editable)
 * Audit of all action done on the platform
-* Check of subsystems and send notification if they are down (or up again)
+* See accounting information
+
+For the moment, there is *no GUI* for 
+* Reservation (in development)
+* Machines management
+* Price management
+
+...but soon they will be implemented.
  
 Demo
 ------------
