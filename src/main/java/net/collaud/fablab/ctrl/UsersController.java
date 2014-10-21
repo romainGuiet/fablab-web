@@ -29,9 +29,9 @@ import org.apache.poi.ss.usermodel.Row;
 
 @ManagedBean(name = "userCtrl")
 @ViewScoped
-public class UserController extends AbstractController implements Serializable {
+public class UsersController extends AbstractController implements Serializable {
 
-	private static final Logger LOG = Logger.getLogger(UserController.class);
+	private static final Logger LOG = Logger.getLogger(UsersController.class);
 
 	@EJB
 	private UserService usersService;
@@ -43,7 +43,7 @@ public class UserController extends AbstractController implements Serializable {
 	private String newPassword;
 	private String newPasswordConfirmation;
 
-	public UserController() {
+	public UsersController() {
 	}
 
 	public UserEO getSelected() {
@@ -143,10 +143,6 @@ public class UserController extends AbstractController implements Serializable {
 		}
 		return items;
 	}
-	
-	public int getItemsSize(){
-		return getItems().size();
-	}
 
 	private List<UserEO> findAll() {
 		try {
@@ -156,6 +152,7 @@ public class UserController extends AbstractController implements Serializable {
 			addError("Cannot load users list", ex);
 		}
 		return new ArrayList<>();
+
 	}
 
 	private void persist(PersistAction persistAction, String successMessage) {
@@ -186,7 +183,7 @@ public class UserController extends AbstractController implements Serializable {
 				addInfo(successMessage);
 			} catch (FablabConstraintException ex) {
 				FacesContext.getCurrentInstance().validationFailed();
-				switch (ex.getConstraint()) {
+				switch(ex.getConstraint()){
 					case USER_EMAIL_UNIQUE:
 						addError(getString("users.error.emailUnique"));
 						break;
@@ -194,7 +191,7 @@ public class UserController extends AbstractController implements Serializable {
 						addError(getString("users.error.loginUnique"));
 						break;
 					default:
-						addError("Constraint error : " + ex.getConstraint());
+						addError("Constraint error : "+ex.getConstraint());
 				}
 				return;
 			} catch (EJBException ex) {
@@ -244,7 +241,7 @@ public class UserController extends AbstractController implements Serializable {
 
 		int nbRow = 0;
 		Row headerRow = sheet.createRow(nbRow++);
-		String[] headers = new String[]{"lastname", "firstname", "email", "phone", "address", "balance", "membership"};
+		String[] headers = new String[]{"lastname", "firstname", "email", "phone", "address", "balance","membership"};
 		for (int i = 0; i < headers.length; i++) {
 			Cell cell = headerRow.createCell(i);
 			cell.setCellValue(headers[i]);

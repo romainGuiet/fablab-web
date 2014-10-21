@@ -63,10 +63,9 @@ public class SessionBean extends AbstractController implements Serializable {
 				request.login(username, PasswordEncrypter.addPasswordSalt(password));
 				LOG.info("Login successfull for user " + getUserPrincipal().getName());
 				retrieveCurrentUser(username);
-				addLocalizedSuccessMessage("login.success");
 				actionRedirectToHomePage();
 				return null;
-			} catch (Exception ex) {
+			} catch (ServletException ex) {
 				if (ex.getMessage().equalsIgnoreCase("Login failed")) {
 					addLocalizedErrorMessage("login.failed", "login.failed.detail");
 					LOG.warn("Wrong login or password for user " + username);

@@ -22,22 +22,16 @@
 
 			<p:panel header="#{lang['users.title.list']}">
 				<h:form id="formSync">
-					<div style="float:left">
-						<p:commandButton id="createButton" icon="ui-icon-plus"
-										 value="#{lang['general.create']}"
-										 actionListener="#{userCtrl.prepareCreate}"
-										 update=":UserEOForm"
-										 oncomplete="PF('UserEODialog').show()"/>
-					</div>
+					<p:commandButton id="createButton" icon="ui-icon-plus"
+									 value="#{lang['general.create']}"
+									 actionListener="#{userCtrl.prepareCreate}"
+									 update=":UserEOForm"
+									 oncomplete="PF('UserEODialog').show()"/>
 
 					<div style="float:right">
 						<p:commandButton value="#{lang['general.export']}" ajax="false" icon="ui-icon-arrowthick-1-s"
 										 action="#{userCtrl.exportExcel()}">
 						</p:commandButton>
-					</div>
-					<div style="margin:5px 200px 10px 200px; text-align: center;">
-					  <h:outputText value="#{lang['users.count']}"></h:outputText>
-					  #{userCtrl.itemsSize}
 					</div>
 
 					<!--<div style="float:right;">
@@ -72,7 +66,7 @@
 
 						<f:facet name="header">
 							<p:outputPanel>
-								<h:outputText value="#{lang['users.filter.label']} " />
+								<h:outputText value="#{lang['users.filter.label']}" />
 								<p:inputText id="globalFilter" 
 											 onkeyup="usersList.filter()" 
 											 style="width:150px" placeholder="#{lang['users.filter.placeholder']}"/>

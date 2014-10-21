@@ -11,7 +11,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import net.collaud.fablab.audit.Audit;
 import net.collaud.fablab.audit.AuditDetail;
-import net.collaud.fablab.ctrl.UserController;
+import net.collaud.fablab.ctrl.UsersController;
 import net.collaud.fablab.dao.itf.GroupDAO;
 import net.collaud.fablab.dao.itf.MembershipTypeDAO;
 import net.collaud.fablab.dao.itf.PriceDAO;
