@@ -3,7 +3,9 @@ package net.collaud.fablab.ctrl;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
@@ -11,13 +13,16 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import net.collaud.fablab.data.GroupEO;
+import net.collaud.fablab.data.MachineTypeEO;
 import net.collaud.fablab.data.MembershipTypeEO;
+import net.collaud.fablab.data.UserAuthorizedMachineTypeEO;
 import net.collaud.fablab.data.UserEO;
 import net.collaud.fablab.exceptions.FablabConstraintException;
 import net.collaud.fablab.exceptions.FablabException;
 import net.collaud.fablab.file.ConfigFileHelper;
 import net.collaud.fablab.file.FileHelperFactory;
 import net.collaud.fablab.security.PasswordEncrypter;
+import net.collaud.fablab.service.itf.MachineService;
 import net.collaud.fablab.service.itf.UserService;
 import net.collaud.fablab.util.JsfUtil;
 import net.collaud.fablab.util.JsfUtil.PersistAction;
@@ -35,6 +40,9 @@ public class UserController extends AbstractController implements Serializable {
 
 	@EJB
 	private UserService usersService;
+
+	@EJB
+	private MachineService machineService;
 
 	private List<UserEO> items = null;
 	private List<UserEO> itemsFiltered = null;
@@ -143,8 +151,8 @@ public class UserController extends AbstractController implements Serializable {
 		}
 		return items;
 	}
-	
-	public int getItemsSize(){
+
+	public int getItemsSize() {
 		return getItems().size();
 	}
 
@@ -239,41 +247,69 @@ public class UserController extends AbstractController implements Serializable {
 	}
 
 	public void exportExcel() {
-		HSSFWorkbook wb = new HSSFWorkbook();
-		HSSFSheet sheet = wb.createSheet("Members");
-
-		int nbRow = 0;
-		Row headerRow = sheet.createRow(nbRow++);
-		String[] headers = new String[]{"lastname", "firstname", "email", "phone", "address", "balance", "membership"};
-		for (int i = 0; i < headers.length; i++) {
-			Cell cell = headerRow.createCell(i);
-			cell.setCellValue(headers[i]);
-		}
-
-		for (UserEO user : items) {
-			Row row = sheet.createRow(nbRow++);
-			int nbCell = 0;
-
-			row.createCell(nbCell++).setCellValue(user.getLastname());
-			row.createCell(nbCell++).setCellValue(user.getFirstname());
-			row.createCell(nbCell++).setCellValue(user.getEmail());
-			row.createCell(nbCell++).setCellValue(user.getPhone());
-			row.createCell(nbCell++).setCellValue(user.getAddress());
-			row.createCell(nbCell++).setCellValue(user.getBalance());
-			row.createCell(nbCell++).setCellValue(user.getMembershipType().getName());
-		}
-
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		ExternalContext externalContext = facesContext.getExternalContext();
-		externalContext.setResponseContentType("application/vnd.ms-excel");
-		externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"fablab_users.xls\"");
-
 		try {
-			wb.write(externalContext.getResponseOutputStream());
-		} catch (IOException ex) {
-			addErrorAndLog("Cannot write excel file", ex);
+			HSSFWorkbook wb = new HSSFWorkbook();
+			HSSFSheet sheet = wb.createSheet("Members");
+
+			int nbRow = 0;
+			Row headerRow = sheet.createRow(nbRow++);
+			List<String> headers = new ArrayList<>(Arrays.asList(new String[]{"lastname", "firstname", "email", "phone", "address", "balance", "membership"}));
+
+			final List<MachineTypeEO> restrictedMachineTypes = machineService.getRestrictedMachineTypes();
+			for (MachineTypeEO type : restrictedMachineTypes) {
+				headers.add(type.getName());
+			}
+
+			for (int i = 0; i < headers.size(); i++) {
+				Cell cell = headerRow.createCell(i);
+				cell.setCellValue(headers.get(i));
+			}
+
+			for (UserEO user : items) {
+				Row row = sheet.createRow(nbRow++);
+				int nbCell = 0;
+
+				row.createCell(nbCell++).setCellValue(user.getLastname());
+				row.createCell(nbCell++).setCellValue(user.getFirstname());
+				row.createCell(nbCell++).setCellValue(user.getEmail());
+				row.createCell(nbCell++).setCellValue(user.getPhone());
+				row.createCell(nbCell++).setCellValue(user.getAddress());
+				row.createCell(nbCell++).setCellValue(user.getBalance());
+				row.createCell(nbCell++).setCellValue(user.getMembershipType().getName());
+				for (String machineAuth : getAuthorizedMachineForUser(restrictedMachineTypes, user)) {
+					row.createCell(nbCell++).setCellValue(machineAuth);
+				}
+			}
+
+			FacesContext facesContext = FacesContext.getCurrentInstance();
+			ExternalContext externalContext = facesContext.getExternalContext();
+			externalContext.setResponseContentType("application/vnd.ms-excel");
+			externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"fablab_users.xls\"");
+
+			try {
+				wb.write(externalContext.getResponseOutputStream());
+			} catch (IOException ex) {
+				addErrorAndLog("Cannot write excel file", ex);
+			}
+			facesContext.responseComplete();
+		} catch (FablabException ex) {
+			addErrorAndLog("Cannot export users", ex);
 		}
-		facesContext.responseComplete();
+	}
+
+	private List<String> getAuthorizedMachineForUser(List<MachineTypeEO> types, UserEO user) {
+		List<String> list = new ArrayList<>();
+		for (MachineTypeEO type : types) {
+			String auth = "no";
+			for (UserAuthorizedMachineTypeEO uamt : user.getMachineTypeAuthorizedList()) {
+				if (uamt.getMachineType().getId().equals(type.getId())) {
+					auth = "yes";
+					break;
+				}
+			}
+			list.add(auth);
+		}
+		return list;
 	}
 
 	public String getNewPassword() {
